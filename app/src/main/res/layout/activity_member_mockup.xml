@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8000">
+
+
+
+
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/id3"
+        android:hint="Membership ID"
+        android:textColor="#fff"
+        android:theme="@style/MyEditTextTheme"
+        android:textColorHint="#228B22"
+        android:layout_marginTop="5dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:width="300dp"
+        android:height="50dp"
+        android:textAllCaps="false"
+        android:text="Create account"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/button"
+        android:id="@+id/sign_up_button"
+        />
+
+    <ProgressBar
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="150dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/MyEditTextTheme"
+        android:id="@+id/progressBar"
+
+        />
+</LinearLayout>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "559457078027",
+    "firebase_url": "https://kwft-a4bc9.firebaseio.com",
+    "project_id": "kwft-a4bc9",
+    "storage_bucket": "kwft-a4bc9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559457078027:android:13a738fe8d8dad5c",
+        "android_client_info": {
+          "package_name": "com.example.admin.chamaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559457078027-sfnmv3cl3rf9dg9lijfd71ir4thogue3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.admin.chamaapp",
+            "certificate_hash": "e43863bb12d72ea9d78cf55817f3e89df663d7f0"
+          }
+        },
+        {
+          "client_id": "559457078027-11tgjmbiqej5es1l3i9sk1s3grtgs15c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSLlVaNQiT8pxRJSoyINy3drUXOnIkZak"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559457078027-11tgjmbiqej5es1l3i9sk1s3grtgs15c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

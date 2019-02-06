@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid/>
+    <!--The below attribute will only be needed if one needs a color for the cirle -->
+        <!--android:color="#fff"/>-->
+
+    <stroke
+        android:width="1dp"
+        android:color="#fff"/>
+    <size
+        android:width="200dp"
+        android:height="200dp"/>
+</shape>

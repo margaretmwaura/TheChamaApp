@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ChamaApp</string>
+    <string name="intro">
+        Women foundations are the main organs that make our women grow and prosper
+        They are vital to the prosperity of our women.
+    </string>
+    <string name="minimum_password">The password should be a minimum of 6 characters</string>
+    <string name="auth_failed">Login failed please try again</string>
+    <string name="title_activity_the_navigation_drawer">TheNavigationDrawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+</resources>

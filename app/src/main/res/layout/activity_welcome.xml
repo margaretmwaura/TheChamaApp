@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/image1"
+    tools:context=".Welcome"
+    android:fitsSystemWindows="true"
+    android:id="@+id/big">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:src="@drawable/logo"-->
+            <!--android:id="@+id/logoBackground"/>-->
+    <TextView
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="W"
+        android:background="@drawable/logo"
+        android:textSize="120sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:id="@+id/logo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to KWFT"
+            android:textSize="22dp"
+            android:visibility="invisible"
+            android:textColor="#fff"
+            android:layout_marginTop="230dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/welcomeText"/>
+    </RelativeLayout>
+</RelativeLayout>
