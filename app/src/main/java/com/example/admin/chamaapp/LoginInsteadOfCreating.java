@@ -1,21 +1,18 @@
 package com.example.admin.chamaapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,21 +20,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Sign extends AppCompatActivity
-{
+public class LoginInsteadOfCreating extends AppCompatActivity {
 
-    private EditText inputPhoneNumber,emailEditText,passwordEditText;
-    private Button  btnSignUp;
+    private EditText emailEditText,passwordEditText;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private Button btnSingUpWithEmail;
-    private String email,password ;
-    private static String emailStringToBeStored;
+    private String email,password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign);
+        setContentView(R.layout.activity_login_instead_of_creating);
 
 //blurring the background image
         LinearLayout mContainerView = (LinearLayout) findViewById(R.id.sign);
@@ -49,10 +43,10 @@ public class Sign extends AppCompatActivity
         auth = FirebaseAuth.getInstance();
 
 //        btnSignIn = (Button) findViewById(R.id.sign_in_button);
-        btnSignUp = (Button) findViewById(R.id.sign_up_button_with_phonenumber);
+
         btnSingUpWithEmail = (Button) findViewById(R.id.sign_up_button_with_email);
 
-        inputPhoneNumber = (EditText) findViewById(R.id.phoneNumber);
+
 //        inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 //        btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
@@ -77,27 +71,6 @@ public class Sign extends AppCompatActivity
 
 
 
-//        This will be used when i am rolling out the app
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String phoneNumber = inputPhoneNumber.getText().toString();
-                progressBar.setVisibility(View.VISIBLE);
-                //create user
-
-                if(phoneNumber.isEmpty() || phoneNumber.length() < 10)
-                {
-                    inputPhoneNumber.setError("Enter a valid phone number");
-                    inputPhoneNumber.requestFocus();
-                }
-
-                Intent intent = new Intent(Sign.this,Login.class);
-                intent.putExtra("The phone number ",phoneNumber);
-                startActivity(intent);
-            }
-        });
-
 
 
 //        This is what I will be used at the moment until i come to rolling out the app
@@ -110,29 +83,22 @@ public class Sign extends AppCompatActivity
             {
                 email = emailEditText.getText().toString();
                 password = passwordEditText.getText().toString();
-                auth.createUserWithEmailAndPassword(email,password)
-                        .addOnCompleteListener(Sign.this, new OnCompleteListener<AuthResult>() {
+                auth.signInWithEmailAndPassword(email,password)
+                        .addOnCompleteListener(LoginInsteadOfCreating.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task)
                             {
                                 if(task.isSuccessful())
                                 {
-                                    UserSessionManager mine = new UserSessionManager(Sign.this);
-                                    mine.createUserLoginSession();
-                                    Toast.makeText(Sign.this,"The signing was successful " , Toast.LENGTH_LONG).show();
-
-                                    emailStringToBeStored = email;
-                                    Log.d("TheEmail","This is the email " + emailStringToBeStored);
-
-
-                                    Intent intent = new Intent(Sign.this,ThePager.class);
+                                    Toast.makeText(LoginInsteadOfCreating.this,"The signing was successful " , Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(LoginInsteadOfCreating.this,TheNavigationDrawer.class);
                                     startActivity(intent);
                                 }
                                 else
                                 {
-                                    Toast.makeText(Sign.this,"Failed",Toast.LENGTH_LONG).show();
-//                                    Toast.makeText(Login.this,"This is the entered email and password " + emailString + passwordString , Toast.LENGTH_LONG).show();
-                                    Log.d("Exception","This is the cause of the error " + task.getException());
+                                    Toast.makeText(LoginInsteadOfCreating.this,"Failed",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(LoginInsteadOfCreating.this,"This is the entered email and password " + email + password , Toast.LENGTH_LONG).show();
+                                    Log.d("Exception","This is the cause of the error ");
                                 }
                             }
                         });
@@ -146,9 +112,4 @@ public class Sign extends AppCompatActivity
         super.onResume();
         progressBar.setVisibility(View.GONE);
     }
-    public static String returnEmail()
-    {
-        return emailStringToBeStored;
-    }
-
 }

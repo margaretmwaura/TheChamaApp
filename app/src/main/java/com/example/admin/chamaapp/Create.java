@@ -44,7 +44,7 @@ public class Create extends AppCompatActivity
     }
     public void openLogin(View view)
     {
-        final Intent s = new Intent( this, Welcome.class);
+        final Intent s = new Intent( this, LoginInsteadOfCreating.class);
         startActivity(s);
     }
 
