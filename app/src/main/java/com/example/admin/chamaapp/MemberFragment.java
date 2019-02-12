@@ -37,14 +37,16 @@ public class MemberFragment extends Fragment implements View.OnClickListener{
     private EditText Id;
     private Button btnSubmit;
     private ProgressBar progressBar;
+    private String email;
     public MemberFragment() {
         // Required empty public constructor
     }
 
 
-    public static MemberFragment newInstance(int page) {
+    public static MemberFragment newInstance(int page,String email) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
+        args.putString("EmailAddress",email);
         MemberFragment fragment = new MemberFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,6 +59,12 @@ public class MemberFragment extends Fragment implements View.OnClickListener{
         View rootView = inflater.inflate(R.layout.activity_member_mockup, container, false);
 
         /** TODO: Insert all the code from the NumberActivity’s onCreate() method after the setContentView method call */
+
+        if(getArguments() != null)
+        {
+            email = getArguments().getString("EmailAddress");
+        }
+        Toast.makeText(getActivity().getApplicationContext(),"This is the email Address " + email, Toast.LENGTH_LONG).show();
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
@@ -85,7 +93,7 @@ public class MemberFragment extends Fragment implements View.OnClickListener{
             return;
         }
 
-        Member maggie = new Member(memberId, type);
+        Member maggie = new Member(memberId, type,email);
         mref.child("users").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
         {
             @Override

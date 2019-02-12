@@ -1,6 +1,7 @@
 package com.example.admin.chamaapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -19,10 +20,16 @@ import android.widget.RelativeLayout;
 
 public class ThePager extends AppCompatActivity {
 
+//    This is the emailAddress
+
+    private String emailAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        emailAddress = intent.getStringExtra("EmailAddress");
 
 
         //This is the code for changing the color of the navigation bar
@@ -74,7 +81,7 @@ public class ThePager extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.pager);
 
         // Create an adapter that knows which fragment should be shown on each page
-        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
+        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(),emailAddress);
 
         // Set the adapter onto the view pager
         viewPager.setAdapter(adapter);

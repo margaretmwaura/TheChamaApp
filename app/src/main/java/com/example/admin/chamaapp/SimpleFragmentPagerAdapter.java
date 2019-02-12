@@ -6,19 +6,23 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter
 {
+
+    private String email;
     private String tabTitles[] = new String[] { "Admin Account", "Member Account", };
-    public SimpleFragmentPagerAdapter(FragmentManager fm) {
+    public SimpleFragmentPagerAdapter(FragmentManager fm,String email)
+    {
         super(fm);
+        this.email = email;
     }
 
     @Override
     public Fragment getItem(int position) {
         if (position == 0)
         {
-            return new AdminFragment();
+            return AdminFragment.newInstance(0,email);
         }
         else {
-            return new MemberFragment();
+            return MemberFragment.newInstance(1,email);
         }
     }
 

@@ -31,7 +31,7 @@ public class Sign extends AppCompatActivity
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private Button btnSingUpWithEmail;
-    private String email,password ;
+    private String email,password , userId;
     private static String emailStringToBeStored;
 
     @Override
@@ -121,11 +121,17 @@ public class Sign extends AppCompatActivity
                                     mine.createUserLoginSession();
                                     Toast.makeText(Sign.this,"The signing was successful " , Toast.LENGTH_LONG).show();
 
+//                                    This gets the users user id
+                                    userId = auth.getCurrentUser().getUid();
+
+//                               This code is for the room database saving of data
+
                                     emailStringToBeStored = email;
                                     Log.d("TheEmail","This is the email " + emailStringToBeStored);
 
-
+//                                    Add the phone number as an extra
                                     Intent intent = new Intent(Sign.this,ThePager.class);
+                                    intent.putExtra("EmailAddress",email);
                                     startActivity(intent);
                                 }
                                 else

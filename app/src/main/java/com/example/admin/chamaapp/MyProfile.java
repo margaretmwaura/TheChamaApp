@@ -1,6 +1,9 @@
 package com.example.admin.chamaapp;
 
 import android.Manifest;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -21,6 +25,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
 
 import static com.example.admin.chamaapp.Sign.returnEmail;
 
@@ -55,9 +61,21 @@ public class MyProfile extends AppCompatActivity {
 
         //        This is meant to get the email address
 
-        String email = returnEmail();
-        Log.d("Email","This is the email " + email);
-        profileEmail.setText(returnEmail());
+        UserViewModel viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
+        livedata.observe(this, new Observer<DataSnapshot>()
+        {
+            @Override
+            public void onChanged(@Nullable DataSnapshot dataSnapshot)
+            {
+                Member maggie = dataSnapshot.child("UserId").getValue(Member.class);
+                String email = maggie.getEmailAddress();
+                profileEmail.setText(email);
+
+
+            }
+        });
+
 
 
 

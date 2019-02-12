@@ -37,16 +37,17 @@ public class AdminFragment extends Fragment implements View.OnClickListener {
     private String userId;
     private Button btnSubmit;
     private ProgressBar progressBar;
-
+    private String email;
     public AdminFragment() {
         // Required empty public constructor
     }
 
 
 
-    public static AdminFragment newInstance(int page) {
+    public static AdminFragment newInstance(int page,String email) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, page);
+        args.putString("EmailAddress",email);
         AdminFragment fragment = new AdminFragment();
         fragment.setArguments(args);
         return fragment;
@@ -62,6 +63,11 @@ public class AdminFragment extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.activity_admin_mockup, container, false);
 
         /** TODO: Insert all the code from the NumberActivity’s onCreate() method after the setContentView method call */
+        if(getArguments() != null)
+        {
+            email = getArguments().getString("EmailAddress");
+        }
+        Toast.makeText(getActivity().getApplicationContext(),"This is the email Address " + email, Toast.LENGTH_LONG).show();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -99,7 +105,9 @@ public class AdminFragment extends Fragment implements View.OnClickListener {
             return;
         }
 
-        Admin maggie = new Admin(type, post, id);
+
+
+        Admin maggie = new Admin(type, post, id,email);
 
         mref.child("users").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
         {
