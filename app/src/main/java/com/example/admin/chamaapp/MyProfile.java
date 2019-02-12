@@ -28,6 +28,10 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 import static com.example.admin.chamaapp.Sign.returnEmail;
 
 public class MyProfile extends AppCompatActivity {
@@ -36,6 +40,7 @@ public class MyProfile extends AppCompatActivity {
     private TextView profileName,profileEmail;
     private Button editPhoto , editYourName;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -54,30 +59,12 @@ public class MyProfile extends AppCompatActivity {
         editYourName = (Button) findViewById(R.id.edit_your_name);
 //        editName = (Button) findViewById(R.id.edit_your_name);
 
+
+
+        profileEmail.setText(getEmial());
 //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
         String image = settings.getString("profileImage"," ");
-
-
-        //        This is meant to get the email address
-
-        UserViewModel viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
-        livedata.observe(this, new Observer<DataSnapshot>()
-        {
-            @Override
-            public void onChanged(@Nullable DataSnapshot dataSnapshot)
-            {
-                Member maggie = dataSnapshot.child("UserId").getValue(Member.class);
-                String email = maggie.getEmailAddress();
-                profileEmail.setText(email);
-
-
-            }
-        });
-
-
-
 
         Log.d("The image string","This is the image String " + image);
 //        Had to use the " " because there was a default value that had been set if the image is not found
@@ -204,7 +191,8 @@ public class MyProfile extends AppCompatActivity {
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, 1);
     }
-    public void requestRead() {
+    public void requestRead()
+    {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED)
@@ -243,5 +231,37 @@ public class MyProfile extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+    public String getEmial ()
+    {
+        //        This is reading the email from the file
+
+        String stringEmial;
+        File directory = this.getFilesDir();
+        File file = new File(directory,"UserDetails" );
+
+//        String yourFilePath = this.getFilesDir() + "/" + ".txt";
+//        File yourFile = new File( yourFilePath );
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+
+
+            while ((stringEmial = br.readLine()) != null)
+            {
+                System.out.println(stringEmial);
+                Log.d("ReadingFileSuccess","This is the users email" + stringEmial);
+                return stringEmial;
+            }
+
+
+        }
+        catch (Exception e)
+        {
+            Log.d("ErrorFileReading","Error encountered while reading the file " + e.getMessage());
+            return " ";
+        }
+
+        return  " ";
     }
 }

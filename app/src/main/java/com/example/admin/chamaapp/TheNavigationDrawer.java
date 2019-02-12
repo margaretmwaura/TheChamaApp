@@ -2,8 +2,12 @@ package com.example.admin.chamaapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,13 +21,17 @@ import android.view.MenuItem;
 public class TheNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private boolean ShouldExecuteOnReusme = true;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+        ShouldExecuteOnReusme = false;
         setContentView(R.layout.activity_the_navigation_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Log.d("OnCreate","oncreate method has been called ");
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -33,6 +41,16 @@ public class TheNavigationDrawer extends AppCompatActivity
 //            }
 //        });
 
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run()
+            {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.openDrawer(Gravity.START);
+                Log.d("DrawerOpening","Drawer has been opened from onCreate");
+            }
+        },1500);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -44,13 +62,56 @@ public class TheNavigationDrawer extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
+    protected void onResume()
+    {
+        Log.d("OnResume","OnResume method has been called ");
+        super.onResume();
+
+        if(ShouldExecuteOnReusme)
+        {
+            openDrawer();
+            Log.d("DrawerOpening","Drawer has been opened from onResume");
+        }
+        else
+        {
+            Log.d("DrawerOpening","Drawer has not being opened");
+            ShouldExecuteOnReusme = true;
+        }
+    }
+
+    private void openDrawer()
+    {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run()
+            {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.openDrawer(Gravity.START);
+            }
+        },1000);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+    }
+
+//    This has worked
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
     }
 
     @Override

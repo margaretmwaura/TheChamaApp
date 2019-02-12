@@ -1,5 +1,6 @@
 package com.example.admin.chamaapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,6 +23,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.io.FileOutputStream;
 
 public class Sign extends AppCompatActivity
 {
@@ -124,8 +127,25 @@ public class Sign extends AppCompatActivity
 //                                    This gets the users user id
                                     userId = auth.getCurrentUser().getUid();
 
-//                               This code is for the room database saving of data
+//                               This code is for saving of the userID and email to the internal files
 
+                                    String filename = "UserDetails";
+                                    String fileContents = email;
+                                    FileOutputStream outputStream;
+
+                                    try {
+                                        outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                                        outputStream.write(fileContents.getBytes());
+                                        outputStream.close();
+
+                                        Log.d("FileCreation","File has been created");
+                                    } catch (Exception e)
+                                    {
+                                        Log.d("FileCreation","File creation failed " + e.getMessage());
+                                        e.printStackTrace();
+                                    }
+
+//                                    End of writing data to the file
                                     emailStringToBeStored = email;
                                     Log.d("TheEmail","This is the email " + emailStringToBeStored);
 
