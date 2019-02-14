@@ -42,7 +42,7 @@ public class MyProfile extends AppCompatActivity {
     private TextView profileName,profileEmail;
     private Button editPhoto , editYourName;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private String email;
+    private String email,value;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -116,8 +116,12 @@ public class MyProfile extends AppCompatActivity {
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        String value = input.getText().toString();
+                        value = input.getText().toString();
                         profileName.setText(value);
+                        SharedPreferences profileImage =getSharedPreferences("prefs",0);
+                        SharedPreferences.Editor editor= profileImage.edit();
+                        editor.putString("userName",value);
+                        editor.commit();
                         // Do something with value!
                     }
                 });

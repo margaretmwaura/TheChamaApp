@@ -38,6 +38,7 @@ public class TheNavigationDrawer extends AppCompatActivity
     private String userId;
     private String imageUrl;
     private ImageView  imgvw;
+    private TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -89,11 +90,14 @@ public class TheNavigationDrawer extends AppCompatActivity
 //reference to views
         imgvw = (ImageView)navView.findViewById(R.id.profile_image_the_nav);
         TextView tv = (TextView)navView.findViewById(R.id.textView);
+        userName = (TextView)navView.findViewById(R.id.textview_user_name);
 
 
         //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
         String image = settings.getString("profileImage"," ");
+        String userNameText = settings.getString("userName"," ");
+        userName.setText(userNameText);
 
         Log.d("The image string","This is the image String " + image);
 //        Had to use the " " because there was a default value that had been set if the image is not found
@@ -129,6 +133,8 @@ public class TheNavigationDrawer extends AppCompatActivity
         //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
         String image = settings.getString("profileImage"," ");
+        String userNameText = settings.getString("userName"," ");
+        userName.setText(userNameText);
 
         Log.d("The image string","This is the image String " + image);
 //        Had to use the " " because there was a default value that had been set if the image is not found
@@ -226,6 +232,15 @@ public class TheNavigationDrawer extends AppCompatActivity
 //            Clicking on this option should lead one to the myAccount page
             Intent intent = new Intent(this,MyProfile.class);
             intent.putExtra("UserEmail",email);
+            startActivity(intent);
+        }
+        if (id == R.id.nav_my_details)
+        {
+            // Handle the camera action
+//            Clicking on this option should lead one to the myAccount page
+            Intent intent = new Intent(this,MyDetails.class);
+            intent.putExtra("UserEmail",email);
+            intent.putExtra("UserID",userId);
             startActivity(intent);
         }
 
