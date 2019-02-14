@@ -1,6 +1,8 @@
 package com.example.admin.chamaapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,11 +19,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.ObjectInputStream;
 
 public class TheNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private boolean ShouldExecuteOnReusme = true;
+    private String[] userDetails = new String[2];
+    private String email ;
+    private String userId;
+    private String imageUrl;
+    private ImageView  imgvw;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,8 +74,50 @@ public class TheNavigationDrawer extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+        //        This method will retrun the users details that are important for the user profile
+        userDetails = getUserDetails();
+        userId = userDetails[0];
+        email = userDetails[1];
+
+
+
+//        This is the part where i add the h.eader programmatically
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //inflate header layout
+        View navView =  navigationView.inflateHeaderView(R.layout.nav_header_the_navigation_drawer);
+//reference to views
+        imgvw = (ImageView)navView.findViewById(R.id.profile_image_the_nav);
+        TextView tv = (TextView)navView.findViewById(R.id.textView);
+
+
+        //        This is meant to get the previously set imageUri
+        SharedPreferences settings=getSharedPreferences("prefs",0);
+        String image = settings.getString("profileImage"," ");
+
+        Log.d("The image string","This is the image String " + image);
+//        Had to use the " " because there was a default value that had been set if the image is not found
+        if(!image.equals(" "))
+        {
+            Uri imageUri = Uri.parse(image);
+            imgvw.setImageURI(imageUri);
+            Toast.makeText(this,"The image had been set ",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+//            Will look for a better image
+            Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
+            imgvw.setImageResource(R.drawable.image1);
+        }
+
+//set views
+//        imgvw.setImageResource(R.drawable.image1);
+        tv.setText(email);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
     }
 
     @Override
@@ -66,6 +125,25 @@ public class TheNavigationDrawer extends AppCompatActivity
     {
         Log.d("OnResume","OnResume method has been called ");
         super.onResume();
+
+        //        This is meant to get the previously set imageUri
+        SharedPreferences settings=getSharedPreferences("prefs",0);
+        String image = settings.getString("profileImage"," ");
+
+        Log.d("The image string","This is the image String " + image);
+//        Had to use the " " because there was a default value that had been set if the image is not found
+        if(!image.equals(" "))
+        {
+            Uri imageUri = Uri.parse(image);
+            imgvw.setImageURI(imageUri);
+            Toast.makeText(this,"The image had been set ",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+//            Will look for a better image
+            Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
+            imgvw.setImageResource(R.drawable.image1);
+        }
 
         if(ShouldExecuteOnReusme)
         {
@@ -147,11 +225,48 @@ public class TheNavigationDrawer extends AppCompatActivity
             // Handle the camera action
 //            Clicking on this option should lead one to the myAccount page
             Intent intent = new Intent(this,MyProfile.class);
+            intent.putExtra("UserEmail",email);
             startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public String[] getUserDetails ()
+    {
+        //        This is reading the email from the file
+
+        String[] details = new String[2];
+        String detail;
+        File directory = this.getFilesDir();
+        File file = new File(directory,"UserDetails" );
+
+//        String yourFilePath = this.getFilesDir() + "/" + ".txt";
+//        File yourFile = new File( yourFilePath );
+
+        try {
+            FileInputStream in = new FileInputStream(file);
+            ObjectInputStream s = new ObjectInputStream(in);
+
+            details = new String[2];
+            details = (String[]) s.readObject();
+
+            for(int i = 0; i<details.length;i++)
+            {
+                detail = details[i];
+                Log.d("UserDetails","This are the user details " + detail);
+            }
+            return details;
+        }
+        catch (Exception e)
+        {
+            Log.d("ErrorFileReading","Error encountered while reading the file " + e.getMessage());
+
+            return details;
+
+        }
+
     }
 }

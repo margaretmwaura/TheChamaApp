@@ -4,6 +4,7 @@ import android.Manifest;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 
 import static com.example.admin.chamaapp.Sign.returnEmail;
@@ -51,9 +53,18 @@ public class MyProfile extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+//        This is the email from the intents extras
+        Intent intent = getIntent();
+        email = intent.getStringExtra("UserEmail");
+
+
         profileImage = (ImageView) findViewById(R.id.profile_image);
         profileName = (TextView) findViewById(R.id.your_name);
         profileEmail = (TextView) findViewById(R.id.your_email_address);
+
+//        Setting the email address on the email address text view
+
+        profileEmail.setText(email);
 
         editPhoto = (Button) findViewById(R.id.edit_profile_photo);
         editYourName = (Button) findViewById(R.id.edit_your_name);
@@ -61,7 +72,7 @@ public class MyProfile extends AppCompatActivity {
 
 
 
-        profileEmail.setText(getEmial());
+
 //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
         String image = settings.getString("profileImage"," ");
@@ -156,11 +167,14 @@ public class MyProfile extends AppCompatActivity {
                                     // continue with setting the image
                                     profileImage.setImageURI(imageUri);
 
+//                                    Saving to the shared preferences was for the purposes of use when the activity had been destroyed
                                     String toStroreString = imageUri.toString();
                                     SharedPreferences profileImage =getSharedPreferences("prefs",0);
                                     SharedPreferences.Editor editor= profileImage.edit();
                                     editor.putString("profileImage",toStroreString);
                                     editor.commit();
+
+
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -228,40 +242,11 @@ public class MyProfile extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp()
+    {
+        Log.d("ClosingTheMyProfile","Method has been called ");
         finish();
         return true;
     }
-    public String getEmial ()
-    {
-        //        This is reading the email from the file
 
-        String stringEmial;
-        File directory = this.getFilesDir();
-        File file = new File(directory,"UserDetails" );
-
-//        String yourFilePath = this.getFilesDir() + "/" + ".txt";
-//        File yourFile = new File( yourFilePath );
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-
-
-            while ((stringEmial = br.readLine()) != null)
-            {
-                System.out.println(stringEmial);
-                Log.d("ReadingFileSuccess","This is the users email" + stringEmial);
-                return stringEmial;
-            }
-
-
-        }
-        catch (Exception e)
-        {
-            Log.d("ErrorFileReading","Error encountered while reading the file " + e.getMessage());
-            return " ";
-        }
-
-        return  " ";
-    }
 }

@@ -25,6 +25,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.FileOutputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 
 public class Sign extends AppCompatActivity
 {
@@ -127,15 +129,21 @@ public class Sign extends AppCompatActivity
 //                                    This gets the users user id
                                     userId = auth.getCurrentUser().getUid();
 
+                                    Log.d("TheUsersId","This is the users id " + userId);
 //                               This code is for saving of the userID and email to the internal files
 
                                     String filename = "UserDetails";
-                                    String fileContents = email;
                                     FileOutputStream outputStream;
 
                                     try {
+
                                         outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                                        outputStream.write(fileContents.getBytes());
+                                       String[] userdetails = new String[2];
+                                       userdetails[0] = userId;
+                                       userdetails[1] = email;
+                                        ObjectOutput s = new ObjectOutputStream(outputStream);
+                                        s.writeObject(userdetails);
+
                                         outputStream.close();
 
                                         Log.d("FileCreation","File has been created");
