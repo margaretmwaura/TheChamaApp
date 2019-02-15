@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/member"
+        android:text="Member"
+        />
+    <TextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/member_emailAddress"
+        android:layout_toRightOf="@+id/member"
+        />
+    <TextView
+        android:layout_below="@+id/member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contibution_label"
+        android:text="Contribution"
+        />
+    <TextView
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contribution_textview"
+        android:layout_toRightOf="@+id/contibution_label"
+        android:layout_below="@id/member_emailAddress"
+        />
+    <TextView
+        android:layout_below="@id/contibution_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/attendance_label"
+        android:text="Attendance"
+        />
+    <TextView
+        android:id="@+id/attendance"
+        android:gravity="center"
+        android:layout_below="@id/contribution_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/contibution_label"
+        />
+    <TextView
+        android:layout_below="@id/attendance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/membershipID_label"
+        android:text="Attendance"
+        />
+    <TextView
+        android:id="@+id/membershipID_textview"
+        android:gravity="center"
+        android:layout_below="@id/attendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/membershipID_label"
+        />
+
+
+
+</RelativeLayout>

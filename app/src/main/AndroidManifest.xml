@@ -13,10 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyDetails"></activity>
+        <activity android:name=".AllDetails"></activity>
+        <activity android:name=".MyDetails" />
         <activity
             android:name=".MyProfile"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar."></activity>
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar." />
         <activity android:name=".LoginInsteadOfCreating" />
         <activity
             android:name=".TheNavigationDrawer"

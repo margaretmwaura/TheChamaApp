@@ -16,6 +16,8 @@ public class Member
     public String type;
     public String emailAddress;
     public String userId;
+    public int attendance;
+    public int contribution;
     Member()
     {
 
@@ -26,6 +28,8 @@ public class Member
         this.type=type;
         this.membershipID=membershipID;
         this.emailAddress = emailAddress;
+        this.attendance = 0;
+        this.contribution = 0;
     }
 
 //    This constructor is important for the Room database saving of data
@@ -47,6 +51,18 @@ public class Member
     public String getEmailAddress()
     {
         return this.emailAddress;
+    }
+    public String getUserId()
+    {
+        return this.userId;
+    }
+    public int getAttendance()
+    {
+        return this.attendance;
+    }
+    public int getContribution()
+    {
+        return this.contribution;
     }
 }
 
