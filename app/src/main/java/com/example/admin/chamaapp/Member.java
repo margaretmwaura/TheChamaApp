@@ -5,12 +5,14 @@ package com.example.admin.chamaapp;
  * Created by TOSHIBA on 5/4/2018.
  */
 import android.arch.persistence.room.Entity;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @Entity(tableName = "Member")
 @IgnoreExtraProperties
-public class Member
+public class Member implements Parcelable
 {
     public int membershipID;
     public String type;
@@ -40,6 +42,9 @@ public class Member
         this.emailAddress = emailAddress;
         this.userId = userId;
     }
+
+
+
     public String getType()
     {
         return this.type;
@@ -64,5 +69,41 @@ public class Member
     {
         return this.contribution;
     }
+
+    protected Member(Parcel in) {
+        membershipID = in.readInt();
+        type = in.readString();
+        emailAddress = in.readString();
+        userId = in.readString();
+        attendance = in.readInt();
+        contribution = in.readInt();
+    }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(membershipID);
+        dest.writeString(type);
+        dest.writeString(emailAddress);
+        dest.writeString(userId);
+        dest.writeInt(attendance);
+        dest.writeInt(contribution);
+    }
+
+    public static final Creator<Member> CREATOR = new Creator<Member>() {
+        @Override
+        public Member createFromParcel(Parcel in) {
+            return new Member(in);
+        }
+
+        @Override
+        public Member[] newArray(int size) {
+            return new Member[size];
+        }
+    };
+
 }
 

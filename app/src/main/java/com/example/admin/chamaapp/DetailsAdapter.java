@@ -15,10 +15,15 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
 
     List<Member> membersList = new ArrayList<>();
     Context mContext;
+    private OnItemClickListener onItemClickListener;
 
     public DetailsAdapter(Context context)
     {
         mContext = context;
+    }
+    public void setClickListener(OnItemClickListener itemClickListener)
+    {
+        this.onItemClickListener = itemClickListener;
     }
     @Override
     public DetailsViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -60,7 +65,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
 //        Without it no code shows
         notifyDataSetChanged();
     }
-    class DetailsViewHolder extends RecyclerView.ViewHolder
+    class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
         TextView emailAddress, contribution, attendance,membershipId;
@@ -68,10 +73,19 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         {
             super(itemView);
 
+            itemView.setOnClickListener(this);
             emailAddress = itemView.findViewById(R.id.member_emailAddress);
             contribution = itemView.findViewById(R.id.contribution_textview);
             attendance = itemView.findViewById(R.id.attendance);
             membershipId = itemView.findViewById(R.id.membershipID_textview);
+
+
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+              onItemClickListener.onClick(v,getAdapterPosition());
         }
     }
 }
