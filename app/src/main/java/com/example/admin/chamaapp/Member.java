@@ -43,8 +43,26 @@ public class Member implements Parcelable
         this.userId = userId;
     }
 
-
-
+     public void setMembershipID(int membershipID)
+     {
+         this.membershipID = membershipID;
+     }
+     public void setEmailAddress(String emailAddress)
+     {
+         this.emailAddress = emailAddress;
+     }
+     public void setAttendance(int attendance)
+     {
+         this.attendance = attendance;
+     }
+     public void setContribution(int contribution)
+     {
+         this.contribution = contribution;
+     }
+    public String getUserId()
+    {
+        return this.userId;
+    }
     public String getType()
     {
         return this.type;
@@ -57,10 +75,7 @@ public class Member implements Parcelable
     {
         return this.emailAddress;
     }
-    public String getUserId()
-    {
-        return this.userId;
-    }
+
     public int getAttendance()
     {
         return this.attendance;

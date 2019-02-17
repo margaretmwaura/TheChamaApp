@@ -15,6 +15,8 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
     private DetailsAdapter detailsAdapter;
     private FirebaseAuth auth;
     private List<Member> memberList = new ArrayList<>();
+    private List<String> userID = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -35,6 +39,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 //        this is the code for creating of the layout manager
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
@@ -51,6 +56,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
         ActionBar actionBar = getSupportActionBar();
 //        actionBar.setDisplayHomeAsUpEnabled(true);
 
+
         UserViewModel viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
         livedata.observe(this, new Observer<DataSnapshot>()
@@ -65,9 +71,12 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                 Iterable<DataSnapshot> journals = dataSnapshot.getChildren();
                 for(DataSnapshot journal : journals)
                 {
+                    String id;
                     Member maggie = new Member();
                     maggie = journal.getValue(Member.class);
+                    id = journal.getKey();
                     memberList.add(maggie);
+                    userID.add(id);
                 }
 
                 Log.d("TheListRead","This are the number of journals found " + memberList.size());
@@ -81,9 +90,19 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
     {
         Log.d("OnClick","This method has been called ");
         Member member = memberList.get(position);
+        String userId  = userID.get(position);
+        Log.d("UserID","This is the users id " + userId);
         Intent intent = new Intent(this,AMemberDetails.class);
         intent.putExtra("Member",member);
+        intent.putExtra("UserID",userId);
         startActivity(intent);
 
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        memberList.clear();
     }
 }
