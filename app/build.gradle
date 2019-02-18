@@ -33,6 +33,7 @@ dependencies {
     implementation 'com.android.support:support-v4:23.2.1'
     implementation 'com.android.support:design:23.2.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.itextpdf:itextpdf:5.5.13'
 
 //    This is important for the room database setup
     implementation 'android.arch.persistence.room:runtime:1.1.1'
