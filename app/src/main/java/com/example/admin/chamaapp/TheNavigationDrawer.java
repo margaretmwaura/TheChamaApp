@@ -251,6 +251,14 @@ public class TheNavigationDrawer extends AppCompatActivity
 
             startActivity(intent);
         }
+        if (id == R.id.nav_events)
+        {
+            // Handle the camera action
+//            Clicking on this option should lead one to the myAccount page
+            Intent intent = new Intent(this,EventActivity.class);
+
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

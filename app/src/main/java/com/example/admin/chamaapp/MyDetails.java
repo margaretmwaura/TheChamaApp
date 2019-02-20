@@ -80,7 +80,7 @@ public class MyDetails extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
-                DataSnapshot userID = dataSnapshot.child(userId);
+                DataSnapshot userID = dataSnapshot.child("users").child(userId);
                 Boolean exist = userID.exists();
                 Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
 //                for(DataSnapshot snapshot : userID.getChildren())

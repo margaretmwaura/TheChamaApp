@@ -10,8 +10,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class UserViewModel extends ViewModel
 {
+
+
+//    Trying editing the userViewModel so that it can also be used with the displaying of events
     private static final DatabaseReference USER_JOURNAL =
-            FirebaseDatabase.getInstance().getReference().child("users");
+            FirebaseDatabase.getInstance().getReference();
 
     private final FirebaseLiveData liveData = new FirebaseLiveData(USER_JOURNAL);
 

@@ -84,10 +84,10 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
 
-
-                Boolean exist = dataSnapshot.exists();
+                DataSnapshot userDetails = dataSnapshot.child("users");
+                Boolean exist = userDetails.exists();
                 Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
-                Iterable<DataSnapshot> journals = dataSnapshot.getChildren();
+                Iterable<DataSnapshot> journals = userDetails.getChildren();
                 for(DataSnapshot journal : journals)
                 {
                     String id;

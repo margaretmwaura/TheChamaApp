@@ -14,9 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".EnterAnEvent"></activity>
+        <activity android:name=".EventActivity" />
+
         <service
             android:name=".MyIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <activity android:name=".AMemberDetails" />
         <activity android:name=".AllDetails" />
