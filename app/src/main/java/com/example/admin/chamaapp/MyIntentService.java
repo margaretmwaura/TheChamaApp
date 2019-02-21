@@ -23,12 +23,22 @@ public class MyIntentService extends IntentService {
     protected void onHandleIntent(Intent intent)
     {
         Log.d("OnHandleIntent","The method has been called");
-        List<Member> members = new ArrayList<>();
-                members = intent.getParcelableArrayListExtra("Members");
-        Log.d("SizeOfArray","This is the size of the array " + members.size());
-        boolean storagePermission = intent.getBooleanExtra("StoragePermission",false);
-                PDFActivities pdfActivities = new PDFActivities(this);
-         pdfActivities.generatePddf(members,storagePermission);
+
+
+         String action = intent.getAction();
+         if(Backgroundactivities.generatePdfString.equals(action))
+         {
+             List<Member> members = new ArrayList<>();
+             members = intent.getParcelableArrayListExtra("Members");
+             Log.d("SizeOfArray","This is the size of the array " + members.size());
+             boolean storagePermission = intent.getBooleanExtra("StoragePermission",false);
+             Backgroundactivities.generatePddf(members,storagePermission);
+         }
+         if(Backgroundactivities.addAnEventToTheDatabase.equals(action))
+         {
+            Event event = intent.getParcelableExtra("TheEvent");
+            Backgroundactivities.addEventToDatabase(event);
+         }
     }
 
 

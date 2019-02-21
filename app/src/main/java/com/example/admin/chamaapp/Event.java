@@ -1,19 +1,22 @@
 package com.example.admin.chamaapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class Event
+public class Event implements Parcelable
 {
-    private long eventTime;
-    private String eventLocation, eventAgenda;
+    public String eventTime;
+    public String eventLocation, eventAgenda;
 
     public Event()
     {
 
     }
 
-    public void setEventTime(long eventTime)
+    public void setEventTime(String eventTime)
     {
         this.eventTime = eventTime;
     }
@@ -25,7 +28,7 @@ public class Event
     {
         this.eventAgenda = eventAgenda;
     }
-    public long returnEventTime()
+    public String returnEventTime()
     {
         return eventTime;
     }
@@ -36,5 +39,40 @@ public class Event
     public String returnEventAgenda()
     {
         return eventAgenda;
+    }
+
+
+//    All this is pertaining the parcelable implementation
+
+    protected Event(Parcel in) {
+        eventTime = in.readString();
+        eventLocation = in.readString();
+        eventAgenda = in.readString();
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(eventTime);
+        dest.writeString(eventLocation);
+        dest.writeString(eventAgenda);
     }
 }

@@ -111,7 +111,9 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                 Intent addTaskIntent = new Intent(AllDetails.this,MyIntentService.class);
                 addTaskIntent.putParcelableArrayListExtra("Members", (ArrayList<? extends Parcelable>) memberList);
                 addTaskIntent.putExtra("StoragePermission",storagePermission);
+                addTaskIntent.setAction(Backgroundactivities.generatePdfString);
                                     startService(addTaskIntent);
+
                 Log.d("Intent", "Intent Service started");
             }
         });
