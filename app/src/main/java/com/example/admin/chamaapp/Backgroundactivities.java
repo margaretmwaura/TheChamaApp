@@ -1,7 +1,11 @@
 package com.example.admin.chamaapp;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -11,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -24,16 +29,17 @@ import java.util.List;
 public class Backgroundactivities
 {
     private Context mContext;
-    public static FirebaseDatabase mFirebaseDatabase;
-    public static DatabaseReference mref;
-    public static FirebaseAuth mAuth;
+    public FirebaseDatabase mFirebaseDatabase;
+    public DatabaseReference mref;
+    public FirebaseAuth mAuth;
     public static final String generatePdfString = "Generate PDF";
     public static final String addAnEventToTheDatabase = "Add event to the database";
-    Backgroundactivities(Context context)
+    private String eventTime;
+    public Backgroundactivities(Context context)
     {
         this.mContext = context;
     }
-    public static void generatePddf(List<Member> memberList, Boolean isStoragePermissionGranted)
+    public void generatePddf(List<Member> memberList, Boolean isStoragePermissionGranted)
     {
 //        This method will be called in order to generate a pdf with all the details of the members
 //        Each paragraph should take a member data
@@ -114,17 +120,26 @@ public class Backgroundactivities
 
 
     }
-    public static void addEventToDatabase(Event event)
+    public void addEventToDatabase(final Event event)
     {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
 
+//        This is the time against which data shall be checked against inorder to delete it
+        eventTime = event.returnEventTime();
+
         mref.child("events").push().setValue(event).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid)
             {
-                Log.d("Firebase","Data has been succesfully added");
+//                Event has been added
+                Log.d("Firebase","Event has been succesfully added");
+
+//                Now that the event has been successfully added now starta job scheduler to delete the event
+//                When that particular day comes
+                scheduledeleteEvent(event);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -132,6 +147,30 @@ public class Backgroundactivities
                 Log.d("Firebase","No data added");
             }
         });
+    }
+
+    private void scheduledeleteEvent(Event event)
+    {
+//        This is converting the string to GSON so that it can be sent across classes
+        Gson g = new Gson();
+        String json = g.toJson(event);
+
+        Log.d("JobScheduler ","The job scheduler is being prepped ");
+//        The event now which is now a string is set as an extra in the bundle
+        PersistableBundle extraEvent = new PersistableBundle();
+        extraEvent.putString(deleteEventJobScheduler.EVENT,json);
+
+
+        ComponentName componentName = new ComponentName(mContext,deleteEventJobScheduler.class);
+        JobInfo jobInfo = new JobInfo.Builder(1,componentName)
+                .setExtras(extraEvent)
+                .setPeriodic(60000)
+                
+
+//                Will add a criteria for time
+        .build();
+        JobScheduler jobScheduler = (JobScheduler)mContext.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(jobInfo);
     }
 
 

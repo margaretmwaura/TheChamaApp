@@ -14,7 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EnterAnEvent"></activity>
+        <service
+            android:name=".deleteEventJobScheduler"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+
+        </service>
+
+        <activity android:name=".EnterAnEvent" />
         <activity android:name=".EventActivity" />
 
         <service

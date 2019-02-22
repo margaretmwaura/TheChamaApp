@@ -24,6 +24,8 @@ public class MyIntentService extends IntentService {
     {
         Log.d("OnHandleIntent","The method has been called");
 
+        Backgroundactivities backgroundactivities = new Backgroundactivities(this);
+
 
          String action = intent.getAction();
          if(Backgroundactivities.generatePdfString.equals(action))
@@ -32,12 +34,12 @@ public class MyIntentService extends IntentService {
              members = intent.getParcelableArrayListExtra("Members");
              Log.d("SizeOfArray","This is the size of the array " + members.size());
              boolean storagePermission = intent.getBooleanExtra("StoragePermission",false);
-             Backgroundactivities.generatePddf(members,storagePermission);
+             backgroundactivities.generatePddf(members,storagePermission);
          }
          if(Backgroundactivities.addAnEventToTheDatabase.equals(action))
          {
             Event event = intent.getParcelableExtra("TheEvent");
-            Backgroundactivities.addEventToDatabase(event);
+            backgroundactivities.addEventToDatabase(event);
          }
     }
 

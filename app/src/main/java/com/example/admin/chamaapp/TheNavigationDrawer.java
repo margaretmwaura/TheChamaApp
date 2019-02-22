@@ -255,7 +255,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         {
             // Handle the camera action
 //            Clicking on this option should lead one to the myAccount page
-            Intent intent = new Intent(this,EnterAnEvent.class);
+            Intent intent = new Intent(this,EventActivity.class);
 
             startActivity(intent);
         }
