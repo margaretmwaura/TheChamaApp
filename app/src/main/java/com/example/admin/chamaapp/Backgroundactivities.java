@@ -4,9 +4,9 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
+
 import android.os.Environment;
 import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,7 +24,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Backgroundactivities
 {
@@ -136,17 +139,26 @@ public class Backgroundactivities
 //                Event has been added
                 Log.d("Firebase","Event has been succesfully added");
 
-//                Now that the event has been successfully added now starta job scheduler to delete the event
+//                Now that an event has been added call code to get a message from firebase
+//                when the message has been gotten an event will be scheduled using an alarm manager
+
+                    sendANotification();
+//                Now that the event has been successfully added now start a job scheduler to delete the event
 //                When that particular day comes
                 scheduledeleteEvent(event);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onFailure(Exception e) {
                 Log.d("Firebase","No data added");
             }
         });
+    }
+
+//    Will build this method
+    private void sendANotification()
+    {
     }
 
     private void scheduledeleteEvent(Event event)
@@ -160,15 +172,42 @@ public class Backgroundactivities
         PersistableBundle extraEvent = new PersistableBundle();
         extraEvent.putString(deleteEventJobScheduler.EVENT,json);
 
+//Need to get the date entered in the event for it will subtract the current date
+//        Then add 24 hours for the event will be deleted at the end of that day
+
+        String eventDate = event.returnEventTime();
+//        This is the current date;
+//        Use the same character of the formatter as the one on the dates either use the dashes or the strokes .. only work
+//        With one of them
+        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        Log.d("Todays date","This is todays date " + date);
+
+//        Getting the difference between the event date and the current date
+         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
+         long timeMilliseconds;
+         try {
+             Date date1 = null;
+                   date1  =   format.parse(date);
+             Date date2 = null;
+                   date2 =  format.parse(eventDate);
+             timeMilliseconds =( date2.getTime() - date1.getTime()) + 86400000;
+             Log.d("DifferenceBetweenDates","This is the difference between the two dates " + timeMilliseconds);
+//             long period = timeMilliseconds + 86
+         }
+         catch (Exception e)
+         {
+             Log.d("DateConversionError","This is the date conversion error " + e.getMessage());
+         }
+
+//         To get the event deleted at the end of the day will be the difference in time plus 24hours
 
         ComponentName componentName = new ComponentName(mContext,deleteEventJobScheduler.class);
         JobInfo jobInfo = new JobInfo.Builder(1,componentName)
                 .setExtras(extraEvent)
                 .setPeriodic(60000)
-                
-
-//                Will add a criteria for time
+//             Will add a criteria for time
         .build();
+
         JobScheduler jobScheduler = (JobScheduler)mContext.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(jobInfo);
     }
