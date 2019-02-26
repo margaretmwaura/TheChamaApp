@@ -2,6 +2,7 @@ package com.example.admin.chamaapp;
 
 import android.content.Intent;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -95,7 +96,10 @@ public class EnterAnEvent extends AppCompatActivity {
         eventAgendaEditText = (EditText) findViewById(R.id.Event_Agenda_event);
 
         eventTimeEditText = (EditText) findViewById(R.id.Event_Time_event);
+//        This first line of code allows one to know the format of the date that one should enter
         eventTimeEditText.addTextChangedListener(tw);
+//        The next line of code allows the keypad to be all numeric
+        eventTimeEditText.setRawInputType(Configuration.KEYBOARD_QWERTY);
         eventLocationEditText = (EditText) findViewById(R.id.Event_Location_event);
 
 //        This allows one to set the variables of the event instance
