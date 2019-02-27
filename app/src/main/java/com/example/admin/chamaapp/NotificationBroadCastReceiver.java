@@ -34,25 +34,41 @@ public class NotificationBroadCastReceiver extends BroadcastReceiver
             NotificationManager notificationManager;
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "default")
                     .setSmallIcon(R.drawable.ic_account_circle_black_24dp)
-                    .setContentTitle("Journal notification")
+                    .setContentTitle("Event notification")
                     .setContentText("It is time to act")
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
-                    .setChannelId("default")
+//                    This channel has to correspond with the one set at the manifest
+                    .setChannelId(context.getString(R.string.default_notification_channel_id))
                     .setContentIntent(pendingIntent);
 
             notificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                String channelId = "Your_channel_id";
-                NotificationChannel channel = new NotificationChannel(channelId, "Channel human readable", NotificationManager.IMPORTANCE_DEFAULT);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            {
+                String channelId = context.getString(R.string.default_notification_channel_id);
+                NotificationChannel channel = new NotificationChannel(channelId, "Channel human readable", NotificationManager.IMPORTANCE_HIGH);
+
+                channel.setDescription("Channel human readable");
                 notificationManager.createNotificationChannel(channel);
+
+
+
+                Log.d("NotificationBuilding","The notification has been created");
+            }
+            try
+            {
+                notificationManager.notify(1 /* ID of notification */, notificationBuilder.build());
+                Log.d("CreatingTheNotification","The notification had been created with no errors encounters");
+            }
+            catch (Exception e)
+            {
+                Log.d("CreatingTheNotification","The error creating the notification is the following " + e.getMessage());
             }
 
-            notificationManager.notify(492 /* ID of notification */, notificationBuilder.build());
 
-            Log.d("MessageReceived ", "The message has beed recieved ");
+            Log.d("MessageReceived ", "The message has been recieved ");
         }
         catch (Exception e)
         {
@@ -60,4 +76,5 @@ public class NotificationBroadCastReceiver extends BroadcastReceiver
         }
 
     }
+
 }

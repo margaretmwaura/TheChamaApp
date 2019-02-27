@@ -48,7 +48,7 @@ public class Backgroundactivities
     public static final String generatePdfString = "Generate PDF";
     public static final String addAnEventToTheDatabase = "Add event to the database";
     public static final String addANotification = "Add a notification for events";
-    private String eventTime;
+    private static Long notificationTime;
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     private static final String LEGACY_SERVER = "AIzaSyBDCWI3JwL0obN4OuGCIRH0toradvjSmLA";
@@ -140,14 +140,17 @@ public class Backgroundactivities
 
 
     }
+    public static Long returnNotificationEventTime()
+    {
+        return notificationTime;
+    }
     public void addEventToDatabase(final Event event)
     {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
 
-//        This is the time against which data shall be checked against inorder to delete it
-        eventTime = event.returnEventTime();
+
 
         mref.child("events").push().setValue(event).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -247,6 +250,12 @@ public class Backgroundactivities
                    date1  =   format.parse(date);
              Date date2 = null;
                    date2 =  format.parse(eventDate);
+
+
+                   notificationTime = ( date2.getTime() - date1.getTime());
+
+             Log.d("NotificationEventTime","This is the notification event time in the background activity class " + notificationTime);
+
              timeMilliseconds =( date2.getTime() - date1.getTime()) + 86400000;
              Log.d("DifferenceBetweenDates","This is the difference between the two dates " + timeMilliseconds);
 //             long period = timeMilliseconds + 86
