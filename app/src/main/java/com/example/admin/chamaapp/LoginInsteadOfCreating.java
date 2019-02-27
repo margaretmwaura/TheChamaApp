@@ -16,9 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class LoginInsteadOfCreating extends AppCompatActivity {
 
@@ -27,6 +30,7 @@ public class LoginInsteadOfCreating extends AppCompatActivity {
     private FirebaseAuth auth;
     private Button btnSingUpWithEmail;
     private String email,password;
+    private static String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +109,25 @@ public class LoginInsteadOfCreating extends AppCompatActivity {
 
             }
         });
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( LoginInsteadOfCreating.this, new OnSuccessListener<InstanceIdResult>()
+        {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult)
+            {
+                token = instanceIdResult.getToken();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
+    }
+
+    public static String returnRegistrationToken()
+    {
+        return token;
     }
 }

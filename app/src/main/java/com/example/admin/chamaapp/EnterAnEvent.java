@@ -113,15 +113,6 @@ public class EnterAnEvent extends AppCompatActivity {
             {
                 newEvent = new Event();
 
-//                Date date1;
-//                try
-//                {
-//                     date1= (Date) new SimpleDateFormat("dd/MM/yyyy").parse(eventTimeEditText.getText().toString());
-//                }
-//                catch (ParseException e)
-//                {
-//                    e.printStackTrace();
-//                }
                 newEvent.setEventAgenda(eventAgendaEditText.getText().toString());
                 newEvent.setEventTime(eventTimeEditText.getText().toString());
                 newEvent.setEventLocation(eventLocationEditText.getText().toString());

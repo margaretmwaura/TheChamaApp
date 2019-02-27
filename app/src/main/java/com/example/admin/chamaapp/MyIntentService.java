@@ -41,6 +41,11 @@ public class MyIntentService extends IntentService {
             Event event = intent.getParcelableExtra("TheEvent");
             backgroundactivities.addEventToDatabase(event);
          }
+        if(Backgroundactivities.addANotification.equals(action))
+        {
+
+            backgroundactivities.sendANotification();
+        }
     }
 
 

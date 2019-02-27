@@ -5,9 +5,11 @@ import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 
+import android.content.Intent;
 import android.os.Environment;
 import android.os.PersistableBundle;
 import android.util.Log;
+
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,6 +23,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,6 +32,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import static com.example.admin.chamaapp.LoginInsteadOfCreating.returnRegistrationToken;
 
 public class Backgroundactivities
 {
@@ -37,7 +47,14 @@ public class Backgroundactivities
     public FirebaseAuth mAuth;
     public static final String generatePdfString = "Generate PDF";
     public static final String addAnEventToTheDatabase = "Add event to the database";
+    public static final String addANotification = "Add a notification for events";
     private String eventTime;
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
+    private static final String LEGACY_SERVER = "AIzaSyBDCWI3JwL0obN4OuGCIRH0toradvjSmLA";
+
+
+
     public Backgroundactivities(Context context)
     {
         this.mContext = context;
@@ -141,8 +158,11 @@ public class Backgroundactivities
 
 //                Now that an event has been added call code to get a message from firebase
 //                when the message has been gotten an event will be scheduled using an alarm manager
+                Intent addTaskIntent = new Intent(mContext,MyIntentService.class);
+                addTaskIntent.setAction(Backgroundactivities.addANotification);
+                mContext.startService(addTaskIntent);
 
-                    sendANotification();
+
 //                Now that the event has been successfully added now start a job scheduler to delete the event
 //                When that particular day comes
                 scheduledeleteEvent(event);
@@ -154,11 +174,48 @@ public class Backgroundactivities
                 Log.d("Firebase","No data added");
             }
         });
+
+
+        sendANotification();
     }
 
 //    Will build this method
-    private void sendANotification()
+    public void sendANotification()
     {
+        Log.d("NotificationSending","The method has been called to send a notification");
+        String regToken = returnRegistrationToken();
+        Log.d("RegistrationToken","This is the registration token " + regToken);
+        OkHttpClient client = new OkHttpClient();
+        JSONObject json=new JSONObject();
+        JSONObject dataJson=new JSONObject();
+        try {
+            dataJson.put("body", "Reminder about the chama");
+            dataJson.put("title", "Chama event");
+            json.put("notification", dataJson);
+            json.put("to", regToken);
+        }
+        catch (Exception e)
+        {
+            Log.d("NotificationSettingUp", "An error was caught : details " + e.getMessage());
+        }
+        RequestBody body = RequestBody.create(JSON, json.toString());
+        Request request = new Request.Builder()
+                .header("Authorization","key="+LEGACY_SERVER)
+                .url("https://fcm.googleapis.com/fcm/send")
+                .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            String finalResponse = response.body().string();
+        }
+        catch (Exception e)
+        {
+            Log.d("NotificationExecution","An error was caught : details " + e.getMessage());
+            e.printStackTrace();
+        }
+//          String finalResponse = response.body().string();
+
+        Log.d("NotificationSending","The method has completed");
     }
 
     private void scheduledeleteEvent(Event event)
