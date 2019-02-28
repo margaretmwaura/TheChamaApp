@@ -25,11 +25,11 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_general"
+                android:id="@+id/nav_general_chat"
                 android:icon="@drawable/ic_menu_share"
                 android:title="General" />
             <item
-                android:id="@+id/nav_member_and_admin"
+                android:id="@+id/nav_admin_only"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Members and Admin" />
         </menu>

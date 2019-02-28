@@ -16,15 +16,19 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EventActivity extends AppCompatActivity
 {
 
-    private RecyclerView recyclerView;
-    private EventsAdapter eventsAdapter;
-    private List<Event> eventList = new ArrayList<>();
+    private RecyclerView recyclerViewCurrentEvent,recyclerViewUpcomingEvent;
+    private EventsAdapter eventsAdapterCurrent,eventsAdapterUpcoming;
+    private List<Event> eventListCurrent = new ArrayList<>();
+    private List<Event> eventListUpcoming = new ArrayList<>();
     private Button addEventButton;
 
     @Override
@@ -33,20 +37,28 @@ public class EventActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        eventsAdapter = new EventsAdapter();
+        recyclerViewCurrentEvent = (RecyclerView) findViewById(R.id.recycler_view_current_events);
+        recyclerViewUpcomingEvent = (RecyclerView) findViewById(R.id.recycler_view_upcoming_events);
+
+        eventsAdapterCurrent = new EventsAdapter();
+        eventsAdapterUpcoming = new EventsAdapter();
 
         addEventButton = (Button) findViewById(R.id.enter_new_event);
 
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
 //        Set the layoutManager of the recyclerView
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        recyclerViewCurrentEvent.setLayoutManager(layoutManager1);
+        recyclerViewCurrentEvent.setHasFixedSize(true);
 
-        eventsAdapter = new EventsAdapter();
+        recyclerViewUpcomingEvent.setLayoutManager(layoutManager);
+        recyclerViewUpcomingEvent.setHasFixedSize(true);
 
-        recyclerView.setAdapter(eventsAdapter);
+
+
+        recyclerViewCurrentEvent.setAdapter(eventsAdapterCurrent);
+        recyclerViewUpcomingEvent.setAdapter(eventsAdapterUpcoming);
 
         addEventButton.setOnClickListener(new View.OnClickListener()
         {
@@ -73,10 +85,42 @@ public class EventActivity extends AppCompatActivity
                 {
                     Event event = new Event();
                     event = eventsList.getValue(Event.class);
-                    eventList.add(event);
+
+                    String eventDate = event.returnEventTime();
+//        This is the current date;
+//        Use the same character of the formatter as the one on the dates either use the dashes or the strokes .. only work
+//        With one of them
+                    String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+                    Log.d("Todays date","This is todays date " + date);
+
+//        Getting the difference between the event date and the current date
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
+                    try {
+                        Date date1 = null;
+                        date1  =   format.parse(date);
+                        Date date2 = null;
+                        date2 =  format.parse(eventDate);
+                        long timedifference = date2.getTime() - date1.getTime();
+
+                        if(timedifference == 0)
+                        {
+                            eventListCurrent.add(event);
+                        }
+                        else
+                        {
+                            eventListUpcoming.add(event);
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        Log.d("DateConversionError","This is the date conversion error " + e.getMessage());
+                    }
+
                 }
 
-                eventsAdapter.setEventList(eventList);
+                eventsAdapterCurrent.setEventList(eventListCurrent);
+                eventsAdapterUpcoming.setEventList(eventListUpcoming);
             }
         });
 

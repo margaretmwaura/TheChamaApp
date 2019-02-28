@@ -43,8 +43,12 @@ public class MyIntentService extends IntentService {
          }
         if(Backgroundactivities.addANotification.equals(action))
         {
-
             backgroundactivities.sendANotification();
+        }
+        if(Backgroundactivities.addAChat.equals(action))
+        {
+            Chat chat = intent.getParcelableExtra("ANewChat");
+            backgroundactivities.addAChatToTheChatList(chat);
         }
     }
 

@@ -259,6 +259,14 @@ public class TheNavigationDrawer extends AppCompatActivity
 
             startActivity(intent);
         }
+        if(id == R.id.nav_general_chat)
+        {
+//            The email is important so that the users can see who has added a chat
+            Intent intent = new Intent(this,TheAllChat.class);
+            intent.putExtra("UserEmail",email);
+            intent.putExtra("UserID",userId);
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

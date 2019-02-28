@@ -48,6 +48,7 @@ public class Backgroundactivities
     public static final String generatePdfString = "Generate PDF";
     public static final String addAnEventToTheDatabase = "Add event to the database";
     public static final String addANotification = "Add a notification for events";
+    public static final String addAChat = "Adding a new chat to the chat list";
     private static Long notificationTime;
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
@@ -68,7 +69,8 @@ public class Backgroundactivities
         String root = Environment.getExternalStorageDirectory().toString();
         Document doc = new Document();
 
-        try {
+        try
+        {
 //            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Dir";
 
 //            File dir = new File(path);
@@ -78,7 +80,8 @@ public class Backgroundactivities
 
             if (isStoragePermissionGranted)
             { // check or ask permission
-                File dir = new File(root, "/saved_images");
+//                This file will be generated and stored in the download folder of the android phone
+                File dir = new File(root, "/Download");
                 if (!dir.exists())
                 {
                     dir.mkdirs();
@@ -90,9 +93,14 @@ public class Backgroundactivities
 //                }
 
                 File file = new File(dir, "newFile.pdf");
-                FileOutputStream fOut = new FileOutputStream(file);
-                PdfWriter.getInstance(doc, fOut);
-
+                try {
+                    FileOutputStream fOut = new FileOutputStream(file);
+                    PdfWriter.getInstance(doc, fOut);
+                }
+                catch (Exception e)
+                {
+                    Log.d("FileOutputStreamError","A file outputstream has not been created; an error has been encountered");
+                }
 
                 //open the document
                 doc.open();
@@ -118,24 +126,22 @@ public class Backgroundactivities
                     doc.add(p1);
                     Log.d("WritingToTheFile", "Writing to the file");
                 }
-
-
-
             }
             else
             {
                 Log.d("Wrtiting to file","No permission for writing to file");
             }
-        } catch(DocumentException de){
+        }
+        catch(DocumentException de)
+        {
             Log.e("PDFCreator", "DocumentException:" + de);
         }
-        catch(IOException e){
-            Log.e("PDFCreator", "ioException:" + e);
-        }
+//        catch(IOException e){
+//            Log.e("PDFCreator", "ioException:" + e);
+//        }
         finally
         {
             doc.close();
-
         }
 
 
@@ -276,6 +282,29 @@ public class Backgroundactivities
 
         JobScheduler jobScheduler = (JobScheduler)mContext.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(jobInfo);
+    }
+
+    public void addAChatToTheChatList(Chat chat)
+    {
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mref = mFirebaseDatabase.getReference();
+        mAuth = FirebaseAuth.getInstance();
+        mref.child("messages").push().setValue(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+//                Event has been added
+                Log.d("Firebase","Chat has been succesfully added");
+
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Log.d("Firebase","No chat added");
+            }
+        });
     }
 
 
