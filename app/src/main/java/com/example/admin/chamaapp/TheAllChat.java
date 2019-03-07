@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -44,8 +45,13 @@ public class TheAllChat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_the_all_chat);
 
+//        This code has been added to enable the layout below the keyboard to be moved up above the keyboard
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference().child("messages");
+
         mAuth = FirebaseAuth.getInstance();
 
 //        Getting the emailAddress from the intent
@@ -98,9 +104,13 @@ public class TheAllChat extends AppCompatActivity {
 
      mref.addChildEventListener(new ChildEventListener() {
          @Override
-         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+         {
+//             This allows it to be realtime adding to the screen
              Chat chat =dataSnapshot.getValue(Chat.class);
              chatList.add(chat);
+             chatAdapter.setChatList(chatList);
+             Log.d("AddingChats","Chats have been added to the UI");
          }
 
          @Override
@@ -123,7 +133,7 @@ public class TheAllChat extends AppCompatActivity {
 
          }
      });
-     chatAdapter.setChatList(chatList);
+
 
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +150,8 @@ public class TheAllChat extends AppCompatActivity {
                 addTaskIntent.setAction(Backgroundactivities.addAChat);
                 addTaskIntent.putExtra("ANewChat",chat);
                 startService(addTaskIntent);
+
+                chatEditText.setText(" ");
 
             }
         });

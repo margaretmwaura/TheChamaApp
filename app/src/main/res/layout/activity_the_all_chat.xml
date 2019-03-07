@@ -9,6 +9,7 @@
     tools:context=".TheAllChat">
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/chat_recyclerView">
