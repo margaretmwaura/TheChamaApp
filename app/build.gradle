@@ -16,12 +16,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions 'version'
+    productFlavors {
+        admin {
+            dimension 'version'
+            applicationId "com.example.admin.chamaapp.admin"
+        }
+        member
+                {
+                    dimension 'version'
+                    applicationId "com.example.admin.chamaapp.member"
+                }
+    }
 }
 
 dependencies {
 //    implementation 'com.google.firebase:firebase-core:16.0.1'
 //    compile 'com.firebase:firebase-client-android:2.5.0'
     //    This are the dependencies that are needed for firebase intergration
+    implementation 'com.twigafoods:daraja:0.1.2'
     implementation 'com.squareup.okhttp3:okhttp:3.0.1'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation 'com.google.code.gson:gson:2.8.2'
@@ -59,6 +73,7 @@ dependencies {
 
 //    implementation 'com.google.firebase:firebase-database:16.0.1'
     implementation "com.google.firebase:firebase-database:16.0.5"
+    implementation 'com.androidstudy:daraja:1.0.2'
 
 }
 

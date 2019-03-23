@@ -10,8 +10,8 @@
       "client_info": {
         "mobilesdk_app_id": "1:559457078027:android:13a738fe8d8dad5c",
         "android_client_info": {
-          "package_name": "com.example.admin.chamaapp"
-        }
+          "package_name": "com.example.admin.chamaapp.admin"
+         }
       },
       "oauth_client": [
         {

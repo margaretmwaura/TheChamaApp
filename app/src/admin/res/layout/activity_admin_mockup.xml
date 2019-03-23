@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/signup_admin"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#8000">
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/circle_anim">
+        <com.example.admin.chamaapp.Circle
+            android:layout_marginTop="40dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginLeft="120dp"
+            android:id="@+id/circle"/>
+        <TextView
+            android:gravity="center"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:text="W"
+            android:background="@drawable/logo1"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="125dp"
+            android:layout_marginTop="50dp"
+            android:textColor="@android:color/white"
+            android:id="@+id/logo"/>
+    </RelativeLayout>
 
     <EditText
         android:theme="@style/MyEditTextTheme"

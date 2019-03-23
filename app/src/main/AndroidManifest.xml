@@ -67,10 +67,8 @@
         </activity>
         <activity android:name=".Create" />
         <activity android:name=".Sign" />
-        <activity android:name=".AdminMockup" />
         <activity android:name=".MemberMockup" />
         <activity android:name=".Login" />
-        <activity android:name=".ThePager" />
         <activity android:name=".Welcome" /> <!-- This allows one to read the pdf file without errors -->
         <provider
             android:name="android.support.v4.content.FileProvider"

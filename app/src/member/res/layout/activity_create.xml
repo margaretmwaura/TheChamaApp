@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/image1"
+    android:id="@+id/root"
+    android:orientation="vertical"
+    tools:context=".Create">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#fff"
+        android:textSize="32sp"
+        android:text="Kenya Women Foundation"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:text="@string/intro"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="20dp"
+        android:textStyle="bold"/>
+
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:width="300dp"
+            android:height="50dp"
+            android:textAllCaps="false"
+            android:text="Create account"
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/button"
+            android:onClick="openSign"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:width="300dp"
+        android:height="50dp"
+        android:textAllCaps="false"
+        android:textSize="20dp"
+        android:text="Login"
+        android:textColor="#fff"
+        android:layout_marginLeft="40dp"
+        android:onClick="openLogin"
+        android:background="@drawable/button_transparent"/>
+
+
+
+</LinearLayout>

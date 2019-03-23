@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MyProfile">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="75dp"
+            android:layout_gravity="center_horizontal"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/image1"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFF"/>
+
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile photo"
+            android:id="@+id/edit_profile_photo"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+       <TextView
+           android:paddingTop="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Your name"
+           android:textSize="18dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/your_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <Button
+            android:background="@drawable/ic_edit_black_24dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:id="@+id/edit_your_name"
+            android:layout_alignTop="@+id/your_name"
+            android:layout_alignBottom="@+id/your_name"
+            android:layout_alignRight="@+id/your_name"
+            android:layout_marginRight="25dp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:textStyle="bold|italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="18dp"
+            android:text="This is the email address you registered \n your account with "
+            android:layout_marginBottom="10dp"/>
+
+
+        <TextView
+        android:textStyle="bold"
+        android:id="@+id/your_email_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="18dp"
+        android:text="Your email address"
+        android:layout_marginBottom="10dp"/>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="enter your phone number"
+            android:id="@+id/edit_text_phonenumber"/>
+
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send mmoney via Mpesa"
+            android:id="@+id/send_money_via_mpesa"/>
+
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

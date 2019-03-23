@@ -2,21 +2,18 @@ package com.example.admin.chamaapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -158,7 +155,7 @@ public class Sign extends AppCompatActivity
                                     Log.d("TheEmail","This is the email " + emailStringToBeStored);
 
 //                                    Add the phone number as an extra
-                                    Intent intent = new Intent(Sign.this,ThePager.class);
+                                    Intent intent = new Intent(Sign.this,MemberFragment.class);
                                     intent.putExtra("EmailAddress",email);
                                     startActivity(intent);
                                 }
