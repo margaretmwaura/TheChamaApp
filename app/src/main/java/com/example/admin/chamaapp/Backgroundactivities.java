@@ -49,6 +49,7 @@ public class Backgroundactivities
     public static final String addAnEventToTheDatabase = "Add event to the database";
     public static final String addANotification = "Add a notification for events";
     public static final String addAChat = "Adding a new chat to the chat list";
+    public static final String addAdminChat = "Adding a new chat to the admin chat list";
     private static Long notificationTime;
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
@@ -290,6 +291,29 @@ public class Backgroundactivities
         mref = mFirebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
         mref.child("messages").push().setValue(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+//                Event has been added
+                Log.d("Firebase","Chat has been succesfully added");
+
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Log.d("Firebase","No chat added");
+            }
+        });
+    }
+
+    public void addAChatToTheAmdinChatList(Chat chat)
+    {
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mref = mFirebaseDatabase.getReference();
+        mAuth = FirebaseAuth.getInstance();
+        mref.child("adminMessages").push().setValue(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid)
             {

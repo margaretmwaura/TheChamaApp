@@ -28,7 +28,7 @@
             <item
                 android:id="@+id/nav_admin_only"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Members and Admin" />
+                android:title="Admin only" />
         </menu>
     </item>
 

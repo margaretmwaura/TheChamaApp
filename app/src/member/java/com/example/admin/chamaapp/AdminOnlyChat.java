@@ -1,10 +1,10 @@
 package com.example.admin.chamaapp;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -24,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TheAllChat extends AppCompatActivity {
+public class AdminOnlyChat extends AppCompatActivity {
 
     private List<Chat> chatList = new ArrayList<>();
     private RecyclerView chatRecyclerView;
@@ -37,17 +38,16 @@ public class TheAllChat extends AppCompatActivity {
     public DatabaseReference mref;
     public FirebaseAuth mAuth;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_the_all_chat);
+        setContentView(R.layout.activity_admin_only_chat);
 
-//        This code has been added to enable the layout below the keyboard to be moved up above the keyboard
+        //        This code has been added to enable the layout below the keyboard to be moved up above the keyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mref = mFirebaseDatabase.getReference().child("messages");
+        mref = mFirebaseDatabase.getReference().child("adminMessages");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -99,37 +99,37 @@ public class TheAllChat extends AppCompatActivity {
 //                }
 //        );
 
-     mref.addChildEventListener(new ChildEventListener() {
-         @Override
-         public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-         {
+        mref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+            {
 //             This allows it to be realtime adding to the screen
-             Chat chat =dataSnapshot.getValue(Chat.class);
-             chatList.add(chat);
-             chatAdapter.setChatList(chatList);
-             Log.d("AddingChats","Chats have been added to the UI");
-         }
+                Chat chat =dataSnapshot.getValue(Chat.class);
+                chatList.add(chat);
+                chatAdapter.setChatList(chatList);
+                Log.d("AddingChats","Chats have been added to the UI");
+            }
 
-         @Override
-         public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-         }
+            }
 
-         @Override
-         public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-         }
+            }
 
-         @Override
-         public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-         }
+            }
 
-         @Override
-         public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-         }
-     });
+            }
+        });
 
 
 
@@ -138,19 +138,15 @@ public class TheAllChat extends AppCompatActivity {
             public void onClick(View v)
             {
                 String chatMessage = chatEditText.getText().toString();
+
                 chatEditText.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                Chat chat = new Chat();
-                chat.setUserEmailAddress(emailAddress);
-                chat.setUserMessage(chatMessage);
 
-                Intent addTaskIntent = new Intent(TheAllChat.this,MyIntentService.class);
-                addTaskIntent.setAction(Backgroundactivities.addAChat);
-                addTaskIntent.putExtra("ANewChat",chat);
-                startService(addTaskIntent);
-
+                Toast.makeText(AdminOnlyChat.this,"You cannot add a chat \n you are not admin",Toast.LENGTH_LONG).show();
                 chatEditText.setText(" ");
 
             }
         });
     }
-}
+
+    }
+

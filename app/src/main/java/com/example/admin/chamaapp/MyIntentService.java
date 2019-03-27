@@ -50,6 +50,11 @@ public class MyIntentService extends IntentService {
             Chat chat = intent.getParcelableExtra("ANewChat");
             backgroundactivities.addAChatToTheChatList(chat);
         }
+        if(Backgroundactivities.addAdminChat.equals(action))
+        {
+            Chat chat = intent.getParcelableExtra("ANewChat");
+            backgroundactivities.addAChatToTheAmdinChatList(chat);
+        }
     }
 
 

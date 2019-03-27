@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -141,7 +142,7 @@ public class TheAllChat extends AppCompatActivity {
             public void onClick(View v)
             {
                 String chatMessage = chatEditText.getText().toString();
-
+                chatEditText.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 Chat chat = new Chat();
                 chat.setUserEmailAddress(emailAddress);
                 chat.setUserMessage(chatMessage);

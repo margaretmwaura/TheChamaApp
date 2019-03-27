@@ -30,6 +30,17 @@ import com.androidstudy.daraja.model.LNMExpress;
 import com.androidstudy.daraja.model.LNMResult;
 import com.androidstudy.daraja.util.TransactionType;
 
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
+
 public class MyProfile extends AppCompatActivity {
 
     private ImageView profileImage;
@@ -46,6 +57,24 @@ public class MyProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
+        //        This is about the mpesa library code on sending money
+
+
+
+        daraja = Daraja.with("08MUHjEBN7qJ5RhfYR008fVFbw0R1i4N", "UOYiGP1PyFkvQL8U", new DarajaListener<AccessToken>() {
+            @Override
+            public void onResult(@NonNull AccessToken accessToken)
+            {
+                Log.d("DarajaCreation","The daraja class has beeen created");
+                Log.i(MyProfile.this.getClass().getSimpleName(), accessToken.getAccess_token());
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.d("DarajaCreation","The daraja class has not been created,an error has been encountered" + error);
+                Log.e(MyProfile.this.getClass().getSimpleName(), error);
+            }
+        });
 //        This displays the home button arrow
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -134,21 +163,7 @@ public class MyProfile extends AppCompatActivity {
             }
         });
 
-//        This is about the mpesa library code on sending money
 
-        daraja = Daraja.with("Uku3wUhDw9z0Otdk2hUAbGZck8ZGILyh", "JDjpQBm5HpYwk38b", new DarajaListener<AccessToken>() {
-            @Override
-            public void onResult(@NonNull AccessToken accessToken)
-            {
-                Log.i(MyProfile.this.getClass().getSimpleName(), accessToken.getAccess_token());
-                Toast.makeText(MyProfile.this, "TOKEN : " + accessToken.getAccess_token(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.e(MyProfile.this.getClass().getSimpleName(), error);
-            }
-        });
         sendMoneyViaMpesa.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -165,13 +180,13 @@ public class MyProfile extends AppCompatActivity {
                 //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
                 LNMExpress lnmExpress = new LNMExpress(
                         "174379",
-                        "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
+                        "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMzI0MTYzOTUw",  //https://developer.safaricom.co.ke/test_credentials
                         TransactionType.CustomerPayBillOnline,
-                        "100",
-                        "254708374149",
+                        "1",
+                        "254798436887",
                         "174379",
                         phoneNumber,
-                        "http://mycallbackurl.com/checkout.php",
+                        "http://mpesa-requestbin.herokuapp.com/wqzvixwr",
                         "001ABC",
                         "Goods Payment"
                 );
@@ -180,12 +195,12 @@ public class MyProfile extends AppCompatActivity {
                         new DarajaListener<LNMResult>() {
                             @Override
                             public void onResult(@NonNull LNMResult lnmResult) {
-                                Log.i(MyProfile.this.getClass().getSimpleName(), lnmResult.ResponseDescription);
+                               Log.d("SendingMoney","Money has been sent");
                             }
 
                             @Override
                             public void onError(String error) {
-                                Log.i(MyProfile.this.getClass().getSimpleName(), error);
+                                Log.d("SendingMoney","Money has not been sent ");
                             }
                         }
                 );
@@ -193,6 +208,7 @@ public class MyProfile extends AppCompatActivity {
         });
     }
 
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
