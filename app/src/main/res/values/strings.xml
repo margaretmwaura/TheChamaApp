@@ -2,8 +2,7 @@
     <string name="app_name">ChamaApp</string>
     <string name="default_notification_channel_id">Channel ID</string>
     <string name="intro">
-        Women foundations are the main organs that make our women grow and prosper
-        They are vital to the prosperity of our women.
+        By having an account it is \n easier to see your details \n and those of the group
     </string>
     <string name="minimum_password">The password should be a minimum of 6 characters</string>
     <string name="auth_failed">Login failed please try again</string>

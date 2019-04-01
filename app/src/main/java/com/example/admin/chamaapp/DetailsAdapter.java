@@ -43,13 +43,13 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
     public void onBindViewHolder(DetailsViewHolder holder, int position)
     {
         Member maggie = membersList.get(position);
-        String emailAddress = maggie.getEmailAddress();
-        int contribution = maggie.getContribution();
+        String phonenumber = maggie.getPhonenumber();
+
         int attendance = maggie.getAttendance();
         int membershipId = maggie.getMembershipID();
 
-        holder.emailAddress.setText(emailAddress);
-        holder.contribution.setText(String.valueOf(contribution));
+        holder.emailAddress.setText(phonenumber);
+
         holder.attendance.setText(String.valueOf(attendance));
         holder.membershipId.setText(String.valueOf(membershipId));
     }

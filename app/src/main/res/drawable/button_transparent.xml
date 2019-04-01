@@ -4,5 +4,5 @@
     <!-- you can use any color you want I used here gray color-->
     <solid android:color="#0000"/>
     <corners android:radius="20dp"/>
-    <stroke android:color="#fff" android:width="2dp"/>
+    <stroke android:color="@color/colorAccent" android:width="2dp"/>
 </shape>

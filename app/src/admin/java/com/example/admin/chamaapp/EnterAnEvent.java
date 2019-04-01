@@ -22,6 +22,7 @@ public class EnterAnEvent extends AppCompatActivity {
     private EditText eventTimeEditText, eventLocationEditText, eventAgendaEditText;
     private Event newEvent;
     private Button enterAnEvent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

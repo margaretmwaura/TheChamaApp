@@ -1,5 +1,6 @@
 package com.example.admin.chamaapp;
 
+import android.app.LoaderManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 
@@ -15,8 +17,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -29,15 +34,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import static com.example.admin.chamaapp.LoginInsteadOfCreating.returnRegistrationToken;
+
+import static com.example.admin.chamaapp.Login.returnRegistrationToken;
 
 public class Backgroundactivities
 {
@@ -50,6 +60,7 @@ public class Backgroundactivities
     public static final String addANotification = "Add a notification for events";
     public static final String addAChat = "Adding a new chat to the chat list";
     public static final String addAdminChat = "Adding a new chat to the admin chat list";
+    public static final String editUserData = "Edit user data";
     private static Long notificationTime;
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
@@ -110,16 +121,18 @@ public class Backgroundactivities
                 for (int i = 0; i < memberList.size(); i++)
                 {
                     Member maggie = memberList.get(i);
-                    String emailAddress = maggie.getEmailAddress();
+                    String phonenumber = maggie.getPhonenumber();
                     int membershipID = maggie.getMembershipID();
                     int attendance = maggie.getAttendance();
                     int contribution = maggie.getContribution();
 
+
                     Paragraph p1 = new Paragraph();
-                    p1.add(emailAddress);
+                    p1.add(phonenumber);
                     p1.add(String.valueOf(membershipID));
                     p1.add(String.valueOf(attendance));
                     p1.add(String.valueOf(contribution));
+
 
                     p1.setAlignment(Paragraph.ALIGN_CENTER);
 
@@ -199,7 +212,7 @@ public class Backgroundactivities
         JSONObject json=new JSONObject();
         JSONObject dataJson=new JSONObject();
         try {
-            dataJson.put("body", "Reminder about the chama");
+            dataJson.put("body", "Reminder about the chama event \n taking place today");
             dataJson.put("title", "Chama event");
             json.put("notification", dataJson);
             json.put("to", regToken);
@@ -329,6 +342,15 @@ public class Backgroundactivities
                 Log.d("Firebase","No chat added");
             }
         });
+    }
+
+    public void editUserData(final String userId, int attendance , final int contributionValue)
+    {
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mref = mFirebaseDatabase.getReference();
+
+        mref.child(userId).child("attendance").setValue(String.valueOf(attendance));
+        mref.child(userId).child("contribution").setValue(String.valueOf(contributionValue));
     }
 
 

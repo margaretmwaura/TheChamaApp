@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/image1"
+    android:background="@drawable/newback"
     tools:context=".Welcome"
     android:fitsSystemWindows="true"
     android:id="@+id/big">

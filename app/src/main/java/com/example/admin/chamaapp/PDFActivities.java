@@ -74,7 +74,7 @@ public class PDFActivities
                 for (int i = 0; i < memberList.size(); i++)
                 {
                     Member maggie = memberList.get(i);
-                    String emailAddress = maggie.getEmailAddress();
+                    String emailAddress = maggie.getPhonenumber();
                     int membershipID = maggie.getMembershipID();
                     int attendance = maggie.getAttendance();
                     int contribution = maggie.getContribution();

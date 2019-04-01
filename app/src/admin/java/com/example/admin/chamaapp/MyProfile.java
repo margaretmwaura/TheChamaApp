@@ -5,6 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,9 +19,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,22 +53,41 @@ import okhttp3.OkHttpClient;
 public class MyProfile extends AppCompatActivity {
 
     private ImageView profileImage;
-    private TextView profileName,profileEmail;
+    private TextView profileName,profileEmail, profileTitle;
     private Button editPhoto , editYourName, sendMoneyViaMpesa;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private String email,value;
+    private String value;
     Daraja daraja;
     String phoneNumber;
     private EditText editTextPhone;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
         //        This is about the mpesa library code on sending money
 
 
+        profileTitle = findViewById(R.id.heading_personal_info);
+        profileTitle.setPaintFlags(profileTitle.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        editTextPhone = (EditText)findViewById(R.id.edit_text_phonenumber);
+        String title = " ";
+        SpannableString s = new SpannableString(title);
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#0366ff")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(s);
+
+
+
+
+        final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
+        upArrow.setColorFilter(getResources().getColor(R.color.colorBackIcon), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        getSupportActionBar().setElevation(0);
 
         daraja = Daraja.with("08MUHjEBN7qJ5RhfYR008fVFbw0R1i4N", "UOYiGP1PyFkvQL8U", new DarajaListener<AccessToken>() {
             @Override
@@ -76,12 +104,10 @@ public class MyProfile extends AppCompatActivity {
             }
         });
 //        This displays the home button arrow
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
 //        This is the email from the intents extras
         Intent intent = getIntent();
-        email = intent.getStringExtra("UserEmail");
+         phoneNumber = intent.getStringExtra("Phonenumber");
 
 
         profileImage = (ImageView) findViewById(R.id.profile_image);
@@ -89,14 +115,17 @@ public class MyProfile extends AppCompatActivity {
         profileEmail = (TextView) findViewById(R.id.your_email_address);
 
 //        Setting the email address on the email address text view
-
-        profileEmail.setText(email);
-
+        if(phoneNumber != null && !phoneNumber.isEmpty())
+        {
+            profileEmail.setText(phoneNumber);
+            Toast.makeText(this,"Setting email",Toast.LENGTH_LONG).show();
+            Log.d("EmialNotThere ", " setting email");
+        }
         editPhoto = (Button) findViewById(R.id.edit_profile_photo);
         editYourName = (Button) findViewById(R.id.edit_your_name);
         sendMoneyViaMpesa = (Button) findViewById(R.id.send_money_via_mpesa);
 //        editName = (Button) findViewById(R.id.edit_your_name);
-        editTextPhone = (EditText) findViewById(R.id.edit_text_phonenumber);
+//        editTextPhone = (EditText) findViewById(R.id.edit_text_phonenumber);
 
 
 
@@ -116,7 +145,7 @@ public class MyProfile extends AppCompatActivity {
         {
 //            Will look for a better image
             Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
-            profileImage.setImageResource(R.drawable.image1);
+            profileImage.setImageResource(R.drawable.face);
         }
 
         editPhoto.setOnClickListener(new View.OnClickListener() {
@@ -183,9 +212,9 @@ public class MyProfile extends AppCompatActivity {
                         "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMzI0MTYzOTUw",  //https://developer.safaricom.co.ke/test_credentials
                         TransactionType.CustomerPayBillOnline,
                         "1",
-                        "254798436887",
+                        "254710120612",
                         "174379",
-                        phoneNumber,
+                        "254710120612",
                         "http://mpesa-requestbin.herokuapp.com/wqzvixwr",
                         "001ABC",
                         "Goods Payment"
@@ -200,7 +229,7 @@ public class MyProfile extends AppCompatActivity {
 
                             @Override
                             public void onError(String error) {
-                                Log.d("SendingMoney","Money has not been sent ");
+                                Log.d("SendingMoney","Money has not been sent " + error);
                             }
                         }
                 );

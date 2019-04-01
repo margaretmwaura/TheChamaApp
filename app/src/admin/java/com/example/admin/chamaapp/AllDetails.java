@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -28,11 +29,21 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -48,20 +59,20 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.admin.chamaapp.AMemberDetails.OPERATION_QUERY_URL_EXTRA;
-
 public class AllDetails extends AppCompatActivity implements OnItemClickListener, LoaderManager.LoaderCallbacks<String>
 {
 
 //    This is the activity that displays for all the members
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, recyclerViewContribution;
     private DetailsAdapter detailsAdapter;
     private FirebaseAuth auth;
     private List<Member> memberList = new ArrayList<>();
     private List<String> userID = new ArrayList<>();
-    private Button generatePdf,viewPDFButton;
-    private boolean storagePermission;
+      private boolean storagePermission;
     public static final int OPERATION_SEARCH_LOADER = 22;
+    private Member member;
+    private String userIDSelected;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -69,11 +80,17 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_details);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String title = "Member details";
+        SpannableString s = new SpannableString(title);
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(s);
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 //        this is the code for creating of the layout manager
 
-        generatePdf = (Button) findViewById(R.id.generate_pdf);
-         viewPDFButton = (Button) findViewById(R.id.view_pdf);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
 //        Set the layoutManager of the recyclerView
@@ -113,35 +130,63 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                 }
 
                 Log.d("TheListRead","This are the number of journals found " + memberList.size());
-                detailsAdapter.setMembersList(memberList);
+                if(memberList.size() != 0)
+                {
+                    detailsAdapter.setMembersList(memberList);
+                }
             }
         }
         );
 
      isStoragePermissionGranted();
-        generatePdf.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-//                Intent addTaskIntent = new Intent(AllDetails.this,MyIntentService.class);
-//                addTaskIntent.putParcelableArrayListExtra("Members", (ArrayList<? extends Parcelable>) memberList);
-//                addTaskIntent.putExtra("StoragePermission",storagePermission);
-//                addTaskIntent.setAction(Backgroundactivities.generatePdfString);
-//                                    startService(addTaskIntent);
+//        generatePdf.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v) {
+////                Intent addTaskIntent = new Intent(AllDetails.this,MyIntentService.class);
+////                addTaskIntent.putParcelableArrayListExtra("Members", (ArrayList<? extends Parcelable>) memberList);
+////                addTaskIntent.putExtra("StoragePermission",storagePermission);
+////                addTaskIntent.setAction(Backgroundactivities.generatePdfString);
+////                                    startService(addTaskIntent);
+////
+////                Log.d("Intent", "Intent Service started");
 //
-//                Log.d("Intent", "Intent Service started");
-
-                makeOperationSearchQuery();
-            }
-        });
-        viewPDFButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                viewPdf("newFile.pdf","saved_images");
-            }
-        });
+//
+//            }
+//        });
+//        viewPDFButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v)
+//            {
+//
+//            }
+//        });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.details_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(R.id.createPDFMenu == item.getItemId())
+        {
+            makeOperationSearchQuery();
+            return true;
+        }
+        if(R.id.viewPDFMenu == item.getItemId())
+        {
+            viewPdf("newFile.pdf","saved_images");
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean isStoragePermissionGranted()
     {
         String TAG = "Storage Permission";
@@ -204,14 +249,11 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
     @Override
     public void onClick(View view, int position)
     {
+        position = position;
         Log.d("OnClick","This method has been called ");
-        Member member = memberList.get(position);
-        String userId  = userID.get(position);
-        Log.d("UserID","This is the users id " + userId);
-        Intent intent = new Intent(this,AMemberDetails.class);
-        intent.putExtra("Member",member);
-        intent.putExtra("UserID",userId);
-        startActivity(intent);
+        member = memberList.get(position);
+        userIDSelected = userID.get(position);
+        showCustomDialog();
 
     }
 
@@ -232,6 +274,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
             @Override
             public String loadInBackground()
             {
+
                 Log.d("LoadInBackground","The load in background method has been called");
                 List<Member> memberList1 = new ArrayList<>();
                 memberList1 = args.getParcelableArrayList("MemberList");
@@ -351,16 +394,15 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                 for (int i = 0; i < memberList.size(); i++)
                 {
                     Member maggie = memberList.get(i);
-                    String emailAddress = maggie.getEmailAddress();
+                    String phonenumber = maggie.getPhonenumber();
                     int membershipID = maggie.getMembershipID();
                     int attendance = maggie.getAttendance();
-                    int contribution = maggie.getContribution();
 
                     Paragraph p1 = new Paragraph();
-                    p1.add(emailAddress);
+                    p1.add(phonenumber);
                     p1.add(String.valueOf(membershipID));
                     p1.add(String.valueOf(attendance));
-                    p1.add(String.valueOf(contribution));
+
 
                     p1.setAlignment(Paragraph.ALIGN_CENTER);
 
@@ -391,4 +433,76 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
 
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        finish();
+        return true;
+    }
+
+    private void showCustomDialog()
+    {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.dialogview, viewGroup, false);
+
+
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        //finally creating the alert dialog and displaying it
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        final EditText attendance = dialogView.findViewById(R.id.attendance_dialog);
+        final EditText contribution = dialogView.findViewById(R.id.contribution_dialog);
+        Button editButton = dialogView.findViewById(R.id.editbutton_dialog);
+        Button cancelButton = dialogView.findViewById(R.id.cancelbutton_dialog);
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                int attendanceData = Integer.parseInt(attendance.getText().toString());
+                int contributionData = Integer.parseInt(contribution.getText().toString());
+                Intent addTaskIntent = new Intent(AllDetails.this,MyIntentService.class);
+                addTaskIntent.setAction(Backgroundactivities.editUserData);
+                addTaskIntent.putExtra("UserID",userIDSelected);
+                addTaskIntent.putExtra("Attendance", attendanceData);
+                addTaskIntent.putExtra("ContributionData",contributionData);
+                startService(addTaskIntent);
+
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                // your code here
+                                detailsAdapter.notifyItemChanged(position);
+
+                            }
+                        },
+                        5000
+                );
+               alertDialog.dismiss();
+            }
+        });
+
+
+
+    }
+
 }

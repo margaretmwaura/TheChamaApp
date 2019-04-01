@@ -36,7 +36,7 @@ public class Welcome extends AppCompatActivity
 
 //blurring the background image
         RelativeLayout mContainerView = (RelativeLayout) findViewById(R.id.big);
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.newback);
         Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
         mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 //End of code of blurring the background image

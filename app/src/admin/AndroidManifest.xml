@@ -4,7 +4,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
-        <activity android:name="com.example.admin.chamaapp.AdminOnly"></activity>
+        <activity android:name="com.example.admin.chamaapp.AdminOnly"
+            android:theme="@style/AppThemeDarkActionBar"
+            >
+        </activity>
         <activity android:name="com.example.admin.chamaapp.AdminFragment" />
     </application>
 

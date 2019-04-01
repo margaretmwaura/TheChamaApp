@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TheAllChat"
-            ></activity>
+            android:theme="@style/AppThemeDarkActionBar"
+            />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
@@ -41,19 +42,22 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".EnterAnEvent" />
-        <activity android:name=".EventActivity" />
+        <activity android:name=".EventActivity"
+            android:theme="@style/AppThemeDarkActionBar"/>
 
         <service
             android:name=".MyIntentService"
             android:exported="false" />
 
-        <activity android:name=".AMemberDetails" />
-        <activity android:name=".AllDetails" />
-        <activity android:name=".MyDetails" />
+        <activity android:name=".AllDetails"
+            android:theme="@style/AppThemeDarkActionBar"/>
+        <activity android:name=".MyDetails"
+             android:theme="@style/AppThemeDarkActionBar"/>
         <activity
             android:name=".MyProfile"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar." />
-        <activity android:name=".LoginInsteadOfCreating" />
+            android:theme="@style/AppThemeTransparent"
+            />
+
         <activity
             android:name=".TheNavigationDrawer"
             android:label="@string/title_activity_the_navigation_drawer"
@@ -67,7 +71,6 @@
         </activity>
         <activity android:name=".Create" />
         <activity android:name=".Sign" />
-        <activity android:name=".MemberMockup" />
         <activity android:name=".Login" />
         <activity android:name=".Welcome" /> <!-- This allows one to read the pdf file without errors -->
         <provider

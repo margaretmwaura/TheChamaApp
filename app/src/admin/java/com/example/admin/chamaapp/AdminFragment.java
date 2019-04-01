@@ -95,7 +95,7 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
 //        return rootView;
 //    }
 
-    private String emailAddress;
+    private String phonenumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -103,10 +103,14 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_admin_mockup);
 
         Intent intent = getIntent();
-        emailAddress = intent.getStringExtra("EmailAddress");
+        phonenumber = intent.getStringExtra("Phonenumber");
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
+
+//        mref.child("users").removeValue();
+
+
         mAuth = FirebaseAuth.getInstance();
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         if (mAuth.getCurrentUser() != null)
@@ -142,10 +146,10 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
 
 
 //blurring the background image
-        LinearLayout mContainerView = (LinearLayout) findViewById(R.id.signup_admin);
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
-        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
-        mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+//        LinearLayout mContainerView = (LinearLayout) findViewById(R.id.signup_admin);
+//        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
+//        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
+//        mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 //End of code of blurring the background image
 
 
@@ -154,11 +158,11 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
 //        Will get to it later
 
 
-        Circle circle = (Circle) findViewById(R.id.circle);
-
-        CircleAngleAnimation animation = new CircleAngleAnimation(circle, 320);
-        animation.setDuration(10000);
-        circle.startAnimation(animation);
+//        Circle circle = (Circle) findViewById(R.id.circle);
+//
+//        CircleAngleAnimation animation = new CircleAngleAnimation(circle, 320);
+//        animation.setDuration(10000);
+//        circle.startAnimation(animation);
 
 
     }
@@ -200,7 +204,7 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
 
 
 
-        Admin maggie = new Admin(type, post, id,email);
+        Admin maggie = new Admin(type, post, id,phonenumber);
 
         mref.child("users").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
         {

@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_my_account"
-            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:icon="@drawable/myaccount"
             android:title="MyAccount" />
         <item
             android:id="@+id/nav_events"
@@ -14,11 +14,11 @@
             android:title="Events" />
         <item
             android:id="@+id/nav_my_details"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/mydetailsicon"
             android:title="MyDetails" />
         <item
             android:id="@+id/nav_all_members_details"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/editdetailsicon"
             android:title="All details" />
     </group>
 
@@ -26,11 +26,11 @@
         <menu>
             <item
                 android:id="@+id/nav_general_chat"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/generalchat"
                 android:title="General" />
             <item
                 android:id="@+id/nav_admin_only"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/adminicon"
                 android:title="Admin only" />
         </menu>
     </item>

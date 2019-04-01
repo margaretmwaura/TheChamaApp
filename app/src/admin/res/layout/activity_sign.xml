@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@drawable/image1"
     android:id="@+id/sign"
     tools:context=".Sign"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -14,10 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="W"
-        android:background="@drawable/logo"
+        android:background="@drawable/newlogo"
         android:textSize="120sp"
         android:textStyle="bold"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorAccent"
         android:layout_marginTop="60dp"
         android:layout_marginLeft="80dp"
         android:id="@+id/logo"/>
@@ -28,8 +27,7 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:orientation="vertical"
-        android:background="#8000">
+        android:orientation="vertical">
 
         <TextView
             android:theme="@style/MyEditTextTheme"
@@ -37,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_width="350dp"
             android:text="Enter the phone number"
-            android:textColor="#fff"
+            android:textStyle="bold"
+            android:textColor="#000"
             android:textSize="18sp"
             android:id="@+id/email"/>
 
@@ -46,43 +45,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/phoneNumber"
             android:hint="PhoneNumber"
-            android:textColor="#fff"
-            android:theme="@style/MyEditTextTheme"
-            android:textColorHint="#228B22"
-            android:layout_marginTop="5dp"/>
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/emailAddress"
-            android:hint="email"
-            android:textColor="#fff"
-            android:theme="@style/MyEditTextTheme"
-            android:textColorHint="#228B22"
-            android:layout_marginTop="5dp"/>
-        <EditText
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/password"
-            android:hint="Password"
-            android:textColor="#fff"
+            android:textColor="#000"
             android:theme="@style/MyEditTextTheme"
             android:textColorHint="#228B22"
             android:layout_marginTop="5dp"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:width="300dp"
-            android:height="50dp"
-            android:textAllCaps="false"
-            android:text="Create account with email"
-            android:textColor="#fff"
-            android:textSize="20dp"
-            android:layout_marginLeft="40dp"
-            android:background="@drawable/button"
-            android:id="@+id/sign_up_button_with_email"
-            />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,21 +61,22 @@
             android:text="Create account with phonenumber"
             android:textColor="#fff"
             android:textSize="20dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="30dp"
             android:background="@drawable/button"
             android:id="@+id/sign_up_button_with_phonenumber"
+            android:layout_marginBottom="50dp"
             />
 
 
-        <ProgressBar
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="150dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/MyEditTextTheme"
-            android:id="@+id/progressBar"
+        <!--<ProgressBar-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginLeft="150dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:theme="@style/MyEditTextTheme"-->
+            <!--android:id="@+id/progressBar"-->
 
-            />
+            <!--/>-->
 
     </LinearLayout>
 

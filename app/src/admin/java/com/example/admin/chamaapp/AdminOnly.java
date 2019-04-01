@@ -1,18 +1,23 @@
 package com.example.admin.chamaapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -31,7 +36,7 @@ public class AdminOnly extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private Button sendButton;
     private EditText chatEditText;
-    private String emailAddress;
+    private String phonenumber;
     private ChildEventListener childEventListener;
     public FirebaseDatabase mFirebaseDatabase;
     public DatabaseReference mref;
@@ -44,7 +49,12 @@ public class AdminOnly extends AppCompatActivity {
         //        This code has been added to enable the layout below the keyboard to be moved up above the keyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        String title = "Announcement";
+        SpannableString s = new SpannableString(title);
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(s);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference().child("adminMessages");
 
@@ -52,9 +62,9 @@ public class AdminOnly extends AppCompatActivity {
 
 //        Getting the emailAddress from the intent
         Intent intent = getIntent();
-        emailAddress = intent.getStringExtra("UserEmail");
+        phonenumber = intent.getStringExtra("Phonenumber");
 
-        Log.d("EmailAddress","This is the users email address " + emailAddress);
+        Log.d("EmailAddress","This is the users email address " + phonenumber);
         sendButton = findViewById(R.id.sendChat);
         chatEditText = findViewById(R.id.message_edittext);
 
@@ -105,8 +115,13 @@ public class AdminOnly extends AppCompatActivity {
 //             This allows it to be realtime adding to the screen
                 Chat chat =dataSnapshot.getValue(Chat.class);
                 chatList.add(chat);
-                chatAdapter.setChatList(chatList);
-                Log.d("AddingChats","Chats have been added to the UI");
+
+                if(chatList.size() != 0)
+                {
+                    chatAdapter.setChatList(chatList);
+                    Log.d("AddingChats","Chats have been added to the UI");
+                }
+
             }
 
             @Override
@@ -139,18 +154,26 @@ public class AdminOnly extends AppCompatActivity {
                 String chatMessage = chatEditText.getText().toString();
 
                 chatEditText.onEditorAction(EditorInfo.IME_ACTION_DONE);
-                Chat chat = new Chat();
-                chat.setUserEmailAddress(emailAddress);
-                chat.setUserMessage(chatMessage);
 
-                Intent addTaskIntent = new Intent(AdminOnly.this,MyIntentService.class);
-                addTaskIntent.setAction(Backgroundactivities.addAdminChat);
-                addTaskIntent.putExtra("ANewChat",chat);
-                startService(addTaskIntent);
+                Toast.makeText(AdminOnly.this,"You cannot add a chat \n you are not admin",Toast.LENGTH_LONG).show();
+//                Chat chat = new Chat();
+//                chat.setUserEmailAddress("+254711309532");
+//                chat.setUserMessage(chatMessage);
+//
+//                Intent addTaskIntent = new Intent(AdminOnly.this,MyIntentService.class);
+//                addTaskIntent.setAction(Backgroundactivities.addAdminChat);
+//                addTaskIntent.putExtra("ANewChat",chat);
+//                startService(addTaskIntent);
 
                 chatEditText.setText(" ");
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

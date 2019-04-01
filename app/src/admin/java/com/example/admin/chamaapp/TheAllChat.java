@@ -1,12 +1,16 @@
 package com.example.admin.chamaapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,7 +35,7 @@ public class TheAllChat extends AppCompatActivity {
     private ChatAdapter chatAdapter;
     private Button sendButton;
     private EditText chatEditText;
-    private String emailAddress;
+    private String phonenumber;
     private ChildEventListener childEventListener;
     public FirebaseDatabase mFirebaseDatabase;
     public DatabaseReference mref;
@@ -45,6 +49,12 @@ public class TheAllChat extends AppCompatActivity {
 //        This code has been added to enable the layout below the keyboard to be moved up above the keyboard
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String title = "General";
+        SpannableString s = new SpannableString(title);
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(s);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference().child("messages");
@@ -53,9 +63,9 @@ public class TheAllChat extends AppCompatActivity {
 
 //        Getting the emailAddress from the intent
         Intent intent = getIntent();
-        emailAddress = intent.getStringExtra("UserEmail");
+        phonenumber = intent.getStringExtra("UserEmail");
 
-        Log.d("EmailAddress","This is the users email address " + emailAddress);
+        Log.d("EmailAddress","This is the users email address " + phonenumber);
         sendButton = findViewById(R.id.sendChat);
         chatEditText = findViewById(R.id.message_edittext);
 
@@ -106,8 +116,11 @@ public class TheAllChat extends AppCompatActivity {
 //             This allows it to be realtime adding to the screen
              Chat chat =dataSnapshot.getValue(Chat.class);
              chatList.add(chat);
-             chatAdapter.setChatList(chatList);
-             Log.d("AddingChats","Chats have been added to the UI");
+             if(chatList.size()!= 0)
+             {
+                 chatAdapter.setChatList(chatList);
+                 Log.d("AddingChats", "Chats have been added to the UI");
+             }
          }
 
          @Override
@@ -140,7 +153,7 @@ public class TheAllChat extends AppCompatActivity {
                 String chatMessage = chatEditText.getText().toString();
                 chatEditText.onEditorAction(EditorInfo.IME_ACTION_DONE);
                 Chat chat = new Chat();
-                chat.setUserEmailAddress(emailAddress);
+                chat.setUserEmailAddress("+254711309532");
                 chat.setUserMessage(chatMessage);
 
                 Intent addTaskIntent = new Intent(TheAllChat.this,MyIntentService.class);
@@ -152,5 +165,11 @@ public class TheAllChat extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

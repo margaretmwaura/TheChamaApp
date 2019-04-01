@@ -5,32 +5,20 @@
     android:id="@+id/signup_admin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8000">
+    >
+    <TextView
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="W"
+        android:background="@drawable/newlogo"
+        android:textSize="120sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="80dp"
+        android:id="@+id/logo"/>
 
-    <RelativeLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/circle_anim">
-        <com.example.admin.chamaapp.Circle
-            android:layout_marginTop="40dp"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_marginLeft="120dp"
-            android:id="@+id/circle"/>
-        <TextView
-            android:gravity="center"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:text="W"
-            android:background="@drawable/logo1"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="125dp"
-            android:layout_marginTop="50dp"
-            android:textColor="@android:color/white"
-            android:id="@+id/logo"/>
-    </RelativeLayout>
 
     <EditText
         android:theme="@style/MyEditTextTheme"
@@ -38,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_width="350dp"
         android:hint="Post"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:textColorHint="#228B22"
         android:id="@+id/post"/>
 
@@ -47,7 +35,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/id"
         android:hint="Leadership ID"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:theme="@style/MyEditTextTheme"
         android:textColorHint="#228B22"
         android:layout_marginTop="5dp"/>
@@ -62,7 +50,7 @@
         android:text="Create account"
         android:textColor="#fff"
         android:textSize="20dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="50dp"
         android:background="@drawable/button"
         android:id="@+id/sign_up_button"
         />

@@ -8,25 +8,44 @@
     android:orientation="vertical"
     tools:context=".EnterAnEvent">
 
+    <TextView
+        android:layout_marginTop="20dp"
+        android:textColor="#000"
+        android:textSize="18dp"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="Enter a new event describing what is the  sole purpose  of the event"
+        android:textStyle="bold|italic"/>
     <EditText
-        android:layout_marginTop="50dp"
+        android:textSize="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Location"
         android:id="@+id/Event_Location_event"/>
     <EditText
+        android:textSize="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Date : dd/mm/yyyy"
         android:id="@+id/Event_Time_event"/>
     <EditText
+        android:textSize="16dp"
+        android:hint="Agenda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Event_Agenda_event"/>
 
 
     <Button
+        android:background="@drawable/backgorund"
         android:text="Submit new Event"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
+        android:textColor="#fff"
+        android:textAllCaps="false"
+        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:id="@+id/submit_new_event"/>
+        android:id="@+id/submit_new_event"
+        android:layout_marginBottom="50dp"/>
 
 </LinearLayout>

@@ -1,47 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#fff"
     tools:context=".MyProfile">
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
 
+        <RelativeLayout
+            android:id="@+id/image_edit"
+            android:background="@drawable/newback"
+            android:layout_width="match_parent"
+            android:layout_height="180dp">
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="-60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/image1"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/face"
             app:civ_border_width="2dp"
+            android:layout_marginLeft="120dp"
             app:civ_border_color="#FFF"/>
 
         <Button
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile photo"
+            android:layout_below="@+id/profile_image"
+            android:layout_marginTop="-30dp"
+            android:layout_marginLeft="-20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_camera_alt_black_24dp"
+            android:layout_toRightOf="@+id/profile_image"
             android:id="@+id/edit_profile_photo"/>
+        </RelativeLayout>
+
+
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <TextView
+
+                android:textColor="#000"
+                android:id="@+id/heading_personal_info"
+                android:textSize="18dp"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:text="Personal information"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
        <TextView
-           android:paddingTop="18dp"
+           android:paddingTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Your name"
-           android:textSize="18dp"
+           android:textSize="16dp"
         android:layout_marginTop="10dp"
         android:id="@+id/your_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
@@ -49,8 +84,8 @@
         <Button
             android:background="@drawable/ic_edit_black_24dp"
             android:layout_marginTop="10dp"
-            android:layout_width="40dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="10dp"
             android:id="@+id/edit_your_name"
             android:layout_alignTop="@+id/your_name"
             android:layout_alignBottom="@+id/your_name"
@@ -59,22 +94,21 @@
         </RelativeLayout>
 
         <TextView
-            android:textStyle="bold|italic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textSize="18dp"
-            android:text="This is the email address you registered \n your account with "
+            android:textSize="16dp"
+            android:text="registered phonenumber:: "
             android:layout_marginBottom="10dp"/>
 
 
         <TextView
-        android:textStyle="bold"
+            android:textColor="#000"
+            android:textStyle="italic"
         android:id="@+id/your_email_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="18dp"
+        android:textSize="16dp"
         android:text="Your email address"
         android:layout_marginBottom="10dp"/>
 
@@ -83,6 +117,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="enter your phone number"
+            android:textStyle="bold"
+            android:textColor="#000"
             android:id="@+id/edit_text_phonenumber"/>
 
         <Button
@@ -90,6 +126,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send mmoney via Mpesa"
+            android:textColor="#000"
+            android:textAllCaps="false"
+            android:textStyle="bold|italic"
+            android:background="@drawable/button_transparent"
             android:id="@+id/send_money_via_mpesa"/>
 
 
@@ -98,4 +138,5 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
+</LinearLayout>

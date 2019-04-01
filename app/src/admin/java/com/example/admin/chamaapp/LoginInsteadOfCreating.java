@@ -110,14 +110,8 @@ public class LoginInsteadOfCreating extends AppCompatActivity {
             }
         });
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( LoginInsteadOfCreating.this, new OnSuccessListener<InstanceIdResult>()
-        {
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult)
-            {
-                token = instanceIdResult.getToken();
-            }
-        });
+
+
     }
 
     @Override
@@ -126,8 +120,5 @@ public class LoginInsteadOfCreating extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-    public static String returnRegistrationToken()
-    {
-        return token;
-    }
+
 }

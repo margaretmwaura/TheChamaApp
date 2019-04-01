@@ -10,13 +10,16 @@ import android.os.Parcelable;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(tableName = "Member")
 @IgnoreExtraProperties
 public class Member implements Parcelable
 {
     public int membershipID;
     public String type;
-    public String emailAddress;
+    public String phonenumber;
     public String userId;
     public int attendance;
     public int contribution;
@@ -25,21 +28,22 @@ public class Member implements Parcelable
 
     }
 //This constructor is important for the firebase saving of data
-    Member(int membershipID,String type,String emailAddress)
+    Member(int membershipID,String type, String phonenumber)
     {
         this.type=type;
         this.membershipID=membershipID;
-        this.emailAddress = emailAddress;
+        this.phonenumber= phonenumber;
         this.attendance = 0;
         this.contribution = 0;
+
     }
 
 //    This constructor is important for the Room database saving of data
-    Member(int membershipID, String type, String emailAddress,String userId)
+    Member(int membershipID, String type, String phonenumber,String userId)
     {
         this.type=type;
         this.membershipID=membershipID;
-        this.emailAddress = emailAddress;
+        this.phonenumber = phonenumber;
         this.userId = userId;
     }
 
@@ -47,17 +51,13 @@ public class Member implements Parcelable
      {
          this.membershipID = membershipID;
      }
-     public void setEmailAddress(String emailAddress)
+     public void setEmailAddress(String phonenumber)
      {
-         this.emailAddress = emailAddress;
+         this.phonenumber = phonenumber;
      }
      public void setAttendance(int attendance)
      {
          this.attendance = attendance;
-     }
-     public void setContribution(int contribution)
-     {
-         this.contribution = contribution;
      }
     public String getUserId()
     {
@@ -71,27 +71,33 @@ public class Member implements Parcelable
     {
         return this.membershipID;
     }
-    public String getEmailAddress()
+    public String getPhonenumber( )
     {
-        return this.emailAddress;
+        return this.phonenumber;
     }
-
-    public int getAttendance()
+    public void setContribution(int contribution)
     {
-        return this.attendance;
+        this.contribution = contribution;
     }
     public int getContribution()
     {
         return this.contribution;
     }
 
+    public int getAttendance()
+    {
+        return this.attendance;
+    }
+
     protected Member(Parcel in) {
         membershipID = in.readInt();
         type = in.readString();
-        emailAddress = in.readString();
+        phonenumber = in.readString();
         userId = in.readString();
         attendance = in.readInt();
         contribution = in.readInt();
+
+
     }
     @Override
     public int describeContents() {
@@ -102,7 +108,7 @@ public class Member implements Parcelable
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(membershipID);
         dest.writeString(type);
-        dest.writeString(emailAddress);
+        dest.writeString(phonenumber);
         dest.writeString(userId);
         dest.writeInt(attendance);
         dest.writeInt(contribution);
