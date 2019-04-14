@@ -20,9 +20,10 @@ public class Contribution implements Parcelable
     public int october;
     public int november;
     public int december;
+    public String phonenumber;
 
 
-    public Contribution(int a,int b,int c, int d ,int e ,int f ,int g ,int i , int j, int k , int l , int m)
+    public Contribution(int a,int b,int c, int d ,int e ,int f ,int g ,int i , int j, int k , int l , int m,String phonenumber)
     {
         this.jan = a;
         this.feb = b;
@@ -36,6 +37,12 @@ public class Contribution implements Parcelable
         this.october = k;
         this.november = l;
         this.december = m;
+        this.phonenumber = phonenumber;
+    }
+
+    public Contribution()
+    {
+
     }
 
     public void setJan(int a)
@@ -134,6 +141,14 @@ public class Contribution implements Parcelable
     {
         this.december = d;
     }
+    public void setPhonenumber(String phonenumber)
+    {
+        this.phonenumber = phonenumber;
+    }
+    public String getPhonenumber()
+    {
+        return this.phonenumber;
+    }
     protected Contribution(Parcel in) {
         jan = in.readInt();
         feb = in.readInt();
@@ -146,6 +161,7 @@ public class Contribution implements Parcelable
         october = in.readInt();
         november = in.readInt();
         december = in.readInt();
+        phonenumber = in.readString();
     }
 
     public static final Creator<Contribution> CREATOR = new Creator<Contribution>() {
@@ -178,5 +194,6 @@ public class Contribution implements Parcelable
         dest.writeInt(october);
         dest.writeInt(november);
         dest.writeInt(december);
+        dest.writeString(phonenumber);
     }
 }

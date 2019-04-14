@@ -22,4 +22,8 @@ public class UserViewModel extends ViewModel
     public LiveData<DataSnapshot> getDataSnapshotLiveData() {
         return liveData;
     }
+    public FirebaseLiveData getLiveData()
+    {
+        return liveData;
+    }
 }

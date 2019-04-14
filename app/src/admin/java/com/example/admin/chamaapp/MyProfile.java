@@ -75,7 +75,7 @@ public class MyProfile extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        editTextPhone = (EditText)findViewById(R.id.edit_text_phonenumber);
+//        editTextPhone = (EditText)findViewById(R.id.edit_text_phonenumber);
         String title = " ";
         SpannableString s = new SpannableString(title);
         s.setSpan(new ForegroundColorSpan(Color.parseColor("#0366ff")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -123,7 +123,7 @@ public class MyProfile extends AppCompatActivity {
         }
         editPhoto = (Button) findViewById(R.id.edit_profile_photo);
         editYourName = (Button) findViewById(R.id.edit_your_name);
-        sendMoneyViaMpesa = (Button) findViewById(R.id.send_money_via_mpesa);
+
 //        editName = (Button) findViewById(R.id.edit_your_name);
 //        editTextPhone = (EditText) findViewById(R.id.edit_text_phonenumber);
 
@@ -193,48 +193,48 @@ public class MyProfile extends AppCompatActivity {
         });
 
 
-        sendMoneyViaMpesa.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-//Get Phone Number from User Input
-                phoneNumber = editTextPhone.getText().toString().trim();
-
-                if (TextUtils.isEmpty(phoneNumber)) {
-                    editTextPhone.setError("Please Provide a Phone Number");
-                    return;
-                }
-
-                //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
-                LNMExpress lnmExpress = new LNMExpress(
-                        "174379",
-                        "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMzI0MTYzOTUw",  //https://developer.safaricom.co.ke/test_credentials
-                        TransactionType.CustomerPayBillOnline,
-                        "1",
-                        "254710120612",
-                        "174379",
-                        "254710120612",
-                        "http://mpesa-requestbin.herokuapp.com/wqzvixwr",
-                        "001ABC",
-                        "Goods Payment"
-                );
-
-                daraja.requestMPESAExpress(lnmExpress,
-                        new DarajaListener<LNMResult>() {
-                            @Override
-                            public void onResult(@NonNull LNMResult lnmResult) {
-                               Log.d("SendingMoney","Money has been sent");
-                            }
-
-                            @Override
-                            public void onError(String error) {
-                                Log.d("SendingMoney","Money has not been sent " + error);
-                            }
-                        }
-                );
-            }
-        });
+//        sendMoneyViaMpesa.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+////Get Phone Number from User Input
+//                phoneNumber = editTextPhone.getText().toString().trim();
+//
+//                if (TextUtils.isEmpty(phoneNumber)) {
+//                    editTextPhone.setError("Please Provide a Phone Number");
+//                    return;
+//                }
+//
+//                //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
+//                LNMExpress lnmExpress = new LNMExpress(
+//                        "174379",
+//                        "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMzI0MTYzOTUw",  //https://developer.safaricom.co.ke/test_credentials
+//                        TransactionType.CustomerPayBillOnline,
+//                        "1",
+//                        "254710120612",
+//                        "174379",
+//                        "254710120612",
+//                        "http://mpesa-requestbin.herokuapp.com/wqzvixwr",
+//                        "001ABC",
+//                        "Goods Payment"
+//                );
+//
+//                daraja.requestMPESAExpress(lnmExpress,
+//                        new DarajaListener<LNMResult>() {
+//                            @Override
+//                            public void onResult(@NonNull LNMResult lnmResult) {
+//                               Log.d("SendingMoney","Money has been sent");
+//                            }
+//
+//                            @Override
+//                            public void onError(String error) {
+//                                Log.d("SendingMoney","Money has not been sent " + error);
+//                            }
+//                        }
+//                );
+//            }
+//        });
     }
 
     

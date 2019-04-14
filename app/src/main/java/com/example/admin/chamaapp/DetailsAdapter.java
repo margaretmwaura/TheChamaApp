@@ -49,8 +49,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         int membershipId = maggie.getMembershipID();
 
         holder.emailAddress.setText(phonenumber);
-
-        holder.attendance.setText(String.valueOf(attendance));
         holder.membershipId.setText(String.valueOf(membershipId));
     }
 

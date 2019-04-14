@@ -3,12 +3,19 @@ package com.example.admin.chamaapp;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +43,13 @@ public class EventActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String title = "Events";
+        SpannableString s = new SpannableString(title);
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(s);
 
         recyclerViewCurrentEvent = (RecyclerView) findViewById(R.id.recycler_view_current_events);
         recyclerViewUpcomingEvent = (RecyclerView) findViewById(R.id.recycler_view_upcoming_events);
@@ -66,7 +80,7 @@ public class EventActivity extends AppCompatActivity
             @Override
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
-                DataSnapshot eventsDetails = dataSnapshot.child("events");
+                DataSnapshot eventsDetails = dataSnapshot.child("database").child("events");
                 Boolean exist = eventsDetails.exists();
                 Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
                 Iterable<DataSnapshot> eventsDatasnapshot = eventsDetails.getChildren();
@@ -109,9 +123,54 @@ public class EventActivity extends AppCompatActivity
                 }
 
                 eventsAdapterCurrent.setEventList(eventListCurrent);
+
+                if(eventListCurrent.size() == 0)
+                {
+                    TextView textView = findViewById(R.id.no_activity);
+                    textView.setVisibility(View.VISIBLE);
+                    showdialogMessage();
+                }
                 eventsAdapterUpcoming.setEventList(eventListUpcoming);
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+
+        finish();
+        return true;
+    }
+
+    private void showdialogMessage()
+    {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                .setTitle("No activity Today")
+                .setMessage("There is no activity that is happening today");
+
+        final AlertDialog alert = dialog.create();
+        alert.show();
+
+// Hide after some seconds
+        final Handler handler  = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (alert.isShowing()) {
+                    alert.dismiss();
+                }
+            }
+        };
+
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+
+        handler.postDelayed(runnable, 5000);
     }
 }

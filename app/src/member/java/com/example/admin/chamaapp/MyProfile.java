@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +17,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +34,7 @@ public class MyProfile extends AppCompatActivity {
     private TextView profileName,profileEmail;
     private Button editPhoto , editYourName;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private String email,value;
+    private String email,value,phoneNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -41,7 +47,7 @@ public class MyProfile extends AppCompatActivity {
 
 //        This is the email from the intents extras
         Intent intent = getIntent();
-        email = intent.getStringExtra("UserEmail");
+        phoneNumber = intent.getStringExtra("Phonenumber");
 
 
         profileImage = (ImageView) findViewById(R.id.profile_image);
@@ -49,8 +55,27 @@ public class MyProfile extends AppCompatActivity {
         profileEmail = (TextView) findViewById(R.id.your_email_address);
 
 //        Setting the email address on the email address text view
+        String title = " ";
+        SpannableString s = new SpannableString(title);
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#0366ff")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        getSupportActionBar().setTitle(s);
 
-        profileEmail.setText(email);
+
+
+
+        final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
+        upArrow.setColorFilter(getResources().getColor(R.color.colorBackIcon), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        getSupportActionBar().setElevation(0);
+
+
+//        Setting the email address on the email address text view
+        if(phoneNumber != null && !phoneNumber.isEmpty())
+        {
+            profileEmail.setText(phoneNumber);
+            Toast.makeText(this,"Setting email",Toast.LENGTH_LONG).show();
+            Log.d("EmialNotThere ", " setting email");
+        }
 
         editPhoto = (Button) findViewById(R.id.edit_profile_photo);
         editYourName = (Button) findViewById(R.id.edit_your_name);
@@ -75,7 +100,7 @@ public class MyProfile extends AppCompatActivity {
         {
 //            Will look for a better image
             Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
-            profileImage.setImageResource(R.drawable.image1);
+            profileImage.setImageResource(R.drawable.face);
         }
 
         editPhoto.setOnClickListener(new View.OnClickListener() {

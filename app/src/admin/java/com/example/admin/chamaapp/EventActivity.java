@@ -49,6 +49,7 @@ public class EventActivity extends AppCompatActivity
     private Event newEvent;
     private Button enterAnEvent;
     private View viewBottom;
+    private UserViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -91,18 +92,19 @@ public class EventActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+
                startUpTheBottomSheet();
             }
         });
 
-        UserViewModel viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
         livedata.observe(this, new Observer<DataSnapshot>()
         {
             @Override
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
-                DataSnapshot eventsDetails = dataSnapshot.child("events");
+                DataSnapshot eventsDetails = dataSnapshot.child("database").child("events");
                 Boolean exist = eventsDetails.exists();
                 Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
                 Iterable<DataSnapshot> eventsDatasnapshot = eventsDetails.getChildren();
@@ -201,7 +203,15 @@ public class EventActivity extends AppCompatActivity
 
     private void startUpTheBottomSheet()
     {
-      dialog.show();
+
+        //        first remove the observers
+        if (viewModel != null && viewModel.getLiveData().hasObservers())
+        {
+            viewModel.getLiveData().removeObservers(this);
+        }
+//        End of removing of the obsservers
+
+        dialog.show();
 
         TextWatcher tw = new TextWatcher()
         {
@@ -296,6 +306,72 @@ public class EventActivity extends AppCompatActivity
                 addTaskIntent.setAction(Backgroundactivities.addAnEventToTheDatabase);
                 addTaskIntent.putExtra("TheEvent",newEvent);
                 startService(addTaskIntent);
+
+
+
+                viewModel = ViewModelProviders.of(EventActivity.this).get(UserViewModel.class);
+                LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
+                livedata.observe(EventActivity.this, new Observer<DataSnapshot>()
+                {
+
+                    @Override
+                    public void onChanged(@Nullable DataSnapshot dataSnapshot)
+                    {
+                        eventListCurrent.clear();
+                        eventListUpcoming.clear();
+                        DataSnapshot eventsDetails = dataSnapshot.child("database").child("events");
+                        Boolean exist = eventsDetails.exists();
+                        Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
+                        Iterable<DataSnapshot> eventsDatasnapshot = eventsDetails.getChildren();
+                        for(DataSnapshot eventsList : eventsDatasnapshot)
+                        {
+                            Event event = new Event();
+                            event = eventsList.getValue(Event.class);
+
+                            String eventDate = event.returnEventTime();
+//        This is the current date;
+//        Use the same character of the formatter as the one on the dates either use the dashes or the strokes .. only work
+//        With one of them
+                            String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+                            Log.d("Todays date","This is todays date " + date);
+
+//        Getting the difference between the event date and the current date
+                            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
+                            try {
+                                Date date1 = null;
+                                date1  =   format.parse(date);
+                                Date date2 = null;
+                                date2 =  format.parse(eventDate);
+                                long timedifference = date2.getTime() - date1.getTime();
+
+                                if(timedifference == 0)
+                                {
+                                    eventListCurrent.add(event);
+                                }
+                                else
+                                {
+                                    eventListUpcoming.add(event);
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                Log.d("DateConversionError","This is the date conversion error " + e.getMessage());
+                            }
+
+                        }
+
+                        eventsAdapterCurrent.setEventList(eventListCurrent);
+
+                        if(eventListCurrent.size() == 0)
+                        {
+                            TextView textView = findViewById(R.id.no_activity);
+                            textView.setVisibility(View.VISIBLE);
+                            showdialogMessage();
+                        }
+                        eventsAdapterUpcoming.setEventList(eventListUpcoming);
+                    }
+                });
 
                 dialog.dismiss();
 

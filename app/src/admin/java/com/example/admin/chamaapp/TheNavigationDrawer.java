@@ -118,7 +118,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 
 //set views
 //        imgvw.setImageResource(R.drawable.image1);
-//        tv.setText(email);
+        tv.setText(phonenumber);
         navigationView.setNavigationItemSelectedListener(this);
 
 

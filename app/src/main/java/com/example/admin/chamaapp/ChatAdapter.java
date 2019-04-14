@@ -3,11 +3,15 @@ package com.example.admin.chamaapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +22,8 @@ public class ChatAdapter extends RecyclerView.Adapter
     Context mContext;
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
+    private String[] userDetails = new String[2];
+    private String phonenumber ;
 
 
     public ChatAdapter(Context context)
@@ -29,14 +35,22 @@ public class ChatAdapter extends RecyclerView.Adapter
     public int getItemViewType(int position)
     {
         Chat currentChat = chatList.get(position);
+        userDetails = getUserDetails();
+        phonenumber = userDetails[1];
+
+
         if(currentChat.getUserEmailAddress() != null && !currentChat.getUserEmailAddress().isEmpty())
         {
-            if (currentChat.getUserEmailAddress().equals("+254711309532"))
+            if (currentChat.getUserEmailAddress().equals(phonenumber))
             {
+
+                Log.d("SentMessages","Sent messages retrieved");
                 return VIEW_TYPE_MESSAGE_SENT;
             }
             else
                 {
+
+                    Log.d("ReceivedMessages","Received messages received");
                 return VIEW_TYPE_MESSAGE_RECEIVED;
             }
         }
@@ -102,6 +116,42 @@ public class ChatAdapter extends RecyclerView.Adapter
         notifyDataSetChanged();
     }
 
+    public String[] getUserDetails ()
+    {
+        //        This is reading the email from the file
+
+        String[] details = new String[2];
+        String detail;
+        File directory = mContext.getFilesDir();
+        File file = new File(directory,"UserDetails" );
+
+//        String yourFilePath = this.getFilesDir() + "/" + ".txt";
+//        File yourFile = new File( yourFilePath );
+
+        try {
+            FileInputStream in = new FileInputStream(file);
+            ObjectInputStream s = new ObjectInputStream(in);
+
+            details = new String[2];
+            details = (String[]) s.readObject();
+
+            for(int i = 0; i<details.length;i++)
+            {
+                detail = details[i];
+                Log.d("UserDetails","This are the user details " + detail);
+            }
+            return details;
+        }
+        catch (Exception e)
+        {
+            Log.d("ErrorFileReading","Error encountered while reading the file " + e.getMessage());
+
+            return details;
+
+        }
+
+    }
+
     class ChatViewHolderMessageSent extends RecyclerView.ViewHolder
     {
        TextView userMessage;
@@ -134,4 +184,7 @@ public class ChatAdapter extends RecyclerView.Adapter
             useremail.setText(chat.getUserEmailAddress());
         }
     }
+
+
+
 }

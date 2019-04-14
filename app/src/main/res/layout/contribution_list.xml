@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+      <TextView
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:textColor="#000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/member"
+        android:text="Member phone number"
+        />
+    <TextView
+        android:textColor="#000"
+        android:textStyle="bold|italic"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/phoneNumber_textView"
+        android:layout_toRightOf="@+id/member"
+        />
+    <TextView
+        android:textColor="#000"
+        android:textSize="18dp"
+        android:layout_below="@+id/member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contibution_label"
+        android:text="Contribution"
+        />
+    <TextView
+        android:textColor="#000"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contribution_textView"
+        android:layout_toRightOf="@+id/contibution_label"
+        android:layout_below="@id/phoneNumber_textView"
+        />
+
+</RelativeLayout>

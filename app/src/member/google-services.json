@@ -10,21 +10,17 @@
       "client_info": {
         "mobilesdk_app_id": "1:559457078027:android:13a738fe8d8dad5c",
         "android_client_info": {
-          "package_name": "com.example.admin.chamaapp.member"
-         }
+          "package_name": "com.example.admin.chamaapp"
+        }
       },
       "oauth_client": [
         {
-          "client_id": "559457078027-sfnmv3cl3rf9dg9lijfd71ir4thogue3.apps.googleusercontent.com",
+          "client_id": "559457078027-2p1ubc602cu31167cj8lsa5pl1bsa9f7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.admin.chamaapp",
-            "certificate_hash": "e43863bb12d72ea9d78cf55817f3e89df663d7f0"
+            "certificate_hash": "2c766fd73f76a90a60d98c6fabf20e8e0020ed26"
           }
-        },
-        {
-          "client_id": "559457078027-11tgjmbiqej5es1l3i9sk1s3grtgs15c.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -33,20 +29,79 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "559457078027-11tgjmbiqej5es1l3i9sk1s3grtgs15c.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559457078027:android:d86f3c80abe59a23",
+        "android_client_info": {
+          "package_name": "com.example.admin.chamaapp.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559457078027-r1rodrrs1ke7r4ms8mdjoec3g60vbe8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.admin.chamaapp.admin",
+            "certificate_hash": "2c766fd73f76a90a60d98c6fabf20e8e0020ed26"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSLlVaNQiT8pxRJSoyINy3drUXOnIkZak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559457078027-11tgjmbiqej5es1l3i9sk1s3grtgs15c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559457078027:android:9930ba00813765b9",
+        "android_client_info": {
+          "package_name": "com.example.admin.chamaapp.member"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559457078027-hjcl1i6hh2cngt9cmlj1oc9ink70ouq2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.admin.chamaapp.member",
+            "certificate_hash": "2c766fd73f76a90a60d98c6fabf20e8e0020ed26"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSLlVaNQiT8pxRJSoyINy3drUXOnIkZak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559457078027-11tgjmbiqej5es1l3i9sk1s3grtgs15c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

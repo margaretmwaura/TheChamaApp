@@ -58,10 +58,11 @@ public class MyIntentService extends IntentService {
            if(Backgroundactivities.editUserData.equals(action))
              {
                String userId = intent.getStringExtra("UserID");
+               String phonenumber = intent.getStringExtra("UserPhoneNumber");
                int attendance = intent.getIntExtra("Attendance",0);
                int contribution = intent.getIntExtra("ContributionData",0);
 
-                      backgroundactivities.editUserData(userId,attendance,contribution);
+                      backgroundactivities.editUserData(userId,phonenumber,attendance,contribution);
                    }
     }
 

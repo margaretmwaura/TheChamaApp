@@ -32,7 +32,7 @@ public class NavigationDrawerMember extends AppCompatActivity
 
     private boolean ShouldExecuteOnReusme = true;
     private String[] userDetails = new String[2];
-    private String email ;
+    private String phonenumber ;
     private String userId;
     private String imageUrl;
     private ImageView imgvw;
@@ -77,12 +77,14 @@ public class NavigationDrawerMember extends AppCompatActivity
         //        This method will retrun the users details that are important for the user profile
         userDetails = getUserDetails();
         userId = userDetails[0];
-        email = userDetails[1];
+        phonenumber = userDetails[1];
 
 
 
 //        This is the part where i add the h.eader programmatically
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(null);
+        navigationView.setItemTextColor(null);
         //inflate header layout
         View navView =  navigationView.inflateHeaderView(R.layout.nav_header_navigation_drawer_member);
 //reference to views
@@ -109,12 +111,12 @@ public class NavigationDrawerMember extends AppCompatActivity
         {
 //            Will look for a better image
             Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
-            imgvw.setImageResource(R.drawable.image1);
+            imgvw.setImageResource(R.drawable.face);
         }
 
 //set views
 //        imgvw.setImageResource(R.drawable.image1);
-        tv.setText(email);
+        tv.setText(phonenumber);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -146,7 +148,7 @@ public class NavigationDrawerMember extends AppCompatActivity
         {
 //            Will look for a better image
             Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
-            imgvw.setImageResource(R.drawable.image1);
+            imgvw.setImageResource(R.drawable.face);
         }
 
         if(ShouldExecuteOnReusme)
@@ -229,7 +231,7 @@ public class NavigationDrawerMember extends AppCompatActivity
             // Handle the camera action
 //            Clicking on this option should lead one to the myAccount page
             Intent intent = new Intent(this,MyProfile.class);
-            intent.putExtra("UserEmail",email);
+            intent.putExtra("Phonenumber",phonenumber);
             startActivity(intent);
         }
         if (id == R.id.nav_my_details)
@@ -237,7 +239,7 @@ public class NavigationDrawerMember extends AppCompatActivity
             // Handle the camera action
 //            Clicking on this option should lead one to the myAccount page
             Intent intent = new Intent(this,MyDetails.class);
-            intent.putExtra("UserEmail",email);
+            intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
             startActivity(intent);
         }
@@ -253,7 +255,7 @@ public class NavigationDrawerMember extends AppCompatActivity
         {
 //            The email is important so that the users can see who has added a chat
             Intent intent = new Intent(this,TheAllChat.class);
-            intent.putExtra("UserEmail",email);
+            intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
             startActivity(intent);
         }
@@ -262,7 +264,7 @@ public class NavigationDrawerMember extends AppCompatActivity
         {
 //            The email is important so that the users can see who has added a chat
             Intent intent = new Intent(this,AdminOnlyChat.class);
-            intent.putExtra("UserEmail",email);
+            intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
             startActivity(intent);
         }

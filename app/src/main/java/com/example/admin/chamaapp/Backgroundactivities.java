@@ -47,7 +47,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.example.admin.chamaapp.Login.returnRegistrationToken;
 
 public class Backgroundactivities
 {
@@ -172,7 +171,7 @@ public class Backgroundactivities
 
 
 
-        mref.child("events").push().setValue(event).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mref.child("database").child("events").push().setValue(event).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid)
             {
@@ -206,7 +205,8 @@ public class Backgroundactivities
     public void sendANotification()
     {
         Log.d("NotificationSending","The method has been called to send a notification");
-        String regToken = returnRegistrationToken();
+//        String regToken = returnRegistrationToken();
+        String regToken = " ";
         Log.d("RegistrationToken","This is the registration token " + regToken);
         OkHttpClient client = new OkHttpClient();
         JSONObject json=new JSONObject();
@@ -303,7 +303,7 @@ public class Backgroundactivities
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
-        mref.child("messages").push().setValue(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mref.child("database").child("messages").push().setValue(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid)
             {
@@ -326,7 +326,7 @@ public class Backgroundactivities
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
-        mref.child("adminMessages").push().setValue(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mref.child("database").child("adminMessages").push().setValue(chat).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid)
             {
@@ -344,13 +344,28 @@ public class Backgroundactivities
         });
     }
 
-    public void editUserData(final String userId, int attendance , final int contributionValue)
+    public void editUserData(String userID, final String  phonenumber, int attendance , final int contributionValue)
     {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
 
-        mref.child(userId).child("attendance").setValue(String.valueOf(attendance));
-        mref.child(userId).child("contribution").setValue(String.valueOf(contributionValue));
+        Calendar calendar = Calendar.getInstance();
+        String[] monthName = {"january","february","march","april","may","june","july","august","september","october","november","december"};
+        String month = monthName[calendar.get(Calendar.MONTH)];
+        mref.child("database").child("contribution").child(phonenumber).child(month).setValue(contributionValue).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+                Log.d("ContributionAdding","Contribution value has been added to the database ");
+            }
+        });
+        mref.child("database").child("users").child(userID).child("attendance").setValue(attendance).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid)
+            {
+                Log.d("ContributionAdding","Contribution value has been added to the database ");
+            }
+        });
     }
 
 

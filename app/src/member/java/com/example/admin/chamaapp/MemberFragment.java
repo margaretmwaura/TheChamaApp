@@ -46,7 +46,7 @@ public class MemberFragment extends AppCompatActivity implements View.OnClickLis
     private EditText Id;
     private Button btnSubmit;
     private ProgressBar progressBar;
-    private String email;
+    private String email,phonenumber;
     public MemberFragment() {
         // Required empty public constructor
     }
@@ -59,7 +59,8 @@ public class MemberFragment extends AppCompatActivity implements View.OnClickLis
 
         setContentView(R.layout.activity_member_mockup);
         Intent intent = getIntent();
-        emailAddress = intent.getStringExtra("EmailAddress");
+        phonenumber = intent.getStringExtra("Phonenumber");
+
 
 
         //This is the code for changing the color of the navigation bar
@@ -83,13 +84,13 @@ public class MemberFragment extends AppCompatActivity implements View.OnClickLis
 //End of the code for making the navigation bar completely transparent
         //Not to be deleted under any circumstances
 
-
-//blurring the background image
-        LinearLayout mContainerView = (LinearLayout) findViewById(R.id.signup_member);
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
-        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
-        mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
-//End of code of blurring the background image
+//
+////blurring the background image
+//        LinearLayout mContainerView = (LinearLayout) findViewById(R.id.signup_member);
+//        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
+//        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
+//        mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+////End of code of blurring the background image
 
 
 
@@ -97,11 +98,11 @@ public class MemberFragment extends AppCompatActivity implements View.OnClickLis
 //        Will get to it later
 
 
-        Circle circle = (Circle) findViewById(R.id.circle);
-
-        CircleAngleAnimation animation = new CircleAngleAnimation(circle, 320);
-        animation.setDuration(10000);
-        circle.startAnimation(animation);
+//        Circle circle = (Circle) findViewById(R.id.circle);
+//
+//        CircleAngleAnimation animation = new CircleAngleAnimation(circle, 320);
+//        animation.setDuration(10000);
+//        circle.startAnimation(animation);
 
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -171,16 +172,27 @@ public class MemberFragment extends AppCompatActivity implements View.OnClickLis
     {
         progressBar.setVisibility(View.VISIBLE);
         type = "Member";
-        Id = (EditText) findViewById(R.id.id3);
+        Id = (EditText) findViewById(R.id.id);
         memberId = Integer.parseInt(Id.getText().toString());
 
-        if (memberId == 0) {
+        if (memberId == 0)
+        {
             Toast.makeText(MemberFragment.this, "Enter your membershipId!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Member maggie = new Member(memberId, type,email);
-        mref.child("users").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
+
+        Contribution contribution = new Contribution();
+        contribution.setPhonenumber(phonenumber);
+        mref.child("database").child("contribution").child(phonenumber).setValue(contribution).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task)
+            {
+                Toast.makeText(MemberFragment.this,"Contributions regarding the user has been added ", Toast.LENGTH_LONG).show();
+            }
+        });
+        Member maggie = new Member(memberId, type,phonenumber);
+        mref.child("database").child("users").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
         {
             @Override
             public void onComplete(@NonNull Task<Void> task)

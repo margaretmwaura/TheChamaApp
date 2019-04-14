@@ -1,5 +1,6 @@
 package com.example.admin.chamaapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -30,7 +32,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.concurrent.TimeUnit;
 
 public class Login extends AppCompatActivity {
@@ -42,7 +49,8 @@ public class Login extends AppCompatActivity {
         private FirebaseAuth auth;
         private ProgressBar progressBar;
         private Button btnSignup, btnLogin, btnReset;
-        private String email;
+        private String email,userId;
+        private static String token;
         private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
 
         @Override
@@ -61,12 +69,18 @@ public class Login extends AppCompatActivity {
 
             setContentView(R.layout.activity_login);
 
-
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this, new OnSuccessListener<InstanceIdResult>()
+            {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    token = instanceIdResult.getToken();
+                }
+            });
             //blurring the background image
-            LinearLayout mContainerView = (LinearLayout) findViewById(R.id.sign);
-            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
-            Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
-            mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+//            LinearLayout mContainerView = (LinearLayout) findViewById(R.id.sign);
+//            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
+//            Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
+//            mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 //End of code of blurring the background image
 
             mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -112,71 +126,71 @@ public class Login extends AppCompatActivity {
         }
 
 //        This will be useful when loging in the user once they log out
-        private void showData(DataSnapshot dataSnapshot)
-        {
-            FirebaseUser user = auth.getCurrentUser();
-            //This is the String representing the users user Id
-
-            String userId = user.getUid();
-
-
-            for(DataSnapshot ds: dataSnapshot.getChildren())
-            {
-                String type = ds.child(userId).getValue(Admin.class).getType();
-
-                Log.i("Account : " , type);
-
-
-                String admin = "Admin";
-                String member = "Member";
-
-                if ( type.equals(admin))
-                {
-//                If the type is the same as admin get the other values that an admin has and send them to the other activity
-//                Check out the other data pertaining the admin
-
-                    int id =  ds.child(userId).getValue(Admin.class).getID();
-                    String position = ds.child(userId).getValue(Admin.class).getPosition();
-
-                    final Intent s = new Intent( this, Welcome.class).putExtra("myEmail",email)
-                            .putExtra("theAccountType",type)
-                            .putExtra("theIdNumber",id);
-                    startActivity(s);
-
-//                    This code is meant for starting the drawer activity will get to it later
-
-
-//                    final Intent s = new Intent( this, AdminDrawerActivity.class).putExtra("myEmail",email)
+//        private void showData(DataSnapshot dataSnapshot)
+//        {
+//            FirebaseUser user = auth.getCurrentUser();
+//            //This is the String representing the users user Id
+//
+//            String userId = user.getUid();
+//
+//
+//            for(DataSnapshot ds: dataSnapshot.getChildren())
+//            {
+//                String type = ds.child(userId).getValue(Admin.class).getType();
+//
+//                Log.i("Account : " , type);
+//
+//
+//                String admin = "Admin";
+//                String member = "Member";
+//
+//                if ( type.equals(admin))
+//                {
+////                If the type is the same as admin get the other values that an admin has and send them to the other activity
+////                Check out the other data pertaining the admin
+//
+//                    int id =  ds.child(userId).getValue(Admin.class).getID();
+//                    String position = ds.child(userId).getValue(Admin.class).getPosition();
+//
+//                    final Intent s = new Intent( this, Welcome.class).putExtra("myEmail",email)
 //                            .putExtra("theAccountType",type)
-//                            .putExtra("theIdNumber",id)
-//                            .putExtra("myPosition",position);
+//                            .putExtra("theIdNumber",id);
 //                    startActivity(s);
-
-                }
-                else if ( type.equals(member))
-                {
-//                    If the user is a member get the other values of the member and then send
-//                    This is the code
-
-//                    Have to create a navigation drawer for the member class
-
-
-                    int id  = ds.child(userId).getValue(Member.class).getMembershipID();
-                    final Intent s = new Intent( this, Welcome.class).putExtra("myEmail",email)
-                            .putExtra("theAccountType",type)
-                            .putExtra("theIdNumber",id);
-                    startActivity(s);
-
-
-                }
-                else
-                {
-                    final Intent s = new Intent( this, Sign.class);
-                    startActivity(s);
-
-                }
-            }
-        }
+//
+////                    This code is meant for starting the drawer activity will get to it later
+//
+//
+////                    final Intent s = new Intent( this, AdminDrawerActivity.class).putExtra("myEmail",email)
+////                            .putExtra("theAccountType",type)
+////                            .putExtra("theIdNumber",id)
+////                            .putExtra("myPosition",position);
+////                    startActivity(s);
+//
+//                }
+//                else if ( type.equals(member))
+//                {
+////                    If the user is a member get the other values of the member and then send
+////                    This is the code
+//
+////                    Have to create a navigation drawer for the member class
+//
+//
+//                    int id  = ds.child(userId).getValue(Member.class).getMembershipID();
+//                    final Intent s = new Intent( this, Welcome.class).putExtra("myEmail",email)
+//                            .putExtra("theAccountType",type)
+//                            .putExtra("theIdNumber",id);
+//                    startActivity(s);
+//
+//
+//                }
+//                else
+//                {
+//                    final Intent s = new Intent( this, Sign.class);
+//                    startActivity(s);
+//
+//                }
+//            }
+//        }
 
     private void setUpTheCallBacks()
     {
@@ -232,8 +246,34 @@ public class Login extends AppCompatActivity {
                             UserSessionManager mine = new UserSessionManager(Login.this);
                             mine.createUserLoginSession();
 
+
+//                                    This gets the users user id
+                            userId = auth.getCurrentUser().getUid();
+
+                            String filename = "UserDetails";
+                            FileOutputStream outputStream;
+
+                            try {
+
+                                outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                                String[] userdetails = new String[2];
+                                userdetails[0] = userId;
+                                userdetails[1] = enteredPhoneNumber;
+                                ObjectOutput s = new ObjectOutputStream(outputStream);
+                                s.writeObject(userdetails);
+
+                                outputStream.close();
+
+                                Log.d("FileCreation","File has been created");
+                            } catch (Exception e)
+                            {
+                                Log.d("FileCreation","File creation failed " + e.getMessage());
+                                e.printStackTrace();
+                            }
+
                             Toast.makeText(Login.this,"Successful " , Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(Login.this,MemberFragment.class);
+                            intent.putExtra("Phonenumber",enteredPhoneNumber);
                             startActivity(intent);
                         }
                         else
@@ -250,6 +290,11 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public static String returnRegistrationToken()
+    {
+        return token;
     }
     }
 

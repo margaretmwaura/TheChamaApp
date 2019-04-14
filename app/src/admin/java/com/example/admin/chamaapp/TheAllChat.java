@@ -57,13 +57,13 @@ public class TheAllChat extends AppCompatActivity {
         getSupportActionBar().setTitle(s);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mref = mFirebaseDatabase.getReference().child("messages");
+        mref = mFirebaseDatabase.getReference().child("database").child("messages");
 
         mAuth = FirebaseAuth.getInstance();
 
 //        Getting the emailAddress from the intent
         Intent intent = getIntent();
-        phonenumber = intent.getStringExtra("UserEmail");
+        phonenumber = intent.getStringExtra("Phonenumber");
 
         Log.d("EmailAddress","This is the users email address " + phonenumber);
         sendButton = findViewById(R.id.sendChat);
@@ -152,8 +152,9 @@ public class TheAllChat extends AppCompatActivity {
             {
                 String chatMessage = chatEditText.getText().toString();
                 chatEditText.onEditorAction(EditorInfo.IME_ACTION_DONE);
+
                 Chat chat = new Chat();
-                chat.setUserEmailAddress("+254711309532");
+                chat.setUserEmailAddress(phonenumber);
                 chat.setUserMessage(chatMessage);
 
                 Intent addTaskIntent = new Intent(TheAllChat.this,MyIntentService.class);

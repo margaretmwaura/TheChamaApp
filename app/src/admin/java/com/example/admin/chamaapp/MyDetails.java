@@ -44,6 +44,7 @@ public class MyDetails extends AppCompatActivity {
     private String phonenumber , userId;
     public FirebaseDatabase mFirebaseDatabase;
     public DatabaseReference mref;
+    private Contribution contribution ;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -53,7 +54,7 @@ public class MyDetails extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+          contribution = new Contribution();
         membershipIdTextView = (TextView) findViewById(R.id.textView_membershipId);
         contributionTextView = (TextView) findViewById(R.id.textView_contribution);
         attendanceTextView = (TextView) findViewById(R.id.textView_attendance);
@@ -69,6 +70,8 @@ public class MyDetails extends AppCompatActivity {
         Log.d("The image string","This is the image String " + image);
 
 //Getting the details from the extras
+
+        drawAgraph();
 
         Intent intent = getIntent();
         phonenumber = intent.getStringExtra("Phonenumber");
@@ -105,7 +108,7 @@ public class MyDetails extends AppCompatActivity {
 //        });
 
 
-        drawAgraph();
+
     }
 
     public void getUserDetailFromDatabase()
@@ -117,17 +120,23 @@ public class MyDetails extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
-                DataSnapshot userID = dataSnapshot.child("users").child(userId);
+                DataSnapshot userID = dataSnapshot.child("database").child("users").child(userId);
+                DataSnapshot userContribution = dataSnapshot.child("database").child("contribution").child(phonenumber);
                 Boolean exist = userID.exists();
-                Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
-//                for(DataSnapshot snapshot : userID.getChildren())
-//                {
-                    Member member = userID.getValue(Member.class);
-                    membershipIdTextView.setText(String.valueOf(67));
+                Boolean contributionExits = userContribution.exists();
+                Log.d("Confirming","This confirms that the datasnapshot user detsila exists " + exist);
+                Log.d("Confirming","This confirms that the datasnapshot contribution exists " + contributionExits);
+                    Admin member = userID.getValue(Admin.class);
 
-                    contributionTextView.setText(String.valueOf(5000));
-                    attendanceTextView.setText(String.valueOf(8));
-//                }
+                    contribution = userContribution.getValue(Contribution.class);
+
+                    membershipIdTextView.setText(String.valueOf(member.getID()));
+
+                    contributionTextView.setText(String.valueOf(contribution.getApril()));
+                    Log.d("ContributionValue","This is the contribution value " +  contribution.getApril());
+                    attendanceTextView.setText(String.valueOf(String.valueOf(0)));
+
+                drawAgraph();
             }
         });
     }
@@ -146,7 +155,18 @@ public class MyDetails extends AppCompatActivity {
         String[] axisData = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept",
                 "Oct", "Nov", "Dec"};
 
-        int[] yAxisData = {50,20,30,60,90,110,80,50,60};
+        int[] yAxisData = {contribution.getJan(),
+                           contribution.getFeb(),
+                           contribution.getMarch(),
+                           contribution.getApril(),
+                            contribution.getMayy(),
+                           contribution.getJune(),
+                          contribution.getJuly(),
+                          contribution.getaugust(),
+                           contribution.getSeptemeber(),
+                           contribution.getOctober(),
+                           contribution.getNovember(),
+                           contribution.getDecember()};
 
 
         List yAxisValues = new ArrayList();

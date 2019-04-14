@@ -29,12 +29,12 @@ public class Create extends AppCompatActivity
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         decorView.setSystemUiVisibility(uiOptions);
         this.getWindow().setFlags(uiOptions,0);
-
-//blurring the background image
-        LinearLayout newContainer= (LinearLayout) findViewById(R.id.root);
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
-        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
-        newContainer.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+//
+////blurring the background image
+//        LinearLayout newContainer= (LinearLayout) findViewById(R.id.root);
+//        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
+//        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
+//        newContainer.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 
     }
     public void openSign(View view)

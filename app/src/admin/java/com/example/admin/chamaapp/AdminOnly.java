@@ -56,7 +56,7 @@ public class AdminOnly extends AppCompatActivity {
         s.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mref = mFirebaseDatabase.getReference().child("adminMessages");
+        mref = mFirebaseDatabase.getReference().child("database").child("adminMessages");
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -155,15 +155,14 @@ public class AdminOnly extends AppCompatActivity {
 
                 chatEditText.onEditorAction(EditorInfo.IME_ACTION_DONE);
 
-                Toast.makeText(AdminOnly.this,"You cannot add a chat \n you are not admin",Toast.LENGTH_LONG).show();
-//                Chat chat = new Chat();
-//                chat.setUserEmailAddress("+254711309532");
-//                chat.setUserMessage(chatMessage);
-//
-//                Intent addTaskIntent = new Intent(AdminOnly.this,MyIntentService.class);
-//                addTaskIntent.setAction(Backgroundactivities.addAdminChat);
-//                addTaskIntent.putExtra("ANewChat",chat);
-//                startService(addTaskIntent);
+                Chat chat = new Chat();
+                chat.setUserEmailAddress(phonenumber);
+                chat.setUserMessage(chatMessage);
+
+                Intent addTaskIntent = new Intent(AdminOnly.this,MyIntentService.class);
+                addTaskIntent.setAction(Backgroundactivities.addAdminChat);
+                addTaskIntent.putExtra("ANewChat",chat);
+                startService(addTaskIntent);
 
                 chatEditText.setText(" ");
 
