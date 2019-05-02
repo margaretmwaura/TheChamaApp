@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -275,6 +277,13 @@ public class TheNavigationDrawer extends AppCompatActivity
             Intent intent = new Intent(this,AdminOnly.class);
             intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
+            startActivity(intent);
+        }
+        if(id == R.id.nav_logout)
+        {
+//            This is to enable login out a user
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(this, Create.class);
             startActivity(intent);
         }
 
