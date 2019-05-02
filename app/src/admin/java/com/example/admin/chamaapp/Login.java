@@ -48,10 +48,11 @@ public class Login extends AppCompatActivity {
         private EditText inputCode;
         private FirebaseAuth auth;
         private ProgressBar progressBar;
-        private Button btnSignup, btnLogin, btnReset;
+        private Button btnLogin ;
         private String email,userId;
         private static String token;
         private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
+        private PhoneAuthProvider.ForceResendingToken resendToken;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class Login extends AppCompatActivity {
 //            btnReset = (Button) findViewById(R.id.btn_reset_password);
 
 
+
             //Get Firebase auth instance
             auth = FirebaseAuth.getInstance();
 
@@ -99,30 +101,40 @@ public class Login extends AppCompatActivity {
             Intent intent = getIntent();
             enteredPhoneNumber = intent.getStringExtra("The phone number ");
 
-//            btnSignup.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    startActivity(new Intent(login.this, Sign.class));
-//                }
-//            });
-//
-//            btnReset.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    startActivity(new Intent(login.this, MainActivity.class));
-//                }
-//            });
 
-
-//
             setUpTheCallBacks();
-            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+            PhoneAuthProvider.getInstance().verifyPhoneNumber
+                    (
                     enteredPhoneNumber,        // Phone number to verify
                     120,                 // Timeout duration
                     TimeUnit.SECONDS,   // Unit of timeout
                     this,               // Activity (for callback binding)
                     mCallBacks);
+
+
+            //            Will work on this later
+            btnLogin.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    resendVerificationCode(enteredPhoneNumber,resendToken);
+                }
+            });
         }
+
+    // [START resend_verification]
+    private void resendVerificationCode(String phoneNumber,
+                                        PhoneAuthProvider.ForceResendingToken token) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber,        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                mCallBacks,         // OnVerificationStateChangedCallbacks
+                token);             // ForceResendingToken from callbacks
+    }
+
 
 //        This will be useful when loging in the user once they log out
 //        private void showData(DataSnapshot dataSnapshot)
@@ -193,6 +205,8 @@ public class Login extends AppCompatActivity {
 
     private void setUpTheCallBacks()
     {
+
+//        This is the code that automatically sets the code to the edit text
         mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential)
@@ -220,6 +234,9 @@ public class Login extends AppCompatActivity {
             public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
                 mVerificationId = s;
+
+//                This is the code that is being used when one needs code to be resent
+                resendToken = forceResendingToken;
             }
         };
 
@@ -274,6 +291,8 @@ public class Login extends AppCompatActivity {
                             Intent intent = new Intent(Login.this,AdminFragment.class);
                             intent.putExtra("Phonenumber",enteredPhoneNumber);
                             startActivity(intent);
+//                            First comment out this to test the resending of the code
+
                         }
                         else
                         {
