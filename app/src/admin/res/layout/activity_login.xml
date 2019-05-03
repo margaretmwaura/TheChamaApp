@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,6 +8,7 @@
     tools:context=".Login">
 
     <TextView
+        android:layout_centerHorizontal="true"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,6 +23,8 @@
 
     <LinearLayout
         android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/logo"
         android:layout_width="350dp"
         android:layout_height="280dp"
         android:layout_marginLeft="20dp"
@@ -31,15 +32,16 @@
         >
 
         <TextView
-            android:theme="@style/MyEditTextTheme"
-            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="350dp"
-            android:text="Enter the verification Code"
+            android:textSize="18sp"
+            android:text="@string/create_label"
+            android:textStyle="bold"
             android:textColor="#000"
-            android:textSize="18dp"
-            android:textColorHint="#228B22"
-            android:id="@+id/email"/>
+            android:gravity="center"
+
+            />
+
 
         <EditText
             android:layout_width="350dp"
@@ -61,21 +63,13 @@
             android:text="Resend code "
             android:textColor="#fff"
             android:textSize="20dp"
-            android:layout_marginLeft="30dp"
+            android:layout_gravity="center"
             android:background="@drawable/button"
             android:id="@+id/button_login"
             />
 
-        <ProgressBar
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="150dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/MyEditTextTheme"
-            android:id="@+id/progressBar"
 
-            />
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

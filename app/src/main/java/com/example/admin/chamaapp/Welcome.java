@@ -76,7 +76,7 @@ public class Welcome extends AppCompatActivity
         iv.startAnimation(myanim);
 
         /**code for the halting of the other activity **/
-        final Intent i = new Intent(this,Create.class);
+        final Intent i = new Intent(this,Sign.class);
         Thread timer = new Thread()
         {
             public void run()

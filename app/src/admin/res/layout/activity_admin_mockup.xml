@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:id="@+id/signup_admin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
     <TextView
+        android:layout_centerHorizontal="true"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,9 +29,13 @@
         android:hint="Post"
         android:textColor="#000"
         android:textColorHint="#228B22"
-        android:id="@+id/post"/>
+        android:id="@+id/post"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/logo"/>
 
     <EditText
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/post"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:id="@+id/id"
@@ -41,6 +46,7 @@
         android:layout_marginTop="5dp"/>
 
     <Button
+        android:layout_below="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -50,19 +56,19 @@
         android:text="Create account"
         android:textColor="#fff"
         android:textSize="20dp"
-        android:layout_marginLeft="50dp"
         android:background="@drawable/button"
         android:id="@+id/sign_up_button"
+        android:layout_centerHorizontal="true"
         />
 
     <ProgressBar
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="150dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:theme="@style/MyEditTextTheme"
-        android:id="@+id/progressBar"
+        android:visibility="invisible"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="150dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:theme="@style/MyEditTextTheme"
+    android:id="@+id/progressBar"/>
 
-        />
 
-</LinearLayout>
+</RelativeLayout>

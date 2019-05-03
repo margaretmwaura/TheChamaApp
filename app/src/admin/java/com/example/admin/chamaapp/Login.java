@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -110,7 +111,18 @@ public class Login extends AppCompatActivity {
                     TimeUnit.SECONDS,   // Unit of timeout
                     this,               // Activity (for callback binding)
                     mCallBacks);
+            new CountDownTimer(120000, 1000) {
 
+                public void onTick(long millisUntilFinished) {
+                    btnLogin.setText("seconds remaining: " + millisUntilFinished / 1000);
+                    //here you can have your logic to set text to edittext
+                }
+
+                public void onFinish() {
+                    btnLogin.setText("Resend code");
+                }
+
+            }.start();
 
             //            Will work on this later
             btnLogin.setOnClickListener(new View.OnClickListener()

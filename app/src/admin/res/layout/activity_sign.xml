@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -19,14 +19,17 @@
         android:textColor="@color/colorAccent"
         android:layout_marginTop="60dp"
         android:layout_marginLeft="80dp"
+        android:layout_centerHorizontal="true"
         android:id="@+id/logo"/>
 
     <!--Will make changes to this layout -->
     <LinearLayout
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_below="@+id/logo"
         android:orientation="vertical">
 
         <TextView
@@ -61,7 +64,7 @@
             android:text="Create account with phonenumber"
             android:textColor="#fff"
             android:textSize="20dp"
-            android:layout_marginLeft="30dp"
+            android:layout_gravity="center"
             android:background="@drawable/button"
             android:id="@+id/sign_up_button_with_phonenumber"
             android:layout_marginBottom="50dp"
@@ -80,4 +83,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

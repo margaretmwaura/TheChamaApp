@@ -1,1 +1,5 @@
-<resources></resources>
+<resources>
+    <string name="create_label">Code will be sent to the phone number that  you have registered with
+        it will be set at the edit text below
+    </string>
+</resources>
