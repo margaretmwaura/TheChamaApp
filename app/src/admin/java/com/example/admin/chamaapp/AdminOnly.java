@@ -26,7 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AdminOnly extends AppCompatActivity {
@@ -155,9 +157,14 @@ public class AdminOnly extends AppCompatActivity {
 
                 chatEditText.onEditorAction(EditorInfo.IME_ACTION_DONE);
 
+                //                This returns the current time
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                String stringTime = sdf.format(new Date());
+
                 Chat chat = new Chat();
                 chat.setUserEmailAddress(phonenumber);
                 chat.setUserMessage(chatMessage);
+                chat.setChatTime(stringTime);
 
                 Intent addTaskIntent = new Intent(AdminOnly.this,MyIntentService.class);
                 addTaskIntent.setAction(Backgroundactivities.addAdminChat);

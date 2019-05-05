@@ -10,6 +10,7 @@ public class Chat implements Parcelable
 {
     public String userEmailAddress;
     public String userMessage;
+    public String chatTime;
 
     public Chat()
     {
@@ -20,6 +21,7 @@ public class Chat implements Parcelable
     {
         userEmailAddress = in.readString();
         userMessage = in.readString();
+        chatTime = in.readString();
     }
 
     public static final Creator<Chat> CREATOR = new Creator<Chat>() {
@@ -42,6 +44,10 @@ public class Chat implements Parcelable
     {
         this.userMessage = message;
     }
+    public void setChatTime(String chatTime)
+    {
+        this.chatTime = chatTime;
+    }
     public String getUserEmailAddress()
     {
         return userEmailAddress;
@@ -49,6 +55,10 @@ public class Chat implements Parcelable
     public String getUserMessage()
     {
         return userMessage;
+    }
+    public String getChatTime()
+    {
+        return this.chatTime;
     }
 
     @Override
@@ -60,5 +70,6 @@ public class Chat implements Parcelable
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(userEmailAddress);
         dest.writeString(userMessage);
+        dest.writeString(chatTime);
     }
 }
