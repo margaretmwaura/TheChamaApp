@@ -215,7 +215,7 @@ public class Backgroundactivities
             dataJson.put("body", "Reminder about the chama event \n taking place today");
             dataJson.put("title", "Chama event");
             json.put("notification", dataJson);
-            json.put("to", regToken);
+            json.put("to", "/topics/foo-bar");
         }
         catch (Exception e)
         {

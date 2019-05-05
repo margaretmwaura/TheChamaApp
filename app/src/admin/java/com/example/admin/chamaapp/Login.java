@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutput;
@@ -299,6 +300,9 @@ public class Login extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
+//                            Now that the creation is successful subscribe to a topic
+                            FirebaseMessaging.getInstance().subscribeToTopic("Group");
+
                             Toast.makeText(Login.this,"Successful " , Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(Login.this,AdminFragment.class);
                             intent.putExtra("Phonenumber",enteredPhoneNumber);
@@ -326,6 +330,7 @@ public class Login extends AppCompatActivity {
     {
         return token;
     }
+
     }
 
 
