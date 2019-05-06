@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.hbb20.CountryCodePicker;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutput;
@@ -36,6 +37,7 @@ public class Sign extends AppCompatActivity
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private String userId;
+    private CountryCodePicker countryCodePicker;
 
 
     @Override
@@ -59,23 +61,10 @@ public class Sign extends AppCompatActivity
         inputPhoneNumber = (EditText) findViewById(R.id.phoneNumber);
 //        inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-//        btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
-        //have to change this to its correct version which was ResetPasswordActivity.class
-        //Remember to change for the sake of syntax and semantics
-//        btnResetPassword.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(Sign.this, Welcome.class));
-//            }
-//        });
-//
-//        btnSignIn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
+//This is meant for the country code picker
 
+        countryCodePicker = (CountryCodePicker)findViewById(R.id.ccp);
+        countryCodePicker.registerCarrierNumberEditText(inputPhoneNumber);
 
 
 //        This will be used when i am rolling out the app
@@ -83,7 +72,7 @@ public class Sign extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                String phoneNumber = inputPhoneNumber.getText().toString();
+                String phoneNumber = countryCodePicker.getFullNumberWithPlus();
 
                 //create user
 

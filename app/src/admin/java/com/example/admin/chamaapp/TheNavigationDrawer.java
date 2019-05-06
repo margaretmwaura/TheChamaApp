@@ -283,7 +283,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         {
 //            This is to enable login out a user
             FirebaseAuth.getInstance().signOut();
-            Intent intent = new Intent(this, Create.class);
+            Intent intent = new Intent(this, Sign.class);
             startActivity(intent);
         }
 

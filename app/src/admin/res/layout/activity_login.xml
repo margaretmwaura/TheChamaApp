@@ -53,10 +53,26 @@
             android:textColorHint="#228B22"
             android:layout_marginTop="5dp"/>
 
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
+            android:width="300dp"
+            android:height="50dp"
+            android:textAllCaps="false"
+            android:text="Send code"
+            android:textColor="#fff"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button"
+            android:id="@+id/button_send"
+            />
+        <Button
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:width="300dp"
             android:height="50dp"
             android:textAllCaps="false"

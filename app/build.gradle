@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.admin.chamaapp"
         minSdkVersion 21
@@ -78,6 +78,7 @@ dependencies {
     implementation "com.google.firebase:firebase-database:16.0.5"
     implementation 'com.androidstudy:daraja:1.0.2'
 
+    implementation 'com.hbb20:ccp:2.2.9'
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 }
 

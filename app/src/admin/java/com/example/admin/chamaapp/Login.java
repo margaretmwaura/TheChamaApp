@@ -6,12 +6,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -40,7 +44,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.io.FileOutputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import static com.example.admin.chamaapp.ViewGroupUtils.replaceView;
 
 public class Login extends AppCompatActivity {
 
@@ -50,7 +57,7 @@ public class Login extends AppCompatActivity {
         private EditText inputCode;
         private FirebaseAuth auth;
         private ProgressBar progressBar;
-        private Button btnLogin ;
+        private Button btnLogin , btnSendCode ;
         private String email,userId;
         private static String token;
         private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
@@ -91,7 +98,7 @@ public class Login extends AppCompatActivity {
             progressBar = (ProgressBar) findViewById(R.id.progressBar);
 //            btnSignup = (Button) findViewById(R.id.btn_signup);
             btnLogin = (Button) findViewById(R.id.button_login);
-//            btnReset = (Button) findViewById(R.id.btn_reset_password);
+            btnSendCode = (Button) findViewById(R.id.button_send);
 
 
 
@@ -104,37 +111,59 @@ public class Login extends AppCompatActivity {
             enteredPhoneNumber = intent.getStringExtra("The phone number ");
 
 
-            setUpTheCallBacks();
-            PhoneAuthProvider.getInstance().verifyPhoneNumber
-                    (
-                    enteredPhoneNumber,        // Phone number to verify
-                    120,                 // Timeout duration
-                    TimeUnit.SECONDS,   // Unit of timeout
-                    this,               // Activity (for callback binding)
-                    mCallBacks);
-            new CountDownTimer(120000, 1000) {
-
-                public void onTick(long millisUntilFinished) {
-                    btnLogin.setText("seconds remaining: " + millisUntilFinished / 1000);
-                    //here you can have your logic to set text to edittext
-                }
-
-                public void onFinish() {
-                    btnLogin.setText("Resend code");
-                }
-
-            }.start();
 
             //            Will work on this later
-            btnLogin.setOnClickListener(new View.OnClickListener()
+
+            btnSendCode.setOnClickListener(new View.OnClickListener()
             {
                 @Override
-                public void onClick(View v)
-                {
-                    resendVerificationCode(enteredPhoneNumber,resendToken);
+                public void onClick(View v) {
+                    setUpTheCallBacks();
+                    verifyPhoneNumber();
+                    new CountDownTimer(12000, 1000) {
+
+                        public void onTick(long millisUntilFinished)
+                        {
+                            btnSendCode.setText("seconds remaining: " + millisUntilFinished / 1000);
+                            //here you can have your logic to set text to edittext
+                        }
+
+                        public void onFinish()
+                        {
+                            btnLogin.setVisibility(View.VISIBLE);
+                            replaceView(btnSendCode, btnLogin);
+                            btnLogin.setOnClickListener(new View.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(View v)
+                                {
+                                    resendVerificationCode(enteredPhoneNumber,resendToken);
+                                    new CountDownTimer(12000,1000)
+                                    {
+
+                                        @Override
+                                        public void onTick(long millisUntilFinished)
+                                        {
+                                            btnLogin.setText("seconds remaining: " + millisUntilFinished / 1000);
+                                        }
+
+                                        @Override
+                                        public void onFinish()
+                                        {
+                                            btnLogin.setText("Resend code");
+                                        }
+                                    }.start();
+                                }
+                            });
+
+                        }
+                    }.start();
                 }
             });
+
+
         }
+
 
     // [START resend_verification]
     private void resendVerificationCode(String phoneNumber,
@@ -225,14 +254,15 @@ public class Login extends AppCompatActivity {
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential)
             {
 
-                String code = phoneAuthCredential.getSmsCode();
+               final String code = phoneAuthCredential.getSmsCode();
 
-                if (code != null) {
-                    inputCode.setText(code);
-                    //verifying the code
-                    verifyVerificationCode(code);
-                }
-
+               if(code!= null)
+               {
+                   showDialogBox();
+                   inputCode.setText(code);
+//                   Show the pop-up dialog showing authentication
+                   verifyVerificationCode(code);
+               }
 
             }
 
@@ -244,7 +274,8 @@ public class Login extends AppCompatActivity {
             }
 
             @Override
-            public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken)
+            {
                 super.onCodeSent(s, forceResendingToken);
                 mVerificationId = s;
 
@@ -326,9 +357,38 @@ public class Login extends AppCompatActivity {
                 });
     }
 
-    public static String returnRegistrationToken()
+    public void verifyPhoneNumber()
     {
-        return token;
+        PhoneAuthProvider.getInstance().verifyPhoneNumber
+                (
+                        enteredPhoneNumber,        // Phone number to verify
+                        120,                 // Timeout duration
+                        TimeUnit.SECONDS,   // Unit of timeout
+                        this,               // Activity (for callback binding)
+                        mCallBacks);
+
+
+    }
+
+    public void showDialogBox()
+    {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.verifcation_layout, viewGroup, false);
+
+
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        //finally creating the alert dialog and displaying it
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
 
     }
