@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,11 +23,16 @@ import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.admin.chamaapp.admin.MapsActivity;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.database.DataSnapshot;
 
 import java.text.SimpleDateFormat;
@@ -36,7 +42,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EventActivity extends AppCompatActivity
+public class EventActivity extends AppCompatActivity implements OnItemClickListener
 {
 
     private RecyclerView recyclerViewCurrentEvent,recyclerViewUpcomingEvent;
@@ -48,8 +54,9 @@ public class EventActivity extends AppCompatActivity
     private EditText eventTimeEditText, eventLocationEditText, eventAgendaEditText;
     private Event newEvent;
     private Button enterAnEvent;
-    private View viewBottom;
+    private View viewBottom,dialogView;
     private UserViewModel viewModel;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,7 +75,9 @@ public class EventActivity extends AppCompatActivity
         recyclerViewUpcomingEvent = (RecyclerView) findViewById(R.id.recycler_view_upcoming_events);
 
         eventsAdapterCurrent = new EventsAdapter();
+        eventsAdapterCurrent.setClickListener(this);
         eventsAdapterUpcoming = new EventsAdapter();
+        eventsAdapterUpcoming.setClickListener(this);
 
         addEventButton = (FloatingActionButton) findViewById(R.id.enter_new_event);
 
@@ -377,5 +386,58 @@ public class EventActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    @Override
+    public void onClick(View view, int position)
+    {
+        Toast.makeText(this,"The onclick method has been called",Toast.LENGTH_LONG).show();
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+//        ViewGroup viewGroup = findViewById(android.R.id.content);
+//
+//        if(dialogView == null)
+//        {
+//            //then we will inflate the custom alert dialog xml that we created
+////            dialogView = LayoutInflater.from(this).inflate(R.layout.activity_maps, viewGroup, false);
+//            //Now we need an AlertDialog.Builder object
+//
+//            LayoutInflater factory = LayoutInflater.from(this);
+//            dialogView = factory.inflate(R.layout.activity_maps, null);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//            //setting the view of the builder to our custom view that we already inflated
+//            builder.setView(dialogView);
+//
+//            //finally creating the alert dialog and displaying it
+//            alertDialog = builder.create();
+//
+//            alertDialog.show();
+//        }
+//        else
+//        {
+//            alertDialog.dismiss();
+//            dialogView = null;
+//            dialogView = new View(this);
+////            dialogView = LayoutInflater.from(this).inflate(R.layout.activity_maps, viewGroup, false);
+//            //Now we need an AlertDialog.Builder object
+//
+//            LayoutInflater factory = LayoutInflater.from(this);
+//            dialogView = factory.inflate(R.layout.activity_maps, null);
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//            //setting the view of the builder to our custom view that we already inflated
+//            builder.setView(dialogView);
+//
+//            //finally creating the alert dialog and displaying it
+//            alertDialog = builder.create();
+//
+//            alertDialog.show();
+//
+//        }
+        Intent intent = new Intent(this,MapsActivity.class);
+        startActivity(intent);
+
+
     }
 }

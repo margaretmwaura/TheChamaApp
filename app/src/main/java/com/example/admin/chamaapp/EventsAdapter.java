@@ -16,9 +16,14 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsAdap
 {
 
     List<Event> eventList = new ArrayList<>();
+    private OnItemClickListener onItemClickListener;
      public EventsAdapter()
     {
 
+    }
+    public void setClickListener(OnItemClickListener itemClickListener)
+    {
+        this.onItemClickListener = itemClickListener;
     }
 
     @Override
@@ -56,16 +61,23 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventsAdap
         notifyDataSetChanged();
     }
 
-    class EventsAdapterViewHolder extends RecyclerView.ViewHolder
+    class EventsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
         private TextView eventTimeTextView, eventAgendaTextView , eventLocationTextView ;
         public EventsAdapterViewHolder(View itemView)
         {
             super(itemView);
+            itemView.setOnClickListener(this);
             eventTimeTextView = (TextView) itemView.findViewById(R.id.Event_Time);
             eventAgendaTextView = (TextView) itemView.findViewById(R.id.Event_Agenda);
             eventLocationTextView = (TextView) itemView.findViewById(R.id.Event_Location);
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            onItemClickListener.onClick(v,getAdapterPosition());
         }
     }
 }
