@@ -102,7 +102,9 @@ public class EventActivity extends AppCompatActivity implements OnItemClickListe
             public void onClick(View v)
             {
 
-               startUpTheBottomSheet();
+//               startUpTheBottomSheet();
+                Intent intent = new Intent(EventActivity.this,EnterAnEvent.class);
+                startActivity(intent);
             }
         });
 

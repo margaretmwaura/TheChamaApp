@@ -17,11 +17,11 @@
         android:layout_height="wrap_content"
         android:text="Enter a new event describing what is the  sole purpose  of the event"
         android:textStyle="bold|italic"/>
-    <EditText
+    <AutoCompleteTextView
         android:textSize="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Location"
+        android:hint="Search Location"
         android:id="@+id/Event_Location_event"/>
     <EditText
         android:textSize="16dp"

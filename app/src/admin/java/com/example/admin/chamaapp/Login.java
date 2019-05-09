@@ -78,13 +78,7 @@ public class Login extends AppCompatActivity {
             //}
 
             setContentView(R.layout.activity_login);
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this, new OnSuccessListener<InstanceIdResult>()
-            {
-                @Override
-                public void onSuccess(InstanceIdResult instanceIdResult) {
-                    token = instanceIdResult.getToken();
-                }
-            });
+
 //            //blurring the background image
 //            LinearLayout mContainerView = (LinearLayout) findViewById(R.id.sign);
 //            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
@@ -331,8 +325,7 @@ public class Login extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-//                            Now that the creation is successful subscribe to a topic
-                            FirebaseMessaging.getInstance().subscribeToTopic("Group");
+
 
                             Toast.makeText(Login.this,"Successful " , Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(Login.this,AdminFragment.class);

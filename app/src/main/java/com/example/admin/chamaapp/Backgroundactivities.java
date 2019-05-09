@@ -207,6 +207,7 @@ public class Backgroundactivities
         Log.d("NotificationSending","The method has been called to send a notification");
 //        String regToken = returnRegistrationToken();
         String regToken = " ";
+        String topic = "/topics/userABC";
         Log.d("RegistrationToken","This is the registration token " + regToken);
         OkHttpClient client = new OkHttpClient();
         JSONObject json=new JSONObject();
@@ -215,7 +216,7 @@ public class Backgroundactivities
             dataJson.put("body", "Reminder about the chama event \n taking place today");
             dataJson.put("title", "Chama event");
             json.put("notification", dataJson);
-            json.put("to", "/topics/Group");
+            json.put("to", topic);
         }
         catch (Exception e)
         {
