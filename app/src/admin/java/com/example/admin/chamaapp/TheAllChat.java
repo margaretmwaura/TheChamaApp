@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.admin.chamaapp.Analytics.addGeneralChatAnalysis;
+
 public class TheAllChat extends AppCompatActivity {
 
     private List<Chat> chatList = new ArrayList<>();
@@ -163,6 +165,11 @@ public class TheAllChat extends AppCompatActivity {
                 chat.setUserEmailAddress(phonenumber);
                 chat.setUserMessage(chatMessage);
                 chat.setChatTime(stringTime);
+
+//                Logging the event to firebase analytics
+                Bundle params = new Bundle();
+                params.putString("Action","AddingGeneralChat");
+                addGeneralChatAnalysis(TheAllChat.this,"GeneralChat",params);
 
                 Intent addTaskIntent = new Intent(TheAllChat.this,MyIntentService.class);
                 addTaskIntent.setAction(Backgroundactivities.addAChat);

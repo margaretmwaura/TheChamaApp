@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.admin.chamaapp.Analytics.addAdminChatAnalysis;
+
 public class AdminOnly extends AppCompatActivity {
 
     private List<Chat> chatList = new ArrayList<>();
@@ -165,6 +167,11 @@ public class AdminOnly extends AppCompatActivity {
                 chat.setUserEmailAddress(phonenumber);
                 chat.setUserMessage(chatMessage);
                 chat.setChatTime(stringTime);
+
+                //                Logging the event to firebase analytics
+                Bundle params = new Bundle();
+                params.putString("Action","AddingAdminChat");
+                addAdminChatAnalysis(AdminOnly.this,"AdminChat",params);
 
                 Intent addTaskIntent = new Intent(AdminOnly.this,MyIntentService.class);
                 addTaskIntent.setAction(Backgroundactivities.addAdminChat);

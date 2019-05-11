@@ -47,7 +47,7 @@ public class UserFirebaseMessagingService extends FirebaseMessagingService
         long now = SystemClock.elapsedRealtime();
         long time = returnNotificationEventTime();
         Log.d("NotificationEventTime","This is how long we will wait inorder to receive the notification" + time);
-        long alarmtime = now + 60000;
+        long alarmtime = now + 120000L;
 
         alarmManager.set(AlarmManager.ELAPSED_REALTIME,alarmtime,pendingIntent);
     }

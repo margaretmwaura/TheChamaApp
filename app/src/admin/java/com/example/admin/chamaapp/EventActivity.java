@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.admin.chamaapp.admin.MapsActivity;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DataSnapshot;
 
 import java.text.SimpleDateFormat;
@@ -41,6 +42,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static com.example.admin.chamaapp.Analytics.addEventAnalysis;
+import static com.example.admin.chamaapp.Analytics.addGeneralChatAnalysis;
 
 public class EventActivity extends AppCompatActivity implements OnItemClickListener
 {
@@ -101,10 +105,13 @@ public class EventActivity extends AppCompatActivity implements OnItemClickListe
             @Override
             public void onClick(View v)
             {
+                //                Logging the event to firebase analytics
+                Bundle params = new Bundle();
+                params.putString("Action","AddingEvent");
+                addEventAnalysis(EventActivity.this,"AddingEvent",params);
 
-//               startUpTheBottomSheet();
-                Intent intent = new Intent(EventActivity.this,EnterAnEvent.class);
-                startActivity(intent);
+                startUpTheBottomSheet();
+
             }
         });
 

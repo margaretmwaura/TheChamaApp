@@ -39,14 +39,7 @@ public class EnterAnEvent extends AppCompatActivity {
     private EditText eventTimeEditText, eventLocationEditText, eventAgendaEditText;
     private Event newEvent;
     private Button enterAnEvent;
-
-
-//    This is for the purposes of the places autocomplete functionality
-    private AutoCompleteTextView locationSearchActv;
-
-    private GeoDataClient mGeoDataClient;
-    private PlaceAutoCompleteAdapter mPlaceAutocompleteAdapter;
-
+//
     private static final LatLngBounds LAT_LNG_BOUNDS_DEFAULT = new LatLngBounds(
             new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362)); // The suggestion within this geometrical boundary will be displayed on top.
 
@@ -128,13 +121,6 @@ public class EnterAnEvent extends AppCompatActivity {
         eventTimeEditText.addTextChangedListener(tw);
 //        The next line of code allows the keypad to be all numeric
         eventTimeEditText.setRawInputType(Configuration.KEYBOARD_QWERTY);
-
-        locationSearchActv = (AutoCompleteTextView) findViewById(R.id.Event_Location_event);
-
-        mGeoDataClient = Places.getGeoDataClient(this);
-        mPlaceAutocompleteAdapter = new PlaceAutoCompleteAdapter(this,mGeoDataClient, LAT_LNG_BOUNDS_DEFAULT,null);
-        locationSearchActv.setAdapter(mPlaceAutocompleteAdapter);
-        locationSearchActv.setOnItemClickListener(mAutocompleteClickListener);
 //        This allows one to set the variables of the event instance
 
         enterAnEvent = (Button) findViewById(R.id.submit_new_event);
@@ -157,43 +143,5 @@ public class EnterAnEvent extends AppCompatActivity {
             }
         });
     }
-    private AdapterView.OnItemClickListener mAutocompleteClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            /*
-             Retrieve the place ID of the selected item from the Adapter.
-             The adapter stores each Place suggestion in a AutocompletePrediction from which we
-             read the place ID and title.
-              */
-            final AutocompletePrediction item = mPlaceAutocompleteAdapter.getItem(position);
-            final String placeId = item.getPlaceId();
 
-
-            /*
-             Issue a request to the Places Geo Data Client to retrieve a Place object with
-             additional details about the place.
-              */
-            Task<PlaceBufferResponse> placeResult = mGeoDataClient.getPlaceById(placeId);
-            placeResult.addOnCompleteListener(mUpdatePlaceDetailsCallback);
-        }
-    };
-
-    private OnCompleteListener<PlaceBufferResponse> mUpdatePlaceDetailsCallback
-            = new OnCompleteListener<PlaceBufferResponse>() {
-        @Override
-        public void onComplete(Task<PlaceBufferResponse> task) {
-            try {
-                PlaceBufferResponse places = task.getResult();
-
-                // Get the Place object from the buffer.
-                final Place place = places.get(0);
-                places.release();
-            } catch (RuntimeRemoteException e)
-            {
-                // Request did not complete successfully
-                return;
-            }
-        }
-    };
 }
