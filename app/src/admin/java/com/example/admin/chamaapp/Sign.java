@@ -81,13 +81,11 @@ public class Sign extends AppCompatActivity
                     inputPhoneNumber.setError("Enter a valid phone number");
                     inputPhoneNumber.requestFocus();
                 }
-
-
-
-
-                Intent intent = new Intent(Sign.this,Login.class);
-                intent.putExtra("The phone number ",phoneNumber);
-                startActivity(intent);
+                else {
+                    Intent intent = new Intent(Sign.this, Login.class);
+                    intent.putExtra("The phone number ", phoneNumber);
+                    startActivity(intent);
+                }
             }
         });
 

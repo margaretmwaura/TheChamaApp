@@ -51,7 +51,7 @@ public class AdminOnly extends AppCompatActivity {
         setContentView(R.layout.activity_admin_only);
 
         //        This code has been added to enable the layout below the keyboard to be moved up above the keyboard
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -76,12 +76,13 @@ public class AdminOnly extends AppCompatActivity {
         chatRecyclerView = findViewById(R.id.chat_recyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
 //        Set the layoutManager of the recyclerView
+        layoutManager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(layoutManager);
-        chatRecyclerView.setHasFixedSize(true);
-
+//        chatRecyclerView.setHasFixedSize(true);
         chatRecyclerView.setAdapter(chatAdapter);
+
+
 
 //        final ActionBar actionBar = getSupportActionBar();
 //        actionBar.setDisplayHomeAsUpEnabled(true);
@@ -120,9 +121,11 @@ public class AdminOnly extends AppCompatActivity {
                 Chat chat =dataSnapshot.getValue(Chat.class);
                 chatList.add(chat);
 
+
                 if(chatList.size() != 0)
                 {
                     chatAdapter.setChatList(chatList);
+                    chatRecyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
                     Log.d("AddingChats","Chats have been added to the UI");
                 }
 
@@ -178,7 +181,7 @@ public class AdminOnly extends AppCompatActivity {
                 addTaskIntent.putExtra("ANewChat",chat);
                 startService(addTaskIntent);
 
-                chatEditText.setText(" ");
+                chatEditText.setText("Message");
 
             }
         });
