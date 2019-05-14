@@ -25,12 +25,12 @@
         android:textSize="16dp"
         android:layout_gravity="center_horizontal"
         />
-    <EditText
-        android:id="@+id/attendance_dialog"
+    <AutoCompleteTextView
+        android:id="@+id/month_dialog"
         android:layout_gravity="center_horizontal"
         android:layout_width="280dp"
         android:layout_height="match_parent"
-        android:hint="Users attendance"
+        android:hint="Contribution month"
         android:textColor="#000"
         android:textSize="16dp"/>
 

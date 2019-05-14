@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/createPDFMenu"
-        android:icon="@drawable/ic_create_black_24dp"
+        android:icon="@drawable/editicon"
         android:title="createPDFMenu"
         app:showAsAction="always"/>
     <item
-        android:icon="@drawable/ic_pageview_black_24dp"
+        android:icon="@drawable/book"
         android:id="@+id/viewPDFMenu"
         android:title="viewPDF"
         app:showAsAction="always"/>

@@ -39,7 +39,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<ContributionAdapte
     public void onBindViewHolder(@NonNull contributionViewHolder holder, int position)
     {
        Contribution contribution = contributionList.get(position);
-        holder.userPhoneNumber.setText(contribution.getPhonenumber());
         holder.userContributionTextView.setText("Jan contribution " + String.valueOf(contribution.getJan()));
         holder.userContributionTextView.append("\n" + "Feb contribution " +String.valueOf(contribution.getFeb()));
         holder.userContributionTextView.append("\n" + "Mar contribution " + String.valueOf(contribution.getMarch()));

@@ -13,6 +13,7 @@ import android.content.Intent;
 
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -23,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
@@ -36,14 +38,20 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -63,19 +71,19 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
 {
 
 //    This is the activity that displays for all the members
-    private RecyclerView recyclerView, recyclerViewContribution;
+    private RecyclerView recyclerView;
     private DetailsAdapter detailsAdapter;
     private FirebaseAuth auth;
     private List<Member> memberList = new ArrayList<>();
     private List<String> userID = new ArrayList<>();
-      private boolean storagePermission;
+    private boolean storagePermission;
     public static final int OPERATION_SEARCH_LOADER = 22;
     private Member member;
     private String userIDSelected;
     private int position;
     private UserViewModel viewModel;
-    private ContributionAdapter contributionAdapter;
-    private List<Contribution> contributionList = new ArrayList<>();
+    final String[] selectedMonth = new String[1];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -83,17 +91,30 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_details);
 
+        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String title = "Member details";
+
+        String title = "Details";
         SpannableString s = new SpannableString(title);
-        s.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
+
+//        TextView textView = new TextView(this);
+//        textView.setText(title);
+//        textView.setTextSize(20);
+//        textView.setTypeface(null, Typeface.BOLD);
+//        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+//        textView.setGravity(Gravity.CENTER);
+//        textView.setTextColor(ContextCompat.getColor(this, R.color.black));
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(textView);
+
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 //        this is the code for creating of the layout manager
-
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
 //        Set the layoutManager of the recyclerView
@@ -104,19 +125,6 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
 
         recyclerView.setAdapter(detailsAdapter);
         detailsAdapter.setClickListener(this);
-
-        recyclerViewContribution = (RecyclerView) findViewById(R.id.recycler_contribution);
-        LinearLayoutManager layoutManagerOne = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerViewContribution.setLayoutManager(layoutManagerOne);
-        recyclerView.setHasFixedSize(true);
-        contributionAdapter = new ContributionAdapter(this);
-        recyclerViewContribution.setAdapter(contributionAdapter);
-
-
-
-        //        This displays the home button arrow
-        final ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
@@ -146,24 +154,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                     detailsAdapter.setMembersList(memberList);
                 }
 
-                DataSnapshot userDetailContribution = dataSnapshot.child("database").child("contribution");
-                Boolean existContribution = userDetails.exists();
-                Log.d("Confirming","This confirms that the datasnapshot exists " + existContribution);
-                Iterable<DataSnapshot> journalsContribution = userDetailContribution.getChildren();
-                for(DataSnapshot journal : journalsContribution)
-                {
-                    String id;
-                    Contribution contribution = new Contribution();
-                    contribution = journal.getValue(Contribution.class);
-                    contributionList.add(contribution);
 
-                }
-
-                Log.d("TheListRead","This are the number of contributions found " + contributionList.size());
-                if(contributionList.size() != 0)
-                {
-                    contributionAdapter.setContributionList(contributionList);
-                }
             }
         }
         );
@@ -356,7 +347,8 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
 
     }
 
-    private void makeOperationSearchQuery() {
+    private void makeOperationSearchQuery()
+    {
 
         // Create a bundle called queryBundle
         Bundle queryBundle = new Bundle();
@@ -403,11 +395,11 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                 {
                     dir.mkdirs();
                 }
-//                else
-//                {
-//                    myDir.delete();
-//                    myDir.mkdirs();
-//                }
+                else
+                {
+                    dir.delete();
+                    dir.mkdirs();
+                }
 
                 File file = new File(dir, "newFile.pdf");
                 try {
@@ -428,12 +420,12 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                     Member maggie = memberList.get(i);
                     String phonenumber = maggie.getPhonenumber();
                     int membershipID = maggie.getMembershipID();
-                    int attendance = maggie.getAttendance();
+
 
                     Paragraph p1 = new Paragraph();
                     p1.add(phonenumber);
-                    p1.add(String.valueOf(membershipID));
-                    p1.add(String.valueOf(attendance));
+//                    p1.add(String.valueOf(membershipID));
+
 
 
                     p1.setAlignment(Paragraph.ALIGN_CENTER);
@@ -444,24 +436,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                 }
 
                 doc.newPage();
-                for (int i = 0; i < contributionList.size(); i++)
-                {
-                    Contribution contribution = contributionList.get(i);
-                    String phonenumber = contribution.getPhonenumber();
-                    int jan = contribution.getJan();
 
-                    Paragraph p1 = new Paragraph();
-                    p1.add(phonenumber);
-                    p1.add(String.valueOf(phonenumber));
-                    p1.add(String.valueOf(jan));
-
-
-                    p1.setAlignment(Paragraph.ALIGN_CENTER);
-
-                    //add paragraph to document
-                    doc.add(p1);
-                    Log.d("WritingToTheFile", "Writing to the file");
-                }
             }
             else
             {
@@ -521,7 +496,26 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        final EditText attendance = dialogView.findViewById(R.id.attendance_dialog);
+//        The month array
+        String [] monthsOfTheYear = {
+                "january","february","march","april","may","june","july","august","september","october","november","december"
+        };
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, monthsOfTheYear);
+        final AutoCompleteTextView monthEdittext = dialogView.findViewById(R.id.month_dialog);
+        monthEdittext.setThreshold(1);
+        monthEdittext.setAdapter(adapter);
+
+        monthEdittext.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+            selectedMonth[0] = String.valueOf(parent.getItemAtPosition(position));
+            Log.d("MonthSelected","This is the selected month " + selectedMonth[0]);
+
+            }
+        });
+
         final EditText contribution = dialogView.findViewById(R.id.contribution_dialog);
         Button editButton = dialogView.findViewById(R.id.editbutton_dialog);
         Button cancelButton = dialogView.findViewById(R.id.cancelbutton_dialog);
@@ -539,15 +533,32 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
             @Override
             public void onClick(View v)
             {
-                int attendanceData = Integer.parseInt(attendance.getText().toString());
-                int contributionData = Integer.parseInt(contribution.getText().toString());
-                Intent addTaskIntent = new Intent(AllDetails.this,MyIntentService.class);
-                addTaskIntent.setAction(Backgroundactivities.editUserData);
-                addTaskIntent.putExtra("UserPhoneNumber",member.getPhonenumber());
-                addTaskIntent.putExtra("UserID",userIDSelected);
-                addTaskIntent.putExtra("Attendance", attendanceData);
-                addTaskIntent.putExtra("ContributionData",contributionData);
-                startService(addTaskIntent);
+//
+                String input = contribution.getText().toString();
+
+                if(input.isEmpty() || input.equals( " ") || selectedMonth[0] == null)
+                {
+
+                    if(input.isEmpty() || input.equals( " ") )
+                    {
+                        contribution.setError("Enter contribution");
+                    }
+                    if(selectedMonth[0] == null)
+                    {
+                        monthEdittext.setError(" Choose a month");
+                    }
+//                    alertDialog.dismiss();
+                }
+                else
+                {
+                    int contributionData = Integer.parseInt(contribution.getText().toString());
+                    Intent addTaskIntent = new Intent(AllDetails.this,MyIntentService.class);
+                    addTaskIntent.setAction(Backgroundactivities.editUserData);
+                    addTaskIntent.putExtra("UserPhoneNumber",member.getPhonenumber());
+                    addTaskIntent.putExtra("UserID",userIDSelected);
+                    addTaskIntent.putExtra("Month", selectedMonth[0]);
+                    addTaskIntent.putExtra("ContributionData",contributionData);
+                    startService(addTaskIntent);
 
 //                new java.util.Timer().schedule(
 //                        new java.util.TimerTask() {
@@ -560,57 +571,42 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
 //                        },
 //                        5000
 //                );
-                viewModel = ViewModelProviders.of(AllDetails.this).get(UserViewModel.class);
-                LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
-                livedata.observe(AllDetails.this, new Observer<DataSnapshot>()
-                        {
-                            @Override
-                            public void onChanged(@Nullable DataSnapshot dataSnapshot)
+                    viewModel = ViewModelProviders.of(AllDetails.this).get(UserViewModel.class);
+                    LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
+                    livedata.observe(AllDetails.this, new Observer<DataSnapshot>()
                             {
-                                memberList.clear();
-                                DataSnapshot userDetails = dataSnapshot.child("database").child("users");
-                                Boolean exist = userDetails.exists();
-                                Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
-                                Iterable<DataSnapshot> journals = userDetails.getChildren();
-                                for(DataSnapshot journal : journals)
+                                @Override
+                                public void onChanged(@Nullable DataSnapshot dataSnapshot)
                                 {
-                                    String id;
-                                    Member maggie = new Member();
-                                    maggie = journal.getValue(Member.class);
-                                    id = journal.getKey();
-                                    memberList.add(maggie);
-                                    userID.add(id);
-                                }
+                                    memberList.clear();
+                                    DataSnapshot userDetails = dataSnapshot.child("database").child("users");
+                                    Boolean exist = userDetails.exists();
+                                    Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
+                                    Iterable<DataSnapshot> journals = userDetails.getChildren();
+                                    for(DataSnapshot journal : journals)
+                                    {
+                                        String id;
+                                        Member maggie = new Member();
+                                        maggie = journal.getValue(Member.class);
+                                        id = journal.getKey();
+                                        memberList.add(maggie);
+                                        userID.add(id);
+                                    }
 
-                                Log.d("TheListRead","This are the number of journals found " + memberList.size());
-                                if(memberList.size() != 0)
-                                {
-                                    detailsAdapter.setMembersList(memberList);
-                                }
+                                    Log.d("TheListRead","This are the number of journals found " + memberList.size());
+                                    if(memberList.size() != 0)
+                                    {
+                                        detailsAdapter.setMembersList(memberList);
+                                    }
 
-                                contributionList.clear();
-                                DataSnapshot userDetailContribution = dataSnapshot.child("database").child("contribution");
-                                Boolean existContribution = userDetails.exists();
-                                Log.d("Confirming","This confirms that the datasnapshot exists " + existContribution);
-                                Iterable<DataSnapshot> journalsContribution = userDetailContribution.getChildren();
-                                for(DataSnapshot journal : journalsContribution)
-                                {
-                                    String id;
-                                    Contribution contribution = new Contribution();
-                                    contribution = journal.getValue(Contribution.class);
-                                    contributionList.add(contribution);
-
-                                }
-
-                                Log.d("TheListRead","This are the number of contributions found " + contributionList.size());
-                                if(contributionList.size() != 0)
-                                {
-                                    contributionAdapter.setContributionList(contributionList);
                                 }
                             }
-                        }
-                );
-               alertDialog.dismiss();
+                    );
+
+                    alertDialog.dismiss();
+                }
+
+
             }
         });
 
@@ -624,5 +620,6 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
 
         Log.d("OnResume","OnResume method has been called ");
     }
+    
 
 }

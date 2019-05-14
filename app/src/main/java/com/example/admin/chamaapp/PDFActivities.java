@@ -77,7 +77,7 @@ public class PDFActivities
                     String emailAddress = maggie.getPhonenumber();
                     int membershipID = maggie.getMembershipID();
                     int attendance = maggie.getAttendance();
-                    int contribution = maggie.getContribution();
+                    Contribution contribution = maggie.getContribution();
 
                     Paragraph p1 = new Paragraph();
                     p1.add(emailAddress);

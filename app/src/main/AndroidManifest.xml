@@ -60,7 +60,7 @@
             android:exported="false" />
 
         <activity android:name=".AllDetails"
-            android:theme="@style/AppThemeDarkActionBar"/>
+            android:theme="@style/AppThemeWhiteActionBar"/>
         <activity android:name=".MyDetails"
              android:theme="@style/AppThemeDarkActionBar"/>
         <activity

@@ -15,20 +15,20 @@ public class Admin implements Parcelable {
     public String position;
     public int AdminId;
     public String phonenumber;
-    public int contribution;
+    public Contribution contribution;
 
     Admin()
     {
 
     }
 
-    Admin(String type,String position,int Id,String phonenumber)
+    Admin(String type,String position,int Id,String phonenumber , Contribution contribution)
     {
         this.type=type;
         this.position=position;
         this.AdminId = Id;
         this.phonenumber = phonenumber;
-        this.contribution = 0;
+        this.contribution = contribution;
     }
 
     protected Admin(Parcel in) {
@@ -36,7 +36,7 @@ public class Admin implements Parcelable {
         position = in.readString();
         AdminId = in.readInt();
         phonenumber = in.readString();
-        contribution = in.readInt();
+        contribution = in.readParcelable(Contribution.class.getClassLoader());
     }
 
     public static final Creator<Admin> CREATOR = new Creator<Admin>() {
@@ -72,7 +72,7 @@ public class Admin implements Parcelable {
         dest.writeString(position);
         dest.writeInt(AdminId);
         dest.writeString(phonenumber);
-        dest.writeInt(contribution);
+        dest.writeParcelable(contribution,flags);
     }
 }
 

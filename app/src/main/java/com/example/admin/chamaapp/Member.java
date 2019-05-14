@@ -22,19 +22,19 @@ public class Member implements Parcelable
     public String phonenumber;
     public String userId;
     public int attendance;
-    public int contribution;
+    public Contribution contribution;
     Member()
     {
 
     }
 //This constructor is important for the firebase saving of data
-    Member(int membershipID,String type, String phonenumber)
+    Member(int membershipID,String type, String phonenumber,Contribution contribution)
     {
         this.type=type;
         this.membershipID=membershipID;
         this.phonenumber= phonenumber;
         this.attendance = 0;
-        this.contribution = 0;
+        this.contribution = contribution;
 
     }
 
@@ -75,11 +75,11 @@ public class Member implements Parcelable
     {
         return this.phonenumber;
     }
-    public void setContribution(int contribution)
+    public void setContribution(Contribution contribution)
     {
         this.contribution = contribution;
     }
-    public int getContribution()
+    public Contribution getContribution()
     {
         return this.contribution;
     }
@@ -95,7 +95,7 @@ public class Member implements Parcelable
         phonenumber = in.readString();
         userId = in.readString();
         attendance = in.readInt();
-        contribution = in.readInt();
+        contribution = in.readParcelable(Contribution.class.getClassLoader());
 
 
     }
@@ -111,7 +111,7 @@ public class Member implements Parcelable
         dest.writeString(phonenumber);
         dest.writeString(userId);
         dest.writeInt(attendance);
-        dest.writeInt(contribution);
+        dest.writeParcelable(contribution,flags);
     }
 
     public static final Creator<Member> CREATOR = new Creator<Member>() {

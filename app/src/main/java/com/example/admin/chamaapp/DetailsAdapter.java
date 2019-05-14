@@ -45,11 +45,11 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         Member maggie = membersList.get(position);
         String phonenumber = maggie.getPhonenumber();
 
-        int attendance = maggie.getAttendance();
-        int membershipId = maggie.getMembershipID();
-
-        holder.emailAddress.setText(phonenumber);
-        holder.membershipId.setText(String.valueOf(membershipId));
+        holder.emailAddress.setText("Owner " + phonenumber);
+        holder.membershipId.setText(String.valueOf(maggie.getMembershipID()));
+        Contribution contribution = maggie.getContribution();
+        int total = getTotalContribution(contribution);
+        holder.contribution.setText(String.valueOf(total));
     }
 
     @Override
@@ -66,16 +66,15 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
     class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
-        TextView emailAddress, contribution, attendance,membershipId;
+        TextView emailAddress, contribution,membershipId;
         public DetailsViewHolder(View itemView)
         {
             super(itemView);
 
             itemView.setOnClickListener(this);
-            emailAddress = itemView.findViewById(R.id.member_emailAddress);
-            contribution = itemView.findViewById(R.id.contribution_textview);
-            attendance = itemView.findViewById(R.id.attendance);
-            membershipId = itemView.findViewById(R.id.membershipID_textview);
+            emailAddress = itemView.findViewById(R.id.member_phonenumber);
+            contribution = itemView.findViewById(R.id.contribute_textView_details);
+            membershipId = itemView.findViewById(R.id.user_id_textview);
 
 
         }
@@ -86,4 +85,17 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
               onItemClickListener.onClick(v,getAdapterPosition());
         }
     }
+
+    public int getTotalContribution(Contribution contribution)
+    {
+        int total = contribution.getJan() + contribution.getFeb() + contribution.getMarch() + contribution.getApril()+
+                contribution.getMayy()+ contribution.getJune() + contribution.getJuly() + contribution.getaugust()+
+                contribution.getSeptemeber()+ contribution.getOctober()+ contribution.getNovember()+ contribution.getDecember();
+
+        return total;
+    }
+
+
+
+
 }

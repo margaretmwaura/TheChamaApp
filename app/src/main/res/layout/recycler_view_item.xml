@@ -1,85 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:padding="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="350dp"
+    android:background="#FFF"
+    android:layout_gravity="center_horizontal"
     android:layout_height="wrap_content">
 
     <TextView
-        android:textStyle="bold"
-        android:textSize="18dp"
-        android:textColor="#000"
+        android:padding="3dp"
+        android:textSize="16dp"
+        android:textColor="#808080"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/member"
         android:text="Member"
         />
     <TextView
+        android:padding="3dp"
         android:textColor="#000"
         android:textStyle="bold|italic"
-        android:textSize="18dp"
-        android:gravity="center"
+        android:textSize="17dp"
+        android:text="Owner +254775502733"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/member_emailAddress"
-        android:layout_toRightOf="@+id/member"
-        />
-    <TextView
-        android:textColor="#000"
-        android:textSize="18dp"
+        android:id="@+id/member_phonenumber"
         android:layout_below="@+id/member"
-        android:layout_width="wrap_content"
+        />
+
+    <LinearLayout
+        android:layout_below="@+id/member_phonenumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/first_linear"
+        android:orientation="horizontal">
+    <TextView
+        android:padding="3dp"
+        android:textColor="#808080"
+        android:textSize="16dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:id="@+id/contibution_label"
         android:text="Contribution"
         />
     <TextView
-        android:textColor="#000"
-        android:textSize="18dp"
+        android:padding="3dp"
+        android:textColor="#808080"
+        android:textSize="16dp"
         android:gravity="center"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:id="@+id/contribution_textview"
-        android:layout_toRightOf="@+id/contibution_label"
-        android:layout_below="@id/member_emailAddress"
+        android:text="UserId"
         />
-    <TextView
-        android:textColor="#000"
-        android:textSize="18dp"
-        android:layout_below="@id/contibution_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/attendance_label"
-        android:text="Attendance"
-        />
-    <TextView
-        android:textColor="#000"
-        android:textSize="18dp"
-        android:id="@+id/attendance"
-        android:gravity="center"
-        android:layout_below="@id/contribution_textview"
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/contibution_label"
-        />
+        android:layout_below="@+id/first_linear"
+        android:orientation="horizontal">
     <TextView
         android:textColor="#000"
-        android:textSize="18dp"
-        android:layout_below="@id/attendance_label"
-        android:layout_width="wrap_content"
+        android:textSize="17dp"
+        android:layout_width="0dp"
+        android:padding="3dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:id="@+id/membershipID_label"
-        android:text="Attendance"
+        android:id="@+id/contribute_textView_details"
+        android:text="2000"
+        android:textStyle="bold"
         />
     <TextView
-        android:textColor="#000"
-        android:textSize="18dp"
-        android:id="@+id/membershipID_textview"
+        android:padding="3dp"
         android:gravity="center"
-        android:layout_below="@id/attendance"
-        android:layout_width="match_parent"
+        android:text="12"
+        android:textColor="#000"
+        android:textSize="17dp"
+        android:id="@+id/user_id_textview"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/membershipID_label"
         />
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

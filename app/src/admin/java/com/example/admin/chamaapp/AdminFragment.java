@@ -197,22 +197,14 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        if (id == 0) {
+        if (id == 0)
+        {
             Toast.makeText(this, "Enter the date which you were elected!", Toast.LENGTH_SHORT).show();
             return;
         }
         Contribution contribution = new Contribution();
-        contribution.setPhonenumber(phonenumber);
-        mref.child("database").child("contribution").child(phonenumber).setValue(contribution).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task)
-            {
-                Toast.makeText(AdminFragment.this,"Contributions regarding the user has been added ", Toast.LENGTH_LONG).show();
-            }
-        });
 
-
-        Admin maggie = new Admin(type, post, id,phonenumber);
+        Admin maggie = new Admin(type, post, id,phonenumber,contribution);
 
         mref.child("database").child("users").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
         {

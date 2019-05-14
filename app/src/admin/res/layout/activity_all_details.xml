@@ -3,39 +3,170 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
 <LinearLayout
 
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/recycler"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false"
-    android:paddingBottom="80dp"
-   >
 
-    </android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:padding="10dp"
+        android:background="@drawable/secondbackground"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Admin :"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+            android:padding="3dp"
+            android:textStyle="bold"/>
+        <TextView
+            android:padding="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Leads of the rest"
+            android:textSize="16dp"
+            android:textColor="#FFF"
+            android:textStyle="italic"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:padding="3dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Number"
+                android:textColor="#FFF"
+                android:textSize="16dp"
+                />
+            <TextView
+                android:padding="3dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="5"
+                android:gravity="center"
+                android:textColor="#FFF"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:background="@drawable/secondbackground"
+            android:layout_width="170dp"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:padding="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Member :"
+                android:textColor="#FFF"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:padding="3dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The ones led"
+                android:textSize="16dp"
+                android:textColor="#FFF"
+                android:textStyle="italic"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:padding="3dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Number"
+                    android:textColor="#FFF"
+                    android:textSize="16dp"
+                    />
+                <TextView
+                    android:padding="3dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5"
+                    android:textColor="#FFF"
+                    android:gravity="center"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+</LinearLayout>
+
+
 
 <TextView
+    android:paddingTop="10dp"
+    android:textSize="18dp"
+    android:textColor="@color/colorPrimary"
+    android:textStyle="bold"
+    android:paddingLeft="20dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Members contribution"
-    android:textSize="18dp"
-    android:textColor="#000"
-    android:textStyle="bold|italic"
-    android:gravity="center"/>
+    android:text="Peoples contributions"
+    android:paddingBottom="10dp"/>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="20dp"
-        android:id="@+id/recycler_contribution"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/recycler"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
+        android:padding="5dp"
         android:paddingBottom="80dp"
         />
 
+
 </LinearLayout>
+
+
+
 </ScrollView>

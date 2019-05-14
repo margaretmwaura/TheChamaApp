@@ -59,10 +59,10 @@ public class MyIntentService extends IntentService {
              {
                String userId = intent.getStringExtra("UserID");
                String phonenumber = intent.getStringExtra("UserPhoneNumber");
-               int attendance = intent.getIntExtra("Attendance",0);
+               String month  = intent.getStringExtra("Month");
                int contribution = intent.getIntExtra("ContributionData",0);
 
-                      backgroundactivities.editUserData(userId,phonenumber,attendance,contribution);
+                      backgroundactivities.editUserData(userId,phonenumber,month,contribution);
                    }
     }
 

@@ -123,7 +123,7 @@ public class Backgroundactivities
                     String phonenumber = maggie.getPhonenumber();
                     int membershipID = maggie.getMembershipID();
                     int attendance = maggie.getAttendance();
-                    int contribution = maggie.getContribution();
+                    Contribution contribution = maggie.getContribution();
 
 
                     Paragraph p1 = new Paragraph();
@@ -345,28 +345,44 @@ public class Backgroundactivities
         });
     }
 
-    public void editUserData(String userID, final String  phonenumber, int attendance , final int contributionValue)
-    {
+    public void editUserData(final String userID, final String  phonenumber, final String month, final int contributionValue){
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
 
-        Calendar calendar = Calendar.getInstance();
-        String[] monthName = {"january","february","march","april","may","june","july","august","september","october","november","december"};
-        String month = monthName[calendar.get(Calendar.MONTH)];
-        mref.child("database").child("contribution").child(phonenumber).child(month).setValue(contributionValue).addOnSuccessListener(new OnSuccessListener<Void>() {
+//        mref.child("database").child("users").child(userID).child("contribution").child(month).setValue(contributionValue);
+//        Calendar calendar = Calendar.getInstance();
+//        String[] monthName = {"january","february","march","april","may","june","july","august","september","october","november","december"};
+//        String month = monthName[calendar.get(Calendar.MONTH)];
+
+//        int contribute = read(contributionValue,userID,month);
+
+        write(contributionValue,userID,month);
+
+
+    }
+
+    public int read(final int contributionValue, String userID, String month)
+    {
+        final int[] contribution = new int[1];
+        mref.child("database").child("users").child(userID).child("contribution").child(month).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onSuccess(Void aVoid)
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
             {
-                Log.d("ContributionAdding","Contribution value has been added to the database ");
+                contribution[0] = dataSnapshot.getValue(Integer.class) + contributionValue;
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-        mref.child("database").child("users").child(userID).child("attendance").setValue(attendance).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid)
-            {
-                Log.d("ContributionAdding","Contribution value has been added to the database ");
-            }
-        });
+
+        return contribution[0];
+    }
+    public void write(int contribution,String userID, String month)
+    {
+        mref.child("database").child("users").child(userID).child("contribution").child(month).setValue(contribution);
     }
 
 
