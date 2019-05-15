@@ -275,7 +275,7 @@ public class content extends AppCompatActivity {
                                 {
                                     // continue with setting the image
                                     profileImage.setImageURI(imageUri);
-
+                                  image = imageUri.toString();
 //                                    Saving to the shared preferences was for the purposes of use when the activity had been destroyed
                                     String toStroreString = imageUri.toString();
                                     SharedPreferences profileImage =getSharedPreferences("prefs",0);

@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_marginTop="24dp"
+        app:theme="@style/ToolbarTheme"
         android:elevation="1dp" />
 
 
@@ -28,7 +29,7 @@
 
     <RelativeLayout
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="-100dp"
+        android:layout_marginTop="-124dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
