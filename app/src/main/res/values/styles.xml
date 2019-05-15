@@ -37,9 +37,9 @@
     <!-- Base application theme. -->
     <style name="AppThemeTransparent" parent="Theme.AppCompat.Light">
 
-        <item name="colorPrimary">@android:color/transparent</item>
-        <item name="windowActionBarOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
     <style name="AppThemeDarkActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -66,6 +66,12 @@
         <!--<item name="android:minWidth">5dip</item>-->
         <item name="android:paddingStart">0dip</item>
         <item name="android:paddingEnd">0dip</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

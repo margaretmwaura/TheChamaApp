@@ -60,6 +60,10 @@ public class Admin implements Parcelable {
         return this.AdminId;
     }
     public String getPosition(){return  this.position;}
+    public Contribution getContribution ()
+    {
+        return this.contribution;
+    }
 
     @Override
     public int describeContents() {

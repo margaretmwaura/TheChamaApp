@@ -62,10 +62,10 @@
         <activity android:name=".AllDetails"
             android:theme="@style/AppThemeWhiteActionBar"/>
         <activity android:name=".MyDetails"
-             android:theme="@style/AppThemeDarkActionBar"/>
+             android:theme="@style/AppThemeWhiteActionBar"/>
         <activity
             android:name=".MyProfile"
-            android:theme="@style/AppThemeTransparent"
+            android:theme="@style/AppTheme.NoActionBar"
             />
 
         <activity

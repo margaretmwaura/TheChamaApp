@@ -1,4 +1,4 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -8,24 +8,20 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
@@ -35,17 +31,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.androidstudy.daraja.Daraja;
 import com.androidstudy.daraja.DarajaListener;
 import com.androidstudy.daraja.model.AccessToken;
+import com.example.admin.chamaapp.BlurBuilder;
+import com.example.admin.chamaapp.MyProfile;
+import com.example.admin.chamaapp.R;
 
-
-public class MyProfile extends AppCompatActivity {
+public class content extends AppCompatActivity {
 
     private ImageView profileImage;
     private TextView profileName,profileEmail, profileTitle;
@@ -56,12 +52,9 @@ public class MyProfile extends AppCompatActivity {
     String phoneNumber;
     private EditText editTextPhone;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_profile);
-
+        setContentView(R.layout.app_bar_the_navigation_drawer);
         //        This is about the mpesa library code on sending money
 
 
@@ -88,7 +81,7 @@ public class MyProfile extends AppCompatActivity {
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-              //This single line of code sets the status bar to alert
+            //This single line of code sets the status bar to alert
             window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         }
@@ -106,20 +99,20 @@ public class MyProfile extends AppCompatActivity {
             public void onResult(@NonNull AccessToken accessToken)
             {
                 Log.d("DarajaCreation","The daraja class has beeen created");
-                Log.i(MyProfile.this.getClass().getSimpleName(), accessToken.getAccess_token());
+                Log.i(content.this.getClass().getSimpleName(), accessToken.getAccess_token());
             }
 
             @Override
             public void onError(String error) {
                 Log.d("DarajaCreation","The daraja class has not been created,an error has been encountered" + error);
-                Log.e(MyProfile.this.getClass().getSimpleName(), error);
+                Log.e(content.this.getClass().getSimpleName(), error);
             }
         });
 //        This displays the home button arrow
 
 //        This is the email from the intents extras
         Intent intent = getIntent();
-         phoneNumber = intent.getStringExtra("Phonenumber");
+        phoneNumber = intent.getStringExtra("Phonenumber");
 
 
         profileImage = (ImageView) findViewById(R.id.profile_image);
@@ -165,7 +158,7 @@ public class MyProfile extends AppCompatActivity {
             public void onClick(View v)
             {
 //                This method should be called once all the permissions have been granted
-               requestRead();
+                requestRead();
             }
         });
 
@@ -173,13 +166,13 @@ public class MyProfile extends AppCompatActivity {
         {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(MyProfile.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(content.this);
 
                 alert.setTitle("Edit name");
                 alert.setMessage("Enter your new name ");
 
 // Set an EditText view to get user input
-                final EditText input = new EditText(MyProfile.this);
+                final EditText input = new EditText(content.this);
                 alert.setView(input);
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -249,7 +242,6 @@ public class MyProfile extends AppCompatActivity {
 //        });
     }
 
-    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -334,7 +326,7 @@ public class MyProfile extends AppCompatActivity {
                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         }
         else
-            {
+        {
 //                In this case the permissions have been offered already
             startingUpTheCameraPicker();
         }
@@ -351,7 +343,7 @@ public class MyProfile extends AppCompatActivity {
                 startingUpTheCameraPicker();
             } else {
                 // Permission Denied
-                Toast.makeText(MyProfile.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(content.this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
             return;
         }
@@ -365,7 +357,5 @@ public class MyProfile extends AppCompatActivity {
         finish();
         return true;
     }
-
-
 
 }

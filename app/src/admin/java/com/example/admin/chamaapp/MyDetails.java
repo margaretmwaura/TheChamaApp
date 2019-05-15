@@ -3,6 +3,7 @@ package com.example.admin.chamaapp;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,8 +13,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,9 +31,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -35,35 +43,56 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 import lecho.lib.hellocharts.view.PieChartView;
 
 public class MyDetails extends AppCompatActivity {
 
-    private TextView phonenumberTextView, userNameTextView, membershipIdTextView, contributionTextView, attendanceTextView;
-    private String phonenumber , userId;
+    private TextView phonenumberTextView, dateTextView;
+    private String phonenumber , userId,image;
     public FirebaseDatabase mFirebaseDatabase;
     public DatabaseReference mref;
     private Contribution contribution ;
+    private Button sendEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_details);
 
+        Intent intent = getIntent();
+        phonenumber = intent.getStringExtra("Phonenumber");
+        userId = intent.getStringExtra("UserID");
+        image = intent.getStringExtra("ImageSet");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(0);
+
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+
+        LayoutInflater inflator = (LayoutInflater) this .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.profile_image, null);
+
+        CircleImageView circleImageView = (CircleImageView)v.findViewById(R.id.imageView5);
+        if(!image.equals(" "))
+        {
+            circleImageView.setImageURI(Uri.parse(image));
+        }
+        else
+        {
+            circleImageView.setImageResource(R.drawable.face);
+        }
+        getSupportActionBar().setCustomView(v);
 
           contribution = new Contribution();
-        membershipIdTextView = (TextView) findViewById(R.id.textView_membershipId);
-        contributionTextView = (TextView) findViewById(R.id.textView_contribution);
-        attendanceTextView = (TextView) findViewById(R.id.textView_attendance);
 
 
+          dateTextView = (TextView) findViewById(R.id.date_textView);
+          dateTextView.setText(getDateInWords());
 //        Retrieve data saved on the sharedPreferences
         //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
-        String image = settings.getString("profileImage"," ");
         String userNameText = settings.getString("userName"," ");
 
 
@@ -73,13 +102,26 @@ public class MyDetails extends AppCompatActivity {
 
         drawAgraph();
 
-        Intent intent = getIntent();
-        phonenumber = intent.getStringExtra("Phonenumber");
-        userId = intent.getStringExtra("UserID");
 
+        sendEmail = (Button) findViewById(R.id.send_email);
        phonenumberTextView = (TextView)findViewById(R.id.welcome_textView);
        phonenumberTextView.append(phonenumber);
         getUserDetailFromDatabase();
+        sendEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                try {
+                    Intent intent = new Intent (Intent.ACTION_VIEW , Uri.parse("mailto:" + "mwauramargaret1@gmail.com"));
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "your_subject");
+                    intent.putExtra(Intent.EXTRA_TEXT, "your_text");
+                    startActivity(intent);
+                } catch(Exception e) {
+                    Toast.makeText(MyDetails.this, "Sorry...You don't have any mail app", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        });
 //        final List<Integer> contributionRead = new ArrayList<>();
 //        mFirebaseDatabase = FirebaseDatabase.getInstance();
 //        mref = mFirebaseDatabase.getReference();
@@ -121,20 +163,20 @@ public class MyDetails extends AppCompatActivity {
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
                 DataSnapshot userID = dataSnapshot.child("database").child("users").child(userId);
-                DataSnapshot userContribution = dataSnapshot.child("database").child("contribution").child(phonenumber);
+
                 Boolean exist = userID.exists();
-                Boolean contributionExits = userContribution.exists();
+
                 Log.d("Confirming","This confirms that the datasnapshot user detsila exists " + exist);
-                Log.d("Confirming","This confirms that the datasnapshot contribution exists " + contributionExits);
+
                     Admin member = userID.getValue(Admin.class);
 
-                    contribution = userContribution.getValue(Contribution.class);
+                    contribution = member.getContribution();
 
-                    membershipIdTextView.setText(String.valueOf(member.getID()));
+//                    membershipIdTextView.setText(String.valueOf(member.getID()));
 
-                    contributionTextView.setText(String.valueOf(contribution.getApril()));
+//                    contributionTextView.setText(String.valueOf(totalContribution()));
                     Log.d("ContributionValue","This is the contribution value " +  contribution.getApril());
-                    attendanceTextView.setText(String.valueOf(String.valueOf(0)));
+//                    attendanceTextView.setText(String.valueOf(String.valueOf(0)));
 
                 drawAgraph();
             }
@@ -172,7 +214,7 @@ public class MyDetails extends AppCompatActivity {
         List yAxisValues = new ArrayList();
         List axisValues = new ArrayList();
 
-        Line line = new Line(yAxisValues).setColor(Color.parseColor("#9C27B0"));
+        Line line = new Line(yAxisValues).setColor(Color.parseColor("#00EEEE"));
 
         for(int i = 0; i < axisData.length; i++){
             axisValues.add(i, new AxisValue(i).setLabel(axisData[i]));
@@ -189,18 +231,49 @@ public class MyDetails extends AppCompatActivity {
         lineChartView.setLineChartData(data);
 
         Axis axis = new Axis();
-        axis.setTextColor(Color.parseColor("#03A9F4"));
+        axis.setTextColor(Color.parseColor("#FF4081"));
         axis.setTextSize(16);
         axis.setValues(axisValues);
+        axis.setName("Contributions in Ksh");
         data.setAxisXBottom(axis);
 
+
         Axis yAxis = new Axis();
-        yAxis.setTextColor(Color.parseColor("#03A9F4"));
+        yAxis.setTextColor(Color.parseColor("#3F51B5"));
         yAxis.setTextSize(16);
+        yAxis.setName("Months of the year");
         data.setAxisYLeft(yAxis);
+        lineChartView.setLineChartData(data);
+
+        Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
+        viewport.top = 700;
+        lineChartView.setMaximumViewport(viewport);
+        lineChartView.setCurrentViewport(viewport);
 
 
 
 
+    }
+
+    public int totalContribution()
+    {
+        int total = contribution.getJan() + contribution.getFeb() + contribution.getMarch() + contribution.getApril()+
+                contribution.getMayy() + contribution.getJune() + contribution.getJuly() + contribution.getaugust() +
+                contribution.getSeptemeber() + contribution.getNovember() + contribution.getDecember();
+        return  total;
+    }
+    public String getDateInWords()
+    {
+        String[] monthName = { "January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December" };
+        Calendar cal = Calendar.getInstance();
+        String month = monthName[cal.get(Calendar.MONTH)];
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int year = cal.get(Calendar.YEAR);
+        Log.d("Year","This is the year " + year);
+        String date = day +" " + month + " " + year;
+        System.out.println("Date name: " + date);
+
+        return date;
     }
 }

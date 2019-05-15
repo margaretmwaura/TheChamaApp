@@ -2,6 +2,9 @@ package com.example.admin.chamaapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,10 +22,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidstudy.daraja.Daraja;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.BufferedReader;
@@ -38,9 +44,19 @@ public class TheNavigationDrawer extends AppCompatActivity
     private String[] userDetails = new String[2];
     private String phonenumber ;
     private String userId;
-    private String imageUrl;
+    private String image;
     private ImageView  imgvw;
     private TextView userName;
+
+    private ImageView profileImage;
+    private TextView profileName,profileEmail, profileTitle;
+    private Button editPhoto , editYourName, sendMoneyViaMpesa;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private String value;
+    Daraja daraja;
+    String phoneNumber;
+    private EditText editTextPhone;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,6 +64,9 @@ public class TheNavigationDrawer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         ShouldExecuteOnReusme = false;
         setContentView(R.layout.activity_the_navigation_drawer);
+
+        includeLayout();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -99,7 +118,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 
         //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
-        String image = settings.getString("profileImage"," ");
+        image = settings.getString("profileImage"," ");
         String userNameText = settings.getString("userName"," ");
 //        userName.setText(userNameText);
 
@@ -136,7 +155,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 
         //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
-        String image = settings.getString("profileImage"," ");
+        image = settings.getString("profileImage"," ");
         String userNameText = settings.getString("userName"," ");
 //        userName.setText(userNameText);
 
@@ -236,6 +255,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 //            Clicking on this option should lead one to the myAccount page
             Intent intent = new Intent(this,MyProfile.class);
             intent.putExtra("Phonenumber",phonenumber);
+
             startActivity(intent);
         }
         if (id == R.id.nav_my_details)
@@ -245,6 +265,7 @@ public class TheNavigationDrawer extends AppCompatActivity
             Intent intent = new Intent(this,MyDetails.class);
             intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
+            intent.putExtra("ImageSet",image);
             startActivity(intent);
         }
         if (id == R.id.nav_all_members_details)
@@ -326,5 +347,13 @@ public class TheNavigationDrawer extends AppCompatActivity
 
         }
 
+    }
+
+    public void includeLayout()
+    {
+        View view = findViewById(R.id.senior);
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.newback);
+        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
+        view.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
     }
 }
