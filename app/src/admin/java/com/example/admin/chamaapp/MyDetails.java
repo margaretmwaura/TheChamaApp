@@ -1,8 +1,10 @@
 package com.example.admin.chamaapp;
 
+import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,20 +51,29 @@ import lecho.lib.hellocharts.view.PieChartView;
 
 public class MyDetails extends AppCompatActivity {
 
-    private TextView phonenumberTextView, dateTextView;
+    private TextView phonenumberTextView, dateTextView,montsContributed,totalContributed;
     private String phonenumber , userId,image;
     public FirebaseDatabase mFirebaseDatabase;
     public DatabaseReference mref;
     private Contribution contribution ;
     private Button sendEmail;
+    private Bundle appWidget;
+    private int total;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_details);
 
+//        This is for the AppWidget;
+        appWidget = new Bundle();
+
         Intent intent = getIntent();
         phonenumber = intent.getStringExtra("Phonenumber");
+//        Add the phoneNumber to the widget;
+
+        appWidget.putString("PhoneNumber",phonenumber);
+
         userId = intent.getStringExtra("UserID");
         image = intent.getStringExtra("ImageSet");
 
@@ -78,6 +89,7 @@ public class MyDetails extends AppCompatActivity {
         if(!image.equals(" "))
         {
             circleImageView.setImageURI(Uri.parse(image));
+            appWidget.putString("Image",image);
         }
         else
         {
@@ -99,14 +111,23 @@ public class MyDetails extends AppCompatActivity {
         Log.d("The image string","This is the image String " + image);
 
 //Getting the details from the extras
-
+        getUserDetailFromDatabase();
         drawAgraph();
 
+
+        montsContributed = (TextView) findViewById(R.id.months_contributed);
+        totalContributed = (TextView) findViewById(R.id.total_contributed);
+
+        months();
+        totalContribution();
+
+//        Updating the widget
+        //            Calling the method for updating the widget data
 
         sendEmail = (Button) findViewById(R.id.send_email);
        phonenumberTextView = (TextView)findViewById(R.id.welcome_textView);
        phonenumberTextView.append(phonenumber);
-        getUserDetailFromDatabase();
+
         sendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -257,9 +278,25 @@ public class MyDetails extends AppCompatActivity {
 
     public int totalContribution()
     {
-        int total = contribution.getJan() + contribution.getFeb() + contribution.getMarch() + contribution.getApril()+
+        total = contribution.getJan() + contribution.getFeb() + contribution.getMarch() + contribution.getApril()+
                 contribution.getMayy() + contribution.getJune() + contribution.getJuly() + contribution.getaugust() +
                 contribution.getSeptemeber() + contribution.getNovember() + contribution.getDecember();
+
+        Log.d("Contribution","This is the contribution" + total);
+        totalContributed.setText(String.valueOf(total));
+
+        appWidget.putString("Contribution",String.valueOf(total));
+
+        String phonenumber = appWidget.getString("PhoneNumber");
+        String contribution = appWidget.getString("Contribution");
+        Log.d("Phonenumber","Widget phone number " + phonenumber);
+        Log.d("Contribution","Widget contribution " + contribution);
+
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, AppWidgetActivity.class));
+        AppWidgetActivity.wiringUpTheWidget(this,appWidgetManager,appWidgetIds,appWidget);
+        Toast.makeText(this,"The Widget has been updated ",Toast.LENGTH_LONG).show();
         return  total;
     }
     public String getDateInWords()
@@ -328,6 +365,7 @@ public class MyDetails extends AppCompatActivity {
             count= count + 1;
         }
 
+        montsContributed.setText(String.valueOf(count));
         return count;
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--The minHeight is greater so that it forms a rectangle-->
+<!---->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/app_widget_activity"
+    android:initialLayout="@layout/app_widget_activity"
+    android:minHeight="150dp"
+    android:minWidth="400dp"
+    android:previewImage="@drawable/face"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen">
+
+
+</appwidget-provider>

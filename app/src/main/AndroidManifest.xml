@@ -15,9 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TheAllChat"
-            android:theme="@style/AppThemeDarkActionBar"
-            />
+
+        <activity
+            android:name=".TheAllChat"
+            android:theme="@style/AppThemeDarkActionBar" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
@@ -28,17 +29,15 @@
             android:enabled="true"
             android:exported="true" />
 
-        <service
-            android:name=".MyFirebaseInstanceIDService">
+        <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".UserFirebaseMessagingService"
-            android:permission="com.google.android.c2dm.permission.SEND"
             android:exported="false"
+            android:permission="com.google.android.c2dm.permission.SEND"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -52,22 +51,23 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".EnterAnEvent" />
-        <activity android:name=".EventActivity"
-            android:theme="@style/AppThemeDarkActionBar"/>
+        <activity
+            android:name=".EventActivity"
+            android:theme="@style/AppThemeDarkActionBar" />
 
         <service
             android:name=".MyIntentService"
             android:exported="false" />
 
-        <activity android:name=".AllDetails"
-            android:theme="@style/AppThemeWhiteActionBar"/>
-        <activity android:name=".MyDetails"
-             android:theme="@style/AppThemeWhiteActionBar"/>
+        <activity
+            android:name=".AllDetails"
+            android:theme="@style/AppThemeWhiteActionBar" />
+        <activity
+            android:name=".MyDetails"
+            android:theme="@style/AppThemeWhiteActionBar" />
         <activity
             android:name=".MyProfile"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TheNavigationDrawer"
             android:label="@string/title_activity_the_navigation_drawer"
@@ -80,12 +80,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".Create" />
-        <activity android:name=".Sign"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Login"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Welcome"
-            android:theme="@style/AppTheme.NoActionBar"/> <!-- This allows one to read the pdf file without errors -->
+        <activity
+            android:name=".Sign"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Welcome"
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- This allows one to read the pdf file without errors -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -95,6 +98,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <receiver android:name=".AppWidgetActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_activity_info" />
+        </receiver>
     </application>
 
 </manifest>

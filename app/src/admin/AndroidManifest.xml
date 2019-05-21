@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -10,7 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application>
-        <activity android:name="com.example.admin.chamaapp.admin.content"></activity>
+
+        <activity android:name="com.example.admin.chamaapp.admin.content" />
         <activity android:name="com.example.admin.chamaapp.admin.PlaceSearch" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -36,8 +38,9 @@
         <activity
             android:name="com.example.admin.chamaapp.EnterAnEvent"
             android:theme="@style/AppThemeDarkActionBar" />
-        <activity android:name="com.example.admin.chamaapp.AdminFragment"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="com.example.admin.chamaapp.AdminFragment"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -107,6 +107,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 
         //        This method will retrun the users details that are important for the user profile
         userDetails = getUserDetails();
+
         userId = userDetails[0];
         phonenumber = userDetails[1];
 
