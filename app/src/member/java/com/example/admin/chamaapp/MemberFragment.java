@@ -3,10 +3,7 @@ package com.example.admin.chamaapp;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,9 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -200,7 +195,7 @@ public class MemberFragment extends AppCompatActivity implements View.OnClickLis
             public void onComplete(@NonNull Task<Void> task)
             {
                 Toast.makeText(MemberFragment.this, "Data has been added", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MemberFragment.this, NavigationDrawerMember.class);
+                Intent intent = new Intent(MemberFragment.this, TheNavigationDrawer.class);
                 startActivity(intent);
             }
 

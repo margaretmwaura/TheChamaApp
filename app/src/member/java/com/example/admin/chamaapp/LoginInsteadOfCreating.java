@@ -95,7 +95,7 @@ public class LoginInsteadOfCreating extends AppCompatActivity {
                                 if(task.isSuccessful())
                                 {
                                     Toast.makeText(LoginInsteadOfCreating.this,"The signing was successful " , Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(LoginInsteadOfCreating.this,NavigationDrawerMember.class);
+                                    Intent intent = new Intent(LoginInsteadOfCreating.this, TheNavigationDrawer.class);
                                     startActivity(intent);
                                 }
                                 else

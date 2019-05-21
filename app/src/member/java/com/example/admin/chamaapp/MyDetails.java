@@ -1,8 +1,10 @@
 package com.example.admin.chamaapp;
 
+import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,12 +46,14 @@ public class MyDetails extends AppCompatActivity {
     private String image,userId,phonenumber;
     private Contribution contribution;
     private Button sendEmail;
+    private Bundle appWidget;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_details);
 
+        appWidget = new Bundle();
 
 
 //        userNameTextView.setText(userNameText);
@@ -76,6 +80,7 @@ public class MyDetails extends AppCompatActivity {
         userId = intent.getStringExtra("UserID");
         image = intent.getStringExtra("ImageSet");
 
+        appWidget.putString("PhoneNumber",phonenumber);
 //        emailTextView.setText(email);
 
 
@@ -91,6 +96,7 @@ public class MyDetails extends AppCompatActivity {
         if(!image.equals(" "))
         {
             circleImageView.setImageURI(Uri.parse(image));
+            appWidget.putString("Image",image);
         }
         else
         {
@@ -266,6 +272,19 @@ public class MyDetails extends AppCompatActivity {
         int total = contribution.getJan() + contribution.getFeb() + contribution.getMarch() + contribution.getApril()+
                 contribution.getMayy() + contribution.getJune() + contribution.getJuly() + contribution.getaugust() +
                 contribution.getSeptemeber() + contribution.getNovember() + contribution.getDecember();
+
+        appWidget.putString("Contribution",String.valueOf(total));
+
+        String phonenumber = appWidget.getString("PhoneNumber");
+        String contribution = appWidget.getString("Contribution");
+        Log.d("Phonenumber","Widget phone number " + phonenumber);
+        Log.d("Contribution","Widget contribution " + contribution);
+
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, AppWidgetActivity.class));
+        AppWidgetActivity.wiringUpTheWidget(this,appWidgetManager,appWidgetIds,appWidget);
+        Toast.makeText(this,"The Widget has been updated ",Toast.LENGTH_LONG).show();
         return  total;
     }
     public String getDateInWords()

@@ -44,7 +44,7 @@ public class check extends Activity
             {
                 Toast.makeText(this,"The user has been logged in ", Toast.LENGTH_LONG).show();
                 Log.d("UserLoggedInBefore","The user has been logged in before this ");
-                Intent intent = new Intent(check.this,NavigationDrawerMember.class);
+                Intent intent = new Intent(check.this, TheNavigationDrawer.class);
                 startActivity(intent);
                 finish();
             }

@@ -16,8 +16,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -44,7 +42,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
-public class NavigationDrawerMember extends AppCompatActivity
+public class TheNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private boolean ShouldExecuteOnReusme = true;
@@ -409,13 +407,13 @@ public class NavigationDrawerMember extends AppCompatActivity
         {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(NavigationDrawerMember.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(TheNavigationDrawer.this);
 
                 alert.setTitle("Edit name");
                 alert.setMessage("Enter your new name ");
 
 // Set an EditText view to get user input
-                final EditText input = new EditText(NavigationDrawerMember.this);
+                final EditText input = new EditText(TheNavigationDrawer.this);
                 alert.setView(input);
 
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -544,7 +542,7 @@ public class NavigationDrawerMember extends AppCompatActivity
                 startingUpTheCameraPicker();
             } else {
                 // Permission Denied
-                Toast.makeText(NavigationDrawerMember.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TheNavigationDrawer.this, "Permission Denied", Toast.LENGTH_SHORT).show();
             }
             return;
         }

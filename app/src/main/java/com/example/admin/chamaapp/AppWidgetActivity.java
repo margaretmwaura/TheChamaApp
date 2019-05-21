@@ -88,7 +88,7 @@ public class AppWidgetActivity extends AppWidgetProvider
         //        Retrieving the value of the shared preference
 
 //        Starting up the intent that will be used to open up the intent
-        Intent appIntent = new Intent(context,MyDetails.class);
+        Intent appIntent = new Intent(context,TheNavigationDrawer.class);
         PendingIntent appPendingIntent = PendingIntent.getActivity(context,0,appIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.containerLayout,appPendingIntent);
 
