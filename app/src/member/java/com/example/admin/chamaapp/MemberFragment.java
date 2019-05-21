@@ -104,6 +104,15 @@ public class MemberFragment extends AppCompatActivity implements View.OnClickLis
 //        animation.setDuration(10000);
 //        circle.startAnimation(animation);
 
+        Window window = this.getWindow();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            //This single line of code sets the status bar to alert
+            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        }
+
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
@@ -183,16 +192,9 @@ public class MemberFragment extends AppCompatActivity implements View.OnClickLis
 
 
         Contribution contribution = new Contribution();
-        contribution.setPhonenumber(phonenumber);
-        mref.child("database").child("contribution").child(phonenumber).setValue(contribution).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task)
-            {
-                Toast.makeText(MemberFragment.this,"Contributions regarding the user has been added ", Toast.LENGTH_LONG).show();
-            }
-        });
-        Member maggie = new Member(memberId, type,phonenumber);
-        mref.child("database").child("users").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
+
+        Member maggie = new Member(memberId, type,phonenumber,contribution);
+        mref.child("database").child("users").child("Member").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
         {
             @Override
             public void onComplete(@NonNull Task<Void> task)

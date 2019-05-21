@@ -64,6 +64,10 @@ public class Admin implements Parcelable {
     {
         return this.contribution;
     }
+    public String getPhonenumber()
+    {
+        return this.phonenumber;
+    }
 
     @Override
     public int describeContents() {

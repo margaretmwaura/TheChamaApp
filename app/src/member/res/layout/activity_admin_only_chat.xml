@@ -9,7 +9,9 @@
     tools:context=".TheAllChat">
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="50dp"
+        android:layout_above="@+id/linearlayoutChat"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/chat_recyclerView">
@@ -17,6 +19,7 @@
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
+        android:id="@+id/linearlayoutChat"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content"
@@ -25,11 +28,12 @@
 
 
         <EditText
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:id="@+id/message_edittext"
             android:hint="Enter your new message"/>
         <Button
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send"

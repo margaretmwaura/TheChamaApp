@@ -79,9 +79,9 @@ public class TheAllChat extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
+        layoutManager.setStackFromEnd(true);
 //        Set the layoutManager of the recyclerView
         chatRecyclerView.setLayoutManager(layoutManager);
-        chatRecyclerView.setHasFixedSize(true);
 
         chatRecyclerView.setAdapter(chatAdapter);
 
@@ -124,6 +124,7 @@ public class TheAllChat extends AppCompatActivity {
              if(chatList.size()!= 0)
              {
                  chatAdapter.setChatList(chatList);
+                 chatRecyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
                  Log.d("AddingChats", "Chats have been added to the UI");
              }
          }

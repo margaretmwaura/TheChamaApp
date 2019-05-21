@@ -1,13 +1,26 @@
 package com.example.admin.chamaapp;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -19,9 +32,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.androidstudy.daraja.Daraja;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,14 +55,29 @@ public class NavigationDrawerMember extends AppCompatActivity
     private ImageView imgvw;
     private TextView userName;
 
+    private ImageView profileImage;
+    private TextView profileName,profileEmail, profileTitle;
+    private Button editPhoto , editYourName, sendMoneyViaMpesa;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private String value, name,image;
+    Daraja daraja;
+    String phoneNumber;
+    private EditText editTextPhone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         ShouldExecuteOnReusme = false;
         setContentView(R.layout.activity_navigation_drawer_member);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(" ");
+        final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_black_24dp);
+        upArrow.setColorFilter(getResources().getColor(R.color.colorBackIcon), PorterDuff.Mode.SRC_ATOP);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
 
         Log.d("OnCreate","oncreate method has been called ");
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -95,9 +127,9 @@ public class NavigationDrawerMember extends AppCompatActivity
 
         //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
-        String image = settings.getString("profileImage"," ");
-        String userNameText = settings.getString("userName"," ");
-        userName.setText(userNameText);
+        image = settings.getString("profileImage"," ");
+        name = settings.getString("userName"," ");
+        userName.setText(name);
 
         Log.d("The image string","This is the image String " + image);
 //        Had to use the " " because there was a default value that had been set if the image is not found
@@ -119,9 +151,7 @@ public class NavigationDrawerMember extends AppCompatActivity
         tv.setText(phonenumber);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
-
+       includeLayout();
     }
 
     @Override
@@ -132,9 +162,9 @@ public class NavigationDrawerMember extends AppCompatActivity
 
         //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
-        String image = settings.getString("profileImage"," ");
-        String userNameText = settings.getString("userName"," ");
-        userName.setText(userNameText);
+        image = settings.getString("profileImage"," ");
+        name = settings.getString("userName"," ");
+        userName.setText(name);
 
         Log.d("The image string","This is the image String " + image);
 //        Had to use the " " because there was a default value that had been set if the image is not found
@@ -142,6 +172,7 @@ public class NavigationDrawerMember extends AppCompatActivity
         {
             Uri imageUri = Uri.parse(image);
             imgvw.setImageURI(imageUri);
+            profileImage.setImageURI(imageUri);
             Toast.makeText(this,"The image had been set ",Toast.LENGTH_LONG).show();
         }
         else
@@ -149,6 +180,15 @@ public class NavigationDrawerMember extends AppCompatActivity
 //            Will look for a better image
             Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
             imgvw.setImageResource(R.drawable.face);
+        }
+
+        if(!name.equals(" "))
+        {
+            profileName.setText(name);
+        }
+        else
+        {
+            profileName.setText("Enter your name");
         }
 
         if(ShouldExecuteOnReusme)
@@ -230,9 +270,12 @@ public class NavigationDrawerMember extends AppCompatActivity
         {
             // Handle the camera action
 //            Clicking on this option should lead one to the myAccount page
-            Intent intent = new Intent(this,MyProfile.class);
-            intent.putExtra("Phonenumber",phonenumber);
-            startActivity(intent);
+//            Intent intent = new Intent(this,MyProfile.class);
+//            intent.putExtra("Phonenumber",phonenumber);
+//            startActivity(intent);
+
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(Gravity.START);
         }
         if (id == R.id.nav_my_details)
         {
@@ -241,6 +284,7 @@ public class NavigationDrawerMember extends AppCompatActivity
             Intent intent = new Intent(this,MyDetails.class);
             intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
+            intent.putExtra("ImageSet",image);
             startActivity(intent);
         }
         if (id == R.id.nav_events)
@@ -308,5 +352,202 @@ public class NavigationDrawerMember extends AppCompatActivity
 
         }
 
+    }
+
+    public void includeLayout()
+    {
+        View view = findViewById(R.id.senior);
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.newback);
+        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
+        view.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+
+        profileImage = (ImageView) view.findViewById(R.id.profile_image);
+        profileName = (TextView) view.findViewById(R.id.your_name);
+        profileEmail = (TextView) view.findViewById(R.id.your_email_address);
+
+//        Setting the email address on the email address text view
+        if(phoneNumber != null && !phoneNumber.isEmpty())
+        {
+            profileEmail.setText(phoneNumber);
+            Toast.makeText(this,"Setting email",Toast.LENGTH_LONG).show();
+            Log.d("EmialNotThere ", " setting email");
+        }
+        editPhoto = (Button) view.findViewById(R.id.edit_profile_photo);
+        editYourName = (Button) view.findViewById(R.id.edit_your_name);
+
+        if(!image.equals(" "))
+        {
+            Uri imageUri = Uri.parse(image);
+            profileImage.setImageURI(imageUri);
+            Toast.makeText(this,"The image had been set ",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+//            Will look for a better image
+            Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
+            profileImage.setImageResource(R.drawable.face);
+        }
+        if(!name.equals(" "))
+        {
+            profileName.setText(name);
+        }
+        else
+        {
+            profileName.setText("Enter your name");
+        }
+
+        editPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+//                This method should be called once all the permissions have been granted
+                requestRead();
+            }
+        });
+
+        editYourName.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(NavigationDrawerMember.this);
+
+                alert.setTitle("Edit name");
+                alert.setMessage("Enter your new name ");
+
+// Set an EditText view to get user input
+                final EditText input = new EditText(NavigationDrawerMember.this);
+                alert.setView(input);
+
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        value = input.getText().toString();
+                        profileName.setText(value);
+                        userName.setText(value);
+                        SharedPreferences profileImage =getSharedPreferences("prefs",0);
+                        SharedPreferences.Editor editor= profileImage.edit();
+                        editor.putString("userName",value);
+                        editor.commit();
+                        // Do something with value!
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+            }
+        });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        try {
+            String path = "";
+            if (requestCode == 1) {
+
+                if (resultCode == RESULT_OK)
+                {
+                    final Uri imageUri = data.getData();
+                    Log.d("image selected path", imageUri.getPath());
+                    System.out.println("image selected path"
+                            + imageUri.getPath());
+
+//                    Having a dialog that lets one say yes or no to the image
+//                    This is just for the user experience
+//This code will be used when the admin is editting the users entries
+                    AlertDialog.Builder builder;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        builder = new AlertDialog.Builder(this);
+                    }
+                    builder.setTitle("Change profile Image")
+                            .setMessage("This is the image you want to set \n as your profile image")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                            {
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    // continue with setting the image
+                                    profileImage.setImageURI(imageUri);
+                                    imgvw.setImageURI(imageUri);
+                                    image= imageUri.toString();
+//                                    Saving to the shared preferences was for the purposes of use when the activity had been destroyed
+                                    String toStroreString = imageUri.toString();
+                                    SharedPreferences profileImage =getSharedPreferences("prefs",0);
+                                    SharedPreferences.Editor editor= profileImage.edit();
+                                    editor.putString("profileImage",toStroreString);
+                                    editor.commit();
+
+
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    // the image is retained
+                                }
+                            })
+
+//                            Will change the icon for purposes of UI/UX
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+
+
+                }
+                //DO other stuff
+
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void startingUpTheCameraPicker()
+    {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 1);
+    }
+    public void requestRead()
+    {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+//             In this code the user is requesting for permissions
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        }
+        else
+        {
+//                In this case the permissions have been offered already
+            startingUpTheCameraPicker();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+//                In this case the permission has been granted and the user can start the camera picker
+                startingUpTheCameraPicker();
+            } else {
+                // Permission Denied
+                Toast.makeText(NavigationDrawerMember.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

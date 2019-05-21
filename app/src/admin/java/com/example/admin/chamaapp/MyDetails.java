@@ -162,7 +162,7 @@ public class MyDetails extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
-                DataSnapshot userID = dataSnapshot.child("database").child("users").child(userId);
+                DataSnapshot userID = dataSnapshot.child("database").child("users").child("Admin").child(userId);
 
                 Boolean exist = userID.exists();
 
@@ -275,5 +275,59 @@ public class MyDetails extends AppCompatActivity {
         System.out.println("Date name: " + date);
 
         return date;
+    }
+    public int months()
+    {
+        int count = 0;
+        if(contribution.getJan() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getFeb() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getMarch() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getApril() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getMayy() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getJune() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getJuly() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getaugust() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getSeptemeber() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getOctober() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getNovember() != 0)
+        {
+            count= count + 1;
+        }
+        if(contribution.getDecember() != 0)
+        {
+            count= count + 1;
+        }
+
+        return count;
     }
 }

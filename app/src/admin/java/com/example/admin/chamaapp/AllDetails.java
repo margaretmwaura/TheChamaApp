@@ -67,22 +67,27 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllDetails extends AppCompatActivity implements OnItemClickListener, LoaderManager.LoaderCallbacks<String>
+public class AllDetails extends AppCompatActivity implements OnItemClickListenerWithType, LoaderManager.LoaderCallbacks<String>
 {
 
 //    This is the activity that displays for all the members
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView,recyclerViewAdmin;
     private DetailsAdapter detailsAdapter;
+    private AdminDetailAdapter adminDetailAdapter;
     private FirebaseAuth auth;
     private List<Member> memberList = new ArrayList<>();
+    private List<Admin> adminList =new ArrayList<>();
     private List<String> userID = new ArrayList<>();
+    private List<String> userIDTwo = new ArrayList<>();
     private boolean storagePermission;
     public static final int OPERATION_SEARCH_LOADER = 22;
     private Member member;
     private String userIDSelected;
+    private Admin admin;
     private int position;
     private UserViewModel viewModel;
     final String[] selectedMonth = new String[1];
+    private TextView adminSize, memberSize;
 
 
     @Override
@@ -111,20 +116,30 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
 //        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 //        getSupportActionBar().setCustomView(textView);
 
-
+         adminSize = (TextView) findViewById(R.id.admin_size);
+         memberSize = (TextView) findViewById(R.id.member_size);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        recyclerViewAdmin = (RecyclerView) findViewById(R.id.recycler_admin);
 //        this is the code for creating of the layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManagerTwo = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
 //        Set the layoutManager of the recyclerView
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
+        recyclerViewAdmin.setLayoutManager(layoutManagerTwo);
+        recyclerViewAdmin.setHasFixedSize(true);
+
         detailsAdapter = new DetailsAdapter(this);
+        adminDetailAdapter = new AdminDetailAdapter(this);
 
         recyclerView.setAdapter(detailsAdapter);
+        recyclerViewAdmin.setAdapter(adminDetailAdapter);
+
         detailsAdapter.setClickListener(this);
+        adminDetailAdapter.setClickListener(this);
 
         viewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
@@ -134,7 +149,8 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
 
-                DataSnapshot userDetails = dataSnapshot.child("database").child("users");
+                DataSnapshot userDetails = dataSnapshot.child("database").child("users").child("Member");
+                DataSnapshot userDetailsTwo = dataSnapshot.child("database").child("users").child("Admin");
                 Boolean exist = userDetails.exists();
                 Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
                 Iterable<DataSnapshot> journals = userDetails.getChildren();
@@ -147,11 +163,30 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                     memberList.add(maggie);
                     userID.add(id);
                 }
-
                 Log.d("TheListRead","This are the number of journals found " + memberList.size());
                 if(memberList.size() != 0)
                 {
                     detailsAdapter.setMembersList(memberList);
+                    memberSize.setText(String.valueOf(memberList.size()));
+                }
+
+                Boolean existAdmin = userDetailsTwo.exists();
+                Log.d("Confirming","This confirms that the datasnapshot exists " + existAdmin);
+                Iterable<DataSnapshot> journalsTwo = userDetailsTwo.getChildren();
+                for(DataSnapshot journal : journalsTwo)
+                {
+                    String id;
+                    Admin maggie = new Admin();
+                    maggie = journal.getValue(Admin.class);
+                    id = journal.getKey();
+                    adminList.add(maggie);
+                    userIDTwo.add(id);
+                }
+                Log.d("TheListRead","This are the number of journals found " + memberList.size());
+                if(adminList.size() != 0)
+                {
+                    adminDetailAdapter.setAdminList(adminList);
+                    adminSize.setText(String.valueOf(adminList.size()));
                 }
 
 
@@ -268,13 +303,24 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
     }
 
     @Override
-    public void onClick(View view, int position)
+    public void onClick(View view, int position,String type)
     {
-        position = position;
-        Log.d("OnClick","This method has been called ");
-        member = memberList.get(position);
-        userIDSelected = userID.get(position);
-        showCustomDialog();
+
+            if(type.equals("member")) {
+                position = position;
+                Log.d("OnClick", "This method has been called ");
+                member = memberList.get(position);
+                userIDSelected = userID.get(position);
+                showCustomDialog("Member", member.getPhonenumber(), userIDSelected);
+            }
+
+            if(type.equals("Admin")) {
+                position = position;
+                Log.d("OnClick", "This method has been called ");
+                admin = adminList.get(position);
+                userIDSelected = userIDTwo.get(position);
+                showCustomDialog("Admin", admin.getPhonenumber(), userIDSelected);
+            }
 
     }
 
@@ -468,7 +514,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
         return true;
     }
 
-    private void showCustomDialog()
+    private void showCustomDialog(final String type, final String phonenumber, final String userClicked)
     {
 
 //        first remove the observers
@@ -554,8 +600,9 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                     int contributionData = Integer.parseInt(contribution.getText().toString());
                     Intent addTaskIntent = new Intent(AllDetails.this,MyIntentService.class);
                     addTaskIntent.setAction(Backgroundactivities.editUserData);
-                    addTaskIntent.putExtra("UserPhoneNumber",member.getPhonenumber());
-                    addTaskIntent.putExtra("UserID",userIDSelected);
+                    addTaskIntent.putExtra("UserPhoneNumber",phonenumber);
+                    addTaskIntent.putExtra("UserID",userClicked);
+                    addTaskIntent.putExtra("Type",type);
                     addTaskIntent.putExtra("Month", selectedMonth[0]);
                     addTaskIntent.putExtra("ContributionData",contributionData);
                     startService(addTaskIntent);
@@ -579,7 +626,10 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                                 public void onChanged(@Nullable DataSnapshot dataSnapshot)
                                 {
                                     memberList.clear();
-                                    DataSnapshot userDetails = dataSnapshot.child("database").child("users");
+                                    adminList.clear();
+
+                                    DataSnapshot userDetails = dataSnapshot.child("database").child("users").child("Member");
+                                    DataSnapshot userDetailsTwo = dataSnapshot.child("database").child("users").child("Admin");
                                     Boolean exist = userDetails.exists();
                                     Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
                                     Iterable<DataSnapshot> journals = userDetails.getChildren();
@@ -592,12 +642,30 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                                         memberList.add(maggie);
                                         userID.add(id);
                                     }
-
                                     Log.d("TheListRead","This are the number of journals found " + memberList.size());
                                     if(memberList.size() != 0)
                                     {
                                         detailsAdapter.setMembersList(memberList);
                                     }
+
+                                    Boolean existAdmin = userDetailsTwo.exists();
+                                    Log.d("Confirming","This confirms that the datasnapshot exists " + existAdmin);
+                                    Iterable<DataSnapshot> journalsTwo = userDetailsTwo.getChildren();
+                                    for(DataSnapshot journal : journalsTwo)
+                                    {
+                                        String id;
+                                        Admin maggie = new Admin();
+                                        maggie = journal.getValue(Admin.class);
+                                        id = journal.getKey();
+                                        adminList.add(maggie);
+                                        userIDTwo.add(id);
+                                    }
+                                    Log.d("TheListRead","This are the number of journals found " + memberList.size());
+                                    if(adminList.size() != 0)
+                                    {
+                                        adminDetailAdapter.setAdminList(adminList);
+                                    }
+
 
                                 }
                             }

@@ -63,7 +63,7 @@ public class TheNavigationDrawer extends AppCompatActivity
     private TextView profileName,profileEmail, profileTitle;
     private Button editPhoto , editYourName, sendMoneyViaMpesa;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    private String value;
+    private String value, name;
     Daraja daraja;
     String phoneNumber;
     private EditText editTextPhone;
@@ -128,7 +128,9 @@ public class TheNavigationDrawer extends AppCompatActivity
         //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
         image = settings.getString("profileImage"," ");
-        String userNameText = settings.getString("userName"," ");
+         name = settings.getString("userName"," ");
+
+
 //        userName.setText(userNameText);
 
         Log.d("The image string","This is the image String " + image);
@@ -165,7 +167,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
         image = settings.getString("profileImage"," ");
-        String userNameText = settings.getString("userName"," ");
+        name = settings.getString("userName"," ");
 //        userName.setText(userNameText);
 
         Log.d("The image string","This is the image String " + image);
@@ -182,6 +184,15 @@ public class TheNavigationDrawer extends AppCompatActivity
 //            Will look for a better image
             Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
             imgvw.setImageResource(R.drawable.face);
+        }
+
+        if(!name.equals(" "))
+        {
+            profileName.setText(name);
+        }
+        else
+        {
+            profileName.setText("Enter your name");
         }
 
         if(ShouldExecuteOnReusme)
@@ -263,10 +274,14 @@ public class TheNavigationDrawer extends AppCompatActivity
         {
             // Handle the camera action
 //            Clicking on this option should lead one to the myAccount page
-            Intent intent = new Intent(this,MyProfile.class);
-            intent.putExtra("Phonenumber",phonenumber);
+//            Intent intent = new Intent(this,MyProfile.class);
+//            intent.putExtra("Phonenumber",phonenumber);
+//
+//            startActivity(intent);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(Gravity.START);
 
-            startActivity(intent);
+
         }
         if (id == R.id.nav_my_details)
         {
@@ -391,6 +406,14 @@ public class TheNavigationDrawer extends AppCompatActivity
 //            Will look for a better image
             Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
             profileImage.setImageResource(R.drawable.face);
+        }
+        if(!name.equals(" "))
+        {
+            profileName.setText(name);
+        }
+        else
+        {
+            profileName.setText("Enter your name");
         }
 
         editPhoto.setOnClickListener(new View.OnClickListener() {

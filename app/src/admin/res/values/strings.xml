@@ -1,5 +1,4 @@
 <resources>
-    <string name="create_label">Click the send code button for a code to be sent to this phone number input it in the edit text box below
-    </string>
+
     <string name="title_activity_maps">Map</string>
 </resources>

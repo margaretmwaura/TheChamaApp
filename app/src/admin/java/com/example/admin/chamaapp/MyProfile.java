@@ -144,7 +144,7 @@ public class MyProfile extends AppCompatActivity {
 //        This is meant to get the previously set imageUri
         SharedPreferences settings=getSharedPreferences("prefs",0);
         String image = settings.getString("profileImage"," ");
-
+        String name = settings.getString("userName"," ");
         Log.d("The image string","This is the image String " + image);
 //        Had to use the " " because there was a default value that had been set if the image is not found
         if(!image.equals(" "))
@@ -160,6 +160,15 @@ public class MyProfile extends AppCompatActivity {
             profileImage.setImageResource(R.drawable.face);
         }
 
+
+        if(!name.equals(" "))
+        {
+            profileName.setText(name);
+        }
+        else
+        {
+            profileName.setText("Enter your name");
+        }
         editPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)

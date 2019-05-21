@@ -36,7 +36,8 @@
         <activity
             android:name="com.example.admin.chamaapp.EnterAnEvent"
             android:theme="@style/AppThemeDarkActionBar" />
-        <activity android:name="com.example.admin.chamaapp.AdminFragment" />
+        <activity android:name="com.example.admin.chamaapp.AdminFragment"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

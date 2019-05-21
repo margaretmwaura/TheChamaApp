@@ -5,12 +5,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -40,6 +47,8 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.admin.chamaapp.ViewGroupUtils.replaceView;
+
 public class Login extends AppCompatActivity {
 
         private FirebaseDatabase mFirebaseDatabase;
@@ -48,10 +57,10 @@ public class Login extends AppCompatActivity {
         private EditText inputCode;
         private FirebaseAuth auth;
         private ProgressBar progressBar;
-        private Button btnSignup, btnLogin, btnReset;
-        private String email,userId;
-        private static String token;
+        private Button btnLogin, btnSendCode;
+        private String userId;
         private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
+        private PhoneAuthProvider.ForceResendingToken resendToken;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +78,7 @@ public class Login extends AppCompatActivity {
 
             setContentView(R.layout.activity_login);
 
-            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Login.this, new OnSuccessListener<InstanceIdResult>()
-            {
-                @Override
-                public void onSuccess(InstanceIdResult instanceIdResult) {
-                    token = instanceIdResult.getToken();
-                }
-            });
+
             //blurring the background image
 //            LinearLayout mContainerView = (LinearLayout) findViewById(R.id.sign);
 //            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
@@ -83,14 +86,21 @@ public class Login extends AppCompatActivity {
 //            mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 //End of code of blurring the background image
 
+            Window window = this.getWindow();
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
+                //This single line of code sets the status bar to alert
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+            }
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             mref = mFirebaseDatabase.getReference();
            inputCode = (EditText) findViewById(R.id.verfication_code);
             progressBar = (ProgressBar) findViewById(R.id.progressBar);
 //            btnSignup = (Button) findViewById(R.id.btn_signup);
             btnLogin = (Button) findViewById(R.id.button_login);
-//            btnReset = (Button) findViewById(R.id.btn_reset_password);
-
+            btnSendCode = (Button) findViewById(R.id.button_send);
 
             //Get Firebase auth instance
             auth = FirebaseAuth.getInstance();
@@ -100,29 +110,54 @@ public class Login extends AppCompatActivity {
             Intent intent = getIntent();
             enteredPhoneNumber = intent.getStringExtra("The phone number ");
 
-//            btnSignup.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    startActivity(new Intent(login.this, Sign.class));
-//                }
-//            });
-//
-//            btnReset.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    startActivity(new Intent(login.this, MainActivity.class));
-//                }
-//            });
+            btnSendCode.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v) {
+                    setUpTheCallBacks();
+                    verifyPhoneNumber();
+                    new CountDownTimer(12000, 1000) {
+
+                        public void onTick(long millisUntilFinished)
+                        {
+                            btnSendCode.setText("seconds remaining: " + millisUntilFinished / 1000);
+                            //here you can have your logic to set text to edittext
+                        }
+
+                        public void onFinish()
+                        {
+                            btnLogin.setVisibility(View.VISIBLE);
+                            replaceView(btnSendCode, btnLogin);
+                            btnLogin.setOnClickListener(new View.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(View v)
+                                {
+                                    resendVerificationCode(enteredPhoneNumber,resendToken);
+                                    new CountDownTimer(12000,1000)
+                                    {
+
+                                        @Override
+                                        public void onTick(long millisUntilFinished)
+                                        {
+                                            btnLogin.setText("seconds remaining: " + millisUntilFinished / 1000);
+                                        }
+
+                                        @Override
+                                        public void onFinish()
+                                        {
+                                            btnLogin.setText("Resend code");
+                                        }
+                                    }.start();
+                                }
+                            });
+
+                        }
+                    }.start();
+                }
+            });
 
 
-//
-            setUpTheCallBacks();
-            PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                    enteredPhoneNumber,        // Phone number to verify
-                    120,                 // Timeout duration
-                    TimeUnit.SECONDS,   // Unit of timeout
-                    this,               // Activity (for callback binding)
-                    mCallBacks);
         }
 
 //        This will be useful when loging in the user once they log out
@@ -191,7 +226,29 @@ public class Login extends AppCompatActivity {
 //                }
 //            }
 //        }
+               public void verifyPhoneNumber()
+            {
+             PhoneAuthProvider.getInstance().verifyPhoneNumber
+              (
+                    enteredPhoneNumber,        // Phone number to verify
+                    120,                 // Timeout duration
+                    TimeUnit.SECONDS,   // Unit of timeout
+                    this,               // Activity (for callback binding)
+                    mCallBacks);
 
+
+            }
+
+    private void resendVerificationCode(String phoneNumber,
+                                        PhoneAuthProvider.ForceResendingToken token) {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneNumber,        // Phone number to verify
+                60,                 // Timeout duration
+                TimeUnit.SECONDS,   // Unit of timeout
+                this,               // Activity (for callback binding)
+                mCallBacks,         // OnVerificationStateChangedCallbacks
+                token);             // ForceResendingToken from callbacks
+    }
     private void setUpTheCallBacks()
     {
         mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -199,14 +256,15 @@ public class Login extends AppCompatActivity {
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential)
             {
 
-                String code = phoneAuthCredential.getSmsCode();
+                final String code = phoneAuthCredential.getSmsCode();
 
-                if (code != null) {
+                if(code!= null)
+                {
+                    showDialogBox();
                     inputCode.setText(code);
-                    //verifying the code
+//                   Show the pop-up dialog showing authentication
                     verifyVerificationCode(code);
                 }
-
 
             }
 
@@ -221,6 +279,7 @@ public class Login extends AppCompatActivity {
             public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
                 mVerificationId = s;
+                resendToken = forceResendingToken;
             }
         };
 
@@ -291,10 +350,25 @@ public class Login extends AppCompatActivity {
                     }
                 });
     }
-
-    public static String returnRegistrationToken()
+    public void showDialogBox()
     {
-        return token;
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        final View dialogView = LayoutInflater.from(this).inflate(R.layout.verifcation_layout, viewGroup, false);
+
+
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        //finally creating the alert dialog and displaying it
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
     }
 

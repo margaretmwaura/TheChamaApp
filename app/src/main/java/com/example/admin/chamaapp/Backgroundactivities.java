@@ -345,7 +345,7 @@ public class Backgroundactivities
         });
     }
 
-    public void editUserData(final String userID, final String  phonenumber, final String month, final int contributionValue){
+    public void editUserData(final String userID, final String  phonenumber, final String month, final int contributionValue,String type){
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mref = mFirebaseDatabase.getReference();
 
@@ -356,7 +356,14 @@ public class Backgroundactivities
 
 //        int contribute = read(contributionValue,userID,month);
 
-        write(contributionValue,userID,month);
+        if(type.equals("Admin"))
+        {
+            mref.child("database").child("users").child("Admin").child(userID).child("contribution").child(month).setValue(contributionValue);
+        }
+        if(type.equals("member"))
+        {
+            mref.child("database").child("users").child("Member").child(userID).child("contribution").child(month).setValue(contributionValue);
+        }
 
 
     }
@@ -380,10 +387,7 @@ public class Backgroundactivities
 
         return contribution[0];
     }
-    public void write(int contribution,String userID, String month)
-    {
-        mref.child("database").child("users").child(userID).child("contribution").child(month).setValue(contribution);
-    }
+
 
 
 }

@@ -80,9 +80,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".Create" />
-        <activity android:name=".Sign" />
-        <activity android:name=".Login" />
-        <activity android:name=".Welcome" /> <!-- This allows one to read the pdf file without errors -->
+        <activity android:name=".Sign"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Login"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Welcome"
+            android:theme="@style/AppTheme.NoActionBar"/> <!-- This allows one to read the pdf file without errors -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

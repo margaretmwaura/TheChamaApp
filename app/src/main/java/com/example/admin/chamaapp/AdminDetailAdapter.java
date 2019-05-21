@@ -10,15 +10,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsViewHolder>
+public class AdminDetailAdapter extends RecyclerView.Adapter<AdminDetailAdapter.AdminDetailViewHolder>
 {
-
-    List<Member> membersList = new ArrayList<>();
+    List<Admin> AdminList = new ArrayList<>();
     Context mContext;
     private OnItemClickListenerWithType onItemClickListener;
-    public String member = "member";
+    private String admin = "Admin";
 
-    public DetailsAdapter(Context context)
+    public AdminDetailAdapter(Context context)
     {
         mContext = context;
     }
@@ -27,7 +26,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         this.onItemClickListener = itemClickListener;
     }
     @Override
-    public DetailsViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public AdminDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         Context context = parent.getContext();
 //        this is for getting the id of the layout with the data textView
@@ -37,17 +36,17 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         boolean shouldAttachToParentImmediately = false;
 
         View view = layoutInflater.inflate(id,parent,shouldAttachToParentImmediately);
-        return new DetailsViewHolder(view);
+        return new AdminDetailViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(DetailsViewHolder holder, int position)
+    public void onBindViewHolder(AdminDetailViewHolder holder, int position)
     {
-        Member maggie = membersList.get(position);
+        Admin maggie = AdminList.get(position);
         String phonenumber = maggie.getPhonenumber();
 
         holder.emailAddress.setText("Owner " + phonenumber);
-        holder.membershipId.setText(String.valueOf(maggie.getMembershipID()));
+        holder.membershipId.setText(String.valueOf(maggie.getID()));
         Contribution contribution = maggie.getContribution();
         int total = getTotalContribution(contribution);
         holder.contribution.setText(String.valueOf(total));
@@ -55,20 +54,20 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
 
     @Override
     public int getItemCount() {
-        return membersList.size();
+        return AdminList.size();
     }
 
-    public void setMembersList(List<Member> membersList)
+    public void setAdminList(List<Admin> membersList)
     {
-        this.membersList = membersList;
+        this.AdminList = membersList;
 //        Without it no code shows
         notifyDataSetChanged();
     }
-    class DetailsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    class AdminDetailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
 
         TextView emailAddress, contribution,membershipId;
-        public DetailsViewHolder(View itemView)
+        public AdminDetailViewHolder(View itemView)
         {
             super(itemView);
 
@@ -83,7 +82,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         @Override
         public void onClick(View v)
         {
-              onItemClickListener.onClick(v,getAdapterPosition(),member);
+            onItemClickListener.onClick(v,getAdapterPosition(),admin);
         }
     }
 
@@ -95,7 +94,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
 
         return total;
     }
-
 
 
 

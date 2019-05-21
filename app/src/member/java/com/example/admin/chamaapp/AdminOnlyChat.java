@@ -73,10 +73,9 @@ public class AdminOnlyChat extends AppCompatActivity {
         chatRecyclerView = findViewById(R.id.chat_recyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
+        layoutManager.setStackFromEnd(true);
 //        Set the layoutManager of the recyclerView
         chatRecyclerView.setLayoutManager(layoutManager);
-        chatRecyclerView.setHasFixedSize(true);
 
         chatRecyclerView.setAdapter(chatAdapter);
 
@@ -120,6 +119,7 @@ public class AdminOnlyChat extends AppCompatActivity {
                 if(chatList.size() != 0)
                 {
                     chatAdapter.setChatList(chatList);
+                    chatRecyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
                     Log.d("AddingChats","Chats have been added to the UI");
                 }
             }

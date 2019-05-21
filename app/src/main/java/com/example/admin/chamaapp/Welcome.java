@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -34,6 +37,14 @@ public class Welcome extends AppCompatActivity
         decorView.setSystemUiVisibility(uiOptions);
         this.getWindow().setFlags(uiOptions,0);
 
+        Window window = this.getWindow();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            //This single line of code sets the status bar to alert
+            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        }
 //blurring the background image
         RelativeLayout mContainerView = (RelativeLayout) findViewById(R.id.big);
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.newback);

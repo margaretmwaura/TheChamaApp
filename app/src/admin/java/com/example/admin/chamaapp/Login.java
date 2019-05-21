@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -85,7 +88,14 @@ public class Login extends AppCompatActivity {
 //            Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
 //            mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 //End of code of blurring the background image
+            Window window = this.getWindow();
 
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
+                //This single line of code sets the status bar to alert
+                window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+            }
             mFirebaseDatabase = FirebaseDatabase.getInstance();
             mref = mFirebaseDatabase.getReference();
            inputCode = (EditText) findViewById(R.id.verfication_code);

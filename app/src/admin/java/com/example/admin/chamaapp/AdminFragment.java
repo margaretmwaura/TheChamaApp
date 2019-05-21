@@ -163,6 +163,14 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
 //        CircleAngleAnimation animation = new CircleAngleAnimation(circle, 320);
 //        animation.setDuration(10000);
 //        circle.startAnimation(animation);
+        Window window = this.getWindow();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            //This single line of code sets the status bar to alert
+            window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        }
 
 
     }
@@ -206,7 +214,7 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
 
         Admin maggie = new Admin(type, post, id,phonenumber,contribution);
 
-        mref.child("database").child("users").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
+        mref.child("database").child("users").child("Admin").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
         {
             @Override
             public void onComplete(@NonNull Task<Void> task)
