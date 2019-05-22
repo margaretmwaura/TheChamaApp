@@ -31,12 +31,13 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:id="@+id/message_edittext"
-        android:hint="Enter your new message"/>
+        android:hint="@string/message_hint"/>
     <Button
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send"
+        android:text="@string/send_message"
+        android:background="@drawable/button"
         android:id="@+id/sendChat"/>
 
     </LinearLayout>

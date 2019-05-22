@@ -70,7 +70,7 @@
             android:layout_gravity="center"
             android:textStyle="bold"
             android:layout_height="wrap_content"
-            android:text="Personal information"/>
+            android:text="@string/personal_information"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                 android:paddingTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Your name"
+                android:text="@string/your_name"
                 android:textSize="18dp"
                 android:layout_marginTop="10dp"
                 android:id="@+id/your_name"
@@ -106,7 +106,7 @@
             android:layout_marginTop="10dp"
             android:textSize="16dp"
             android:textColor="#FFF"
-            android:text="registered phonenumber:: "
+            android:text="@string/registered_phone_number"
             android:layout_marginBottom="10dp"/>
 
 
@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18dp"
-            android:text="Your email address"
+            android:text="@string/phone_number"
             android:layout_marginBottom="10dp"/>
 
 

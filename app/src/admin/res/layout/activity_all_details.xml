@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Admin :"
+            android:text="@string/admin"
             android:textSize="18dp"
             android:textColor="#FFF"
             android:padding="3dp"
@@ -40,7 +40,7 @@
             android:padding="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Leads of the rest"
+            android:text="@string/admin_label"
             android:textSize="16dp"
             android:textColor="#FFF"
             android:textStyle="italic"/>
@@ -53,7 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Number"
+                android:text="@string/number"
                 android:textColor="#FFF"
                 android:textSize="16dp"
                 />
@@ -92,7 +92,7 @@
                 android:padding="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Member :"
+                android:text="@string/member"
                 android:textColor="#FFF"
                 android:textSize="18dp"
                 android:textStyle="bold"/>
@@ -100,7 +100,7 @@
                 android:padding="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The ones led"
+                android:text="@string/member_label"
                 android:textSize="16dp"
                 android:textColor="#FFF"
                 android:textStyle="italic"/>
@@ -113,7 +113,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Number"
+                    android:text="@string/number"
                     android:textColor="#FFF"
                     android:textSize="16dp"
                     />
@@ -153,7 +153,7 @@
     android:paddingLeft="20dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Peoples contributions"
+    android:text="@string/details_label"
     android:paddingBottom="10dp"/>
 
 

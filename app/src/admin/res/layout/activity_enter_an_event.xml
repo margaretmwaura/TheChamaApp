@@ -15,13 +15,13 @@
         android:layout_gravity="center"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:text="Enter a new event describing what is the  sole purpose  of the event"
+        android:text="@string/enter_event_label"
         android:textStyle="bold|italic"/>
     <AutoCompleteTextView
         android:textSize="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search Location"
+        android:hint="@string/location"
         android:id="@+id/Event_Location_event"/>
     <EditText
         android:textSize="16dp"
@@ -31,7 +31,7 @@
         android:id="@+id/Event_Time_event"/>
     <EditText
         android:textSize="16dp"
-        android:hint="Agenda"
+        android:hint="@string/agenda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Event_Agenda_event"/>
@@ -39,7 +39,7 @@
 
     <Button
         android:background="@drawable/backgorund"
-        android:text="Submit new Event"
+        android:text="@string/submit_event"
         android:layout_width="300dp"
         android:textColor="#fff"
         android:textAllCaps="false"

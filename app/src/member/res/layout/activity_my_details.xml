@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="14th May 2019"
         android:textSize="16dp"
         android:textStyle="italic"
         android:textColor="#000000"
@@ -28,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Hello:"
+        android:text="@string/hello"
         android:textSize="18dp"
         android:textStyle="bold"
         android:textColor="#000"
@@ -41,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="This are the details of all the contributions"
+        android:text="@string/my_details_label"
         android:textSize="16dp"
         android:textColor="#000"
         android:layout_marginLeft="17dp"
@@ -83,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000"
                 android:textSize="16dp"
-                android:text="Contributions"/>
+                android:text="@string/contributions"/>
 
             <TextView
                 android:id="@+id/total_contribution"
@@ -93,7 +92,7 @@
                 android:textColor="#000"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                android:text="1000 ksh"
+
                 />
 
 
@@ -117,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000"
                 android:textSize="16dp"
-                android:text="Months "/>
+                android:text="@string/months"/>
             <TextView
                 android:id="@+id/months_contributed"
                 android:padding="4dp"
@@ -126,7 +125,7 @@
                 android:textColor="#000"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                android:text=" 4 "/>
+                />
 
         </LinearLayout>
 
@@ -140,7 +139,7 @@
         android:paddingLeft="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Report Anomalies"
+        android:text="@string/report_anomalies"
         android:textColor="#FFFFFF"
         android:textSize="16dp"
         android:background="@drawable/chat_background"/>

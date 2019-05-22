@@ -24,7 +24,7 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:id="@+id/id"
-        android:hint="Membership ID"
+        android:hint="@string/membership_id"
         android:textColor="#000"
         android:theme="@style/MyEditTextTheme"
         android:textColorHint="#228B22"
@@ -37,7 +37,7 @@
         android:width="300dp"
         android:height="50dp"
         android:textAllCaps="false"
-        android:text="Create account"
+        android:text="@string/create_account_btn"
         android:textColor="#fff"
         android:textSize="20dp"
         android:layout_marginLeft="50dp"
@@ -47,11 +47,11 @@
 
     <ProgressBar
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="150dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/MyEditTextTheme"
         android:id="@+id/progressBar"
+        android:layout_gravity="center_horizontal"
 
         />
 

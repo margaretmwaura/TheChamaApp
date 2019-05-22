@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Today's Events"
+        android:text="@string/todays_events"
         android:textSize="18dp"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold|italic"/>
@@ -36,7 +36,7 @@
         android:textSize="18dp"
         android:textColor="#000"
         android:background="@drawable/button_transparent"
-        android:text="There is no activity happening today"/>
+        android:text="@string/No_activity"/>
 
         <View
             android:layout_marginTop="20dp"
@@ -47,7 +47,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Upcoming Events"
+        android:text="@string/upcoming_events"
         android:textColor="@color/colorPrimary"
         android:textSize="18dp"
         android:textStyle="bold|italic"/>

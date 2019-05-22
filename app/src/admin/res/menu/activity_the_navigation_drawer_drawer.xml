@@ -7,24 +7,24 @@
         <item
             android:id="@+id/nav_my_account"
             android:icon="@drawable/myaccount"
-            android:title="MyAccount" />
+            android:title="@string/my_Account_label" />
         <item
             android:id="@+id/nav_events"
             android:icon="@drawable/ic_event_available_black_24dp"
-            android:title="Events" />
+            android:title="@string/events_label" />
         <item
             android:id="@+id/nav_my_details"
             android:icon="@drawable/mydetailsicon"
-            android:title="MyDetails" />
+            android:title="@string/my_details_label_menu" />
 
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
-            android:title="Logout" />
+            android:title="@string/logout_label" />
         <item
             android:id="@+id/nav_all_members_details"
             android:icon="@drawable/editdetailsicon"
-            android:title="All details" />
+            android:title="@string/all_details_label" />
     </group>
 
     <item android:title="Communicate">
@@ -32,11 +32,11 @@
             <item
                 android:id="@+id/nav_general_chat"
                 android:icon="@drawable/generalchat"
-                android:title="General" />
+                android:title="@string/general_label" />
             <item
                 android:id="@+id/nav_admin_only"
                 android:icon="@drawable/adminicon"
-                android:title="Admin only" />
+                android:title="@string/admin_only_label" />
         </menu>
     </item>
 
