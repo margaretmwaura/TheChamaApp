@@ -1,6 +1,21 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    signingConfigs {
+        configFirst {
+            keyAlias 'capstone'
+            keyPassword 'nanodegree'
+            storeFile file('C:\\Users\\toshiba\\capstone-keystore.jks')
+            storePassword 'Aswift07'
+        }
+        configSecond {
+            keyAlias 'capstonemember'
+            keyPassword 'nanodegree'
+            storeFile file('C:\\Users\\toshiba\\capstone-keystore.jks')
+            storePassword 'Aswift07'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.admin.chamaapp"
@@ -9,12 +24,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 
     flavorDimensions 'version'
@@ -28,6 +37,15 @@ android {
                     dimension 'version'
                     applicationId "com.example.admin.chamaapp.member"
                 }
+    }
+
+    buildTypes {
+        release {
+            productFlavors.admin.signingConfig signingConfigs.configFirst
+            productFlavors.member.signingConfig signingConfigs.configSecond
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 }
 
