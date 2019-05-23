@@ -6,13 +6,13 @@ android {
         configFirst {
             keyAlias 'capstone-admin'
             keyPassword 'nanodegree'
-            storeFile file('keystore\\capstone-admin-keystore.jks')
+            storeFile file('keystore/capstone-admin-keystore.jks')
             storePassword 'Aswift07'
         }
         configSecond {
             keyAlias 'capstonemember'
             keyPassword 'nanodegree'
-            storeFile file('keystore\\capstone-keystore.jks')
+            storeFile file('keystore/capstone-keystore.jks')
             storePassword 'Aswift07'
         }
     }
