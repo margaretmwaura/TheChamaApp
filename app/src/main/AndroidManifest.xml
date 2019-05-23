@@ -66,9 +66,6 @@
             android:name=".MyDetails"
             android:theme="@style/AppThemeWhiteActionBar" />
         <activity
-            android:name=".MyProfile"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".TheNavigationDrawer"
             android:label="@string/title_activity_the_navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -79,7 +76,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Create" />
         <activity
             android:name=".Sign"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -38,7 +38,6 @@ import com.androidstudy.daraja.Daraja;
 import com.androidstudy.daraja.DarajaListener;
 import com.androidstudy.daraja.model.AccessToken;
 import com.example.admin.chamaapp.BlurBuilder;
-import com.example.admin.chamaapp.MyProfile;
 import com.example.admin.chamaapp.R;
 
 public class content extends AppCompatActivity {

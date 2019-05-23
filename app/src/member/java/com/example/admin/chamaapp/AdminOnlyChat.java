@@ -47,7 +47,7 @@ public class AdminOnlyChat extends AppCompatActivity {
         setContentView(R.layout.activity_admin_only_chat);
 
         //        This code has been added to enable the layout below the keyboard to be moved up above the keyboard
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
