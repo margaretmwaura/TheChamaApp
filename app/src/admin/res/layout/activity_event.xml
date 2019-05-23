@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:tint="@android:color/white"
+        android:contentDescription="@string/open_add_event_activity"
         app:srcCompat="@android:drawable/ic_input_add" />
 </RelativeLayout>
 

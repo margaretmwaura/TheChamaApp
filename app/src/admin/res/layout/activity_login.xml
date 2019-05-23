@@ -63,12 +63,14 @@
             android:textAllCaps="false"
             android:text="@string/button_send"
             android:textColor="#fff"
+            android:contentDescription="@string/send_code_to_enable_verification"
             android:textSize="20dp"
             android:layout_gravity="center"
             android:background="@drawable/button"
             android:id="@+id/button_send"
             />
         <Button
+            android:contentDescription="@string/resend_code_to_enable_verification"
             android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

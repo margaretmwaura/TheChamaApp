@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/send_message"
+        android:contentDescription="@string/add_a_new_chat"
         android:textColor="#FFF"
         android:layout_marginLeft="10dp"
         android:background="@drawable/button"

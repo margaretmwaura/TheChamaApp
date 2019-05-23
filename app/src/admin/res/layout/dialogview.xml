@@ -47,9 +47,11 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:text="@string/edit"
+            android:contentDescription="@string/make_changes_to_the_users_details"
             android:textColor="#fff"
             android:background="@drawable/button"/>
         <Button
+            android:contentDescription="@string/cancel_making_changes"
             android:id="@+id/cancelbutton_dialog"
             android:layout_marginLeft="30dp"
             android:layout_width="130dp"

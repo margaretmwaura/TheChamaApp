@@ -54,6 +54,7 @@
             android:layout_marginTop="5dp"/>
 
         <Button
+            android:contentDescription="@string/send_code_to_enable_verification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -68,6 +69,7 @@
             android:id="@+id/button_send"
             />
         <Button
+            android:contentDescription="@string/resend_code_to_enable_verification"
             android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

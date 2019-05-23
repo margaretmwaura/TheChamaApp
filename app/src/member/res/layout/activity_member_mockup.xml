@@ -43,6 +43,7 @@
         android:layout_marginLeft="50dp"
         android:background="@drawable/button"
         android:id="@+id/sign_up_button"
+        android:contentDescription="@string/final_step_of_creating_account"
         />
 
     <ProgressBar

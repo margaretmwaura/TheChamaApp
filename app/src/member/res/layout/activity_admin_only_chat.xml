@@ -33,6 +33,7 @@
             android:id="@+id/message_edittext"
             android:hint="@string/message_hint"/>
         <Button
+            android:contentDescription="@string/send_the_message"
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

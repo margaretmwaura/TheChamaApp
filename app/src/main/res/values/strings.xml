@@ -64,4 +64,18 @@
     <string name="general_label">General</string>
     <string name="admin_only_label">Admin only</string>
     <string name="membership_id">Membership ID</string>
+    <string name="final_step_of_creating_account">Final step of creating account</string>
+    <string name="send_the_message">Send the message</string>
+    <string name="enter_a_new_event">Enter a new event</string>
+    <string name="open_add_event_activity">Open add event activity</string>
+    <string name="send_code_to_enable_verification">Send code to enable verification</string>
+    <string name="resend_code_to_enable_verification">Resend code to enable verification</string>
+    <string name="report_of_information_not_being_correct">Report of information not being correct</string>
+    <string name="create_account_with_your_phonenumber">Create account with your phonenumber</string>
+    <string name="add_a_new_chat">Add a new chat</string>
+    <string name="choose_a_new_image_as_your_profile_image">Choose a new image as your profile image</string>
+    <string name="edit_your_current_profile_name">Edit your current profile name</string>
+    <string name="make_changes_to_the_users_details">Make changes to the users details</string>
+    <string name="cancel_making_changes">Cancel making changes</string>
+    <string name="profile_image">profile image</string>
 </resources>
