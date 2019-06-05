@@ -18,6 +18,7 @@ communication efficiency and funds transparency
 12) Signing apps using gradle
 13) Intergrating the Mpesa functionality
 14) Using livedata with firebase
+15) Using the latest layouts such as the bottom sheet navigation and the floating action buttons
 
 ## Libraries used
 1) Firebase auth,messaging, authentication, database
