@@ -21,6 +21,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -39,6 +40,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidstudy.daraja.Daraja;
+import com.androidstudy.daraja.DarajaListener;
+import com.androidstudy.daraja.model.AccessToken;
+import com.androidstudy.daraja.model.LNMExpress;
+import com.androidstudy.daraja.model.LNMResult;
+import com.androidstudy.daraja.util.TransactionType;
 import com.example.admin.chamaapp.admin.content;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -110,6 +116,80 @@ public class TheNavigationDrawer extends AppCompatActivity
 
         userId = userDetails[0];
         phonenumber = userDetails[1];
+
+        sendMoneyViaMpesa = (Button)findViewById(R.id.sendMoney);
+
+//Mpesa functionality
+        daraja = Daraja.with("08MUHjEBN7qJ5RhfYR008fVFbw0R1i4N", "UOYiGP1PyFkvQL8U", new DarajaListener<AccessToken>() {
+            @Override
+            public void onResult(@NonNull AccessToken accessToken)
+            {
+                Log.d("DarajaCreation","The daraja class has beeen created");
+                Log.i("AccessToken", accessToken.getAccess_token());
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.d("DarajaCreation","The daraja class has not been created,an error has been encountered" + error);
+                Log.e("AccessToken", error);
+            }
+        });
+
+                sendMoneyViaMpesa.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+       //Get Phone Number from User Input
+//                phoneNumber = editTextPhone.getText().toString().trim();
+//
+//                if (TextUtils.isEmpty(phoneNumber)) {
+//                    editTextPhone.setError("Please Provide a Phone Number");
+//                    return;
+//                }
+
+                //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
+//                LNMExpress lnmExpress = new LNMExpress(
+//                        "174379",
+//                        "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMzI0MTYzOTUw",  //https://developer.safaricom.co.ke/test_credentials
+//                        TransactionType.CustomerPayBillOnline,
+//                        "1",
+//                        "0746645298",
+//                        "174379",
+//                        "0746645298",
+//                        "http://mpesa-requestbin.herokuapp.com/wqzvixwr",
+//                        "001ABC",
+//                        "Goods Payment"
+//                );
+                LNMExpress lnmExpress = new LNMExpress(
+                        "174379",
+                        "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
+                        TransactionType.CustomerPayBillOnline,
+                        "100",
+                        "254746645298",
+                        "174379",
+                        "254746645298",
+                        "http://mycallbackurl.com/checkout.php",
+                        "001ABC",
+                        "Goods Payment"
+                );
+
+                daraja.requestMPESAExpress(lnmExpress,
+                        new DarajaListener<LNMResult>() {
+                            @Override
+                            public void onResult(@NonNull LNMResult lnmResult) {
+                               Log.d("SendingMoney","Money has been sent");
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                Log.d("SendingMoney","Money has not been sent " + error);
+                            }
+                        }
+                );
+            }
+        });
+
 
 
 
@@ -387,12 +467,16 @@ public class TheNavigationDrawer extends AppCompatActivity
         profileEmail = (TextView) view.findViewById(R.id.your_email_address);
 
 //        Setting the email address on the email address text view
-        if(phoneNumber != null && !phoneNumber.isEmpty())
-        {
-            profileEmail.setText(phoneNumber);
+//        if(phoneNumber != null && !phoneNumber.isEmpty())
+
+
+//         Toast.makeText(TheNavigationDrawer.this,"This is the phone number "+ phonenumber, Toast.LENGTH_LONG).show();
+            profileEmail.setText("+254775502733");
+
+
             Toast.makeText(this,"Setting email",Toast.LENGTH_LONG).show();
             Log.d("EmialNotThere ", " setting email");
-        }
+
         editPhoto = (Button) view.findViewById(R.id.edit_profile_photo);
         editYourName = (Button) view.findViewById(R.id.edit_your_name);
 

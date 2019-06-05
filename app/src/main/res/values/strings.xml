@@ -78,4 +78,5 @@
     <string name="make_changes_to_the_users_details">Make changes to the users details</string>
     <string name="cancel_making_changes">Cancel making changes</string>
     <string name="profile_image">profile image</string>
+    <string name="send_money">Send Money</string>
 </resources>
