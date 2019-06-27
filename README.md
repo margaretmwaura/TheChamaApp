@@ -5,7 +5,7 @@ communication efficiency and funds transparency
 
 ## What I will learn
 1) Using gradle to create different flavours of an application
-2) Carrying out background tasks via intents
+2) Carrying out background tasks via intent service
 3) Scheduling events deletion from firebase using the job scheduler
 4) Sending notifications to a topic via the Firebase cloud messaging service
 5) Displaying notifications on a particular time using the alarm manager and the broadcast receiver
