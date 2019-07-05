@@ -57,7 +57,7 @@ import java.io.FileReader;
 import java.io.ObjectInputStream;
 
 public class TheNavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener  {
+        implements NavigationView.OnNavigationItemSelectedListener , SharedPreferences.OnSharedPreferenceChangeListener {
 
     private boolean ShouldExecuteOnReusme = true;
     private String[] userDetails = new String[2];
@@ -75,6 +75,7 @@ public class TheNavigationDrawer extends AppCompatActivity
     Daraja daraja;
     String phoneNumber, mpesaNumber ;
     private EditText editTextPhone;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -85,6 +86,8 @@ public class TheNavigationDrawer extends AppCompatActivity
         setContentView(R.layout.activity_the_navigation_drawer);
 
 
+         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(" ");
@@ -672,7 +675,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 
 
     private void setupSharedPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
 
 
         Boolean phone_number = sharedPreferences.getBoolean("phonenumber_to_use", true);
@@ -686,7 +689,20 @@ public class TheNavigationDrawer extends AppCompatActivity
             editTextPhone.setVisibility(View.INVISIBLE);
         }
     }
-    
 
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
+    {
+        if(key.equals("phonenumber_to_use"))
+        {
+            setupSharedPreferences();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
 }
