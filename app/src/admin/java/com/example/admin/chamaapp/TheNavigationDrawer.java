@@ -686,6 +686,7 @@ public class TheNavigationDrawer extends AppCompatActivity
             editTextPhone.setVisibility(View.INVISIBLE);
         }
     }
+    
 
 
 }
