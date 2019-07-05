@@ -18,6 +18,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<ContributionAdapte
 
     public ContributionAdapter(Context context)
     {
+
         this.mContext = context;
     }
     @NonNull
@@ -38,6 +39,9 @@ public class ContributionAdapter extends RecyclerView.Adapter<ContributionAdapte
     @Override
     public void onBindViewHolder(@NonNull contributionViewHolder holder, int position)
     {
+
+
+     
        Contribution contribution = contributionList.get(position);
         holder.userContributionTextView.setText("Jan contribution " + String.valueOf(contribution.getJan()));
         holder.userContributionTextView.append("\n" + "Feb contribution " +String.valueOf(contribution.getFeb()));

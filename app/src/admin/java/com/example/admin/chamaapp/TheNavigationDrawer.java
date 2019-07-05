@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -45,6 +46,7 @@ import com.androidstudy.daraja.model.AccessToken;
 import com.androidstudy.daraja.model.LNMExpress;
 import com.androidstudy.daraja.model.LNMResult;
 import com.androidstudy.daraja.util.TransactionType;
+import com.example.admin.chamaapp.admin.SettingsActivity;
 import com.example.admin.chamaapp.admin.content;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -55,7 +57,7 @@ import java.io.FileReader;
 import java.io.ObjectInputStream;
 
 public class TheNavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener  {
 
     private boolean ShouldExecuteOnReusme = true;
     private String[] userDetails = new String[2];
@@ -71,7 +73,7 @@ public class TheNavigationDrawer extends AppCompatActivity
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private String value, name;
     Daraja daraja;
-    String phoneNumber;
+    String phoneNumber, mpesaNumber ;
     private EditText editTextPhone;
 
 
@@ -90,6 +92,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         upArrow.setColorFilter(getResources().getColor(R.color.colorBackIcon), PorterDuff.Mode.SRC_ATOP);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
 
 
         Log.d("OnCreate","oncreate method has been called ");
@@ -118,79 +121,6 @@ public class TheNavigationDrawer extends AppCompatActivity
         phonenumber = userDetails[1];
 
         sendMoneyViaMpesa = (Button)findViewById(R.id.sendMoney);
-
-//Mpesa functionality
-        daraja = Daraja.with("08MUHjEBN7qJ5RhfYR008fVFbw0R1i4N", "UOYiGP1PyFkvQL8U", new DarajaListener<AccessToken>() {
-            @Override
-            public void onResult(@NonNull AccessToken accessToken)
-            {
-                Log.d("DarajaCreation","The daraja class has beeen created");
-                Log.i("AccessToken", accessToken.getAccess_token());
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.d("DarajaCreation","The daraja class has not been created,an error has been encountered" + error);
-                Log.e("AccessToken", error);
-            }
-        });
-
-                sendMoneyViaMpesa.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-       //Get Phone Number from User Input
-//                phoneNumber = editTextPhone.getText().toString().trim();
-//
-//                if (TextUtils.isEmpty(phoneNumber)) {
-//                    editTextPhone.setError("Please Provide a Phone Number");
-//                    return;
-//                }
-
-                //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
-//                LNMExpress lnmExpress = new LNMExpress(
-//                        "174379",
-//                        "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMzI0MTYzOTUw",  //https://developer.safaricom.co.ke/test_credentials
-//                        TransactionType.CustomerPayBillOnline,
-//                        "1",
-//                        "0746645298",
-//                        "174379",
-//                        "0746645298",
-//                        "http://mpesa-requestbin.herokuapp.com/wqzvixwr",
-//                        "001ABC",
-//                        "Goods Payment"
-//                );
-                LNMExpress lnmExpress = new LNMExpress(
-                        "174379",
-                        "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
-                        TransactionType.CustomerPayBillOnline,
-                        "100",
-                        "254746645298",
-                        "174379",
-                        "254746645298",
-                        "http://mycallbackurl.com/checkout.php",
-                        "001ABC",
-                        "Goods Payment"
-                );
-
-                daraja.requestMPESAExpress(lnmExpress,
-                        new DarajaListener<LNMResult>() {
-                            @Override
-                            public void onResult(@NonNull LNMResult lnmResult) {
-                               Log.d("SendingMoney","Money has been sent");
-                            }
-
-                            @Override
-                            public void onError(String error) {
-                                Log.d("SendingMoney","Money has not been sent " + error);
-                            }
-                        }
-                );
-            }
-        });
-
-
 
 
 //        This is the part where i add the h.eader programmatically
@@ -234,8 +164,87 @@ public class TheNavigationDrawer extends AppCompatActivity
         tv.setText(phonenumber);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         includeLayout();
+        setupSharedPreferences();
+//Mpesa functionality
+        daraja = Daraja.with("08MUHjEBN7qJ5RhfYR008fVFbw0R1i4N", "UOYiGP1PyFkvQL8U", new DarajaListener<AccessToken>() {
+            @Override
+            public void onResult(@NonNull AccessToken accessToken)
+            {
+                Log.d("DarajaCreation","The daraja class has beeen created");
+                Log.i("AccessToken", accessToken.getAccess_token());
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.d("DarajaCreation","The daraja class has not been created,an error has been encountered" + error);
+                Log.e("AccessToken", error);
+            }
+        });
+
+        sendMoneyViaMpesa.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //Get Phone Number from User Input
+//                phoneNumber = editTextPhone.getText().toString().trim();
+//
+//                if (TextUtils.isEmpty(phoneNumber)) {
+//                    editTextPhone.setError("Please Provide a Phone Number");
+//                    return;
+//                }
+
+                //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
+//                LNMExpress lnmExpress = new LNMExpress(
+//                        "174379",
+//                        "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMzI0MTYzOTUw",  //https://developer.safaricom.co.ke/test_credentials
+//                        TransactionType.CustomerPayBillOnline,
+//                        "1",
+//                        "0746645298",
+//                        "174379",
+//                        "0746645298",
+//                        "http://mpesa-requestbin.herokuapp.com/wqzvixwr",
+//                        "001ABC",
+//                        "Goods Payment"
+//                );
+                if(editTextPhone.getVisibility() == View.VISIBLE)
+                {
+                    mpesaNumber = editTextPhone.getText().toString();
+                }
+                if(editTextPhone.getVisibility() == View.INVISIBLE)
+                {
+                    mpesaNumber = userDetails[1];
+                }
+                LNMExpress lnmExpress = new LNMExpress(
+                        "174379",
+                        "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
+                        TransactionType.CustomerPayBillOnline,
+                        "100",
+                        "254798436887",
+                        "174379",
+                        mpesaNumber,
+                        "http://mycallbackurl.com/checkout.php",
+                        "001ABC",
+                        "Goods Payment"
+                );
+
+                daraja.requestMPESAExpress(lnmExpress,
+                        new DarajaListener<LNMResult>() {
+                            @Override
+                            public void onResult(@NonNull LNMResult lnmResult) {
+                                Log.d("SendingMoney","Money has been sent");
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                Log.d("SendingMoney","Money has not been sent " + error);
+                            }
+                        }
+                );
+            }
+        });
+
 
     }
 
@@ -413,6 +422,12 @@ public class TheNavigationDrawer extends AppCompatActivity
             Intent intent = new Intent(this, Sign.class);
             startActivity(intent);
         }
+        if(id == R.id.nav_settings)
+        {
+            Intent intent = new Intent(this, SettingsActivity.class);
+
+            startActivity(intent);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -465,7 +480,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         profileImage = (ImageView) view.findViewById(R.id.profile_image);
         profileName = (TextView) view.findViewById(R.id.your_name);
         profileEmail = (TextView) view.findViewById(R.id.your_email_address);
-
+        editTextPhone = (EditText) view.findViewById(R.id.enter_phone_number);
 //        Setting the email address on the email address text view
 //        if(phoneNumber != null && !phoneNumber.isEmpty())
 
@@ -654,4 +669,23 @@ public class TheNavigationDrawer extends AppCompatActivity
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+
+    private void setupSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        Boolean phone_number = sharedPreferences.getBoolean("phonenumber_to_use", true);
+
+        if(!phone_number)
+        {
+            editTextPhone.setVisibility(View.VISIBLE);
+        }
+        if(phone_number)
+        {
+            editTextPhone.setVisibility(View.INVISIBLE);
+        }
+    }
+
+
 }
