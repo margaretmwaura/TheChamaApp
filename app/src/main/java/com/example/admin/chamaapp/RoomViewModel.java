@@ -1,11 +1,12 @@
 package com.example.admin.chamaapp;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 public class RoomViewModel extends AndroidViewModel
 {

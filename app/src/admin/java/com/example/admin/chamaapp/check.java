@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 
 public class check extends Activity

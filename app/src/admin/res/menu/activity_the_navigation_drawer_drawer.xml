@@ -47,9 +47,17 @@
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Settings" />
 
+            <item
+                android:id="@+id/linda"
+                android:icon="@drawable/ic_insert_emoticon_black_24dp"
+                android:title="Linda"
+                />
+
         </menu>
 
     </item>
+
+
 
 
 

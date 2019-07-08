@@ -7,8 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,6 +30,8 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class Sign extends AppCompatActivity
 {
 
@@ -48,13 +48,7 @@ public class Sign extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
 
-////blurring the background image
-//        LinearLayout mContainerView = (LinearLayout) findViewById(R.id.sign);
-//        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
-//        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
-//        mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
-//End of code of blurring the background image
-        //Get auth instance
+
 
         Window window = this.getWindow();
 
@@ -66,20 +60,19 @@ public class Sign extends AppCompatActivity
         }
         auth = FirebaseAuth.getInstance();
 
-//        btnSignIn = (Button) findViewById(R.id.sign_in_button);
         btnSignUp = (Button) findViewById(R.id.sign_up_button_with_phonenumber);
 
 
         inputPhoneNumber = (EditText) findViewById(R.id.phoneNumber);
-//        inputPassword = (EditText) findViewById(R.id.password);
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
 //This is meant for the country code picker
 
         countryCodePicker = (CountryCodePicker)findViewById(R.id.ccp);
         countryCodePicker.registerCarrierNumberEditText(inputPhoneNumber);
 
 
-//        This will be used when i am rolling out the app
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

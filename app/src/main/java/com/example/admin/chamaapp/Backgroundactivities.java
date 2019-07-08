@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.PersistableBundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 
@@ -41,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

@@ -4,7 +4,7 @@ package com.example.admin.chamaapp;
 /**
  * Created by TOSHIBA on 5/4/2018.
  */
-import android.arch.persistence.room.Entity;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,6 +12,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.room.Entity;
 
 @Entity(tableName = "Member")
 @IgnoreExtraProperties

@@ -3,11 +3,7 @@ package com.example.admin.chamaapp;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -29,6 +25,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.admin.chamaapp.Analytics.addGeneralChatAnalysis;
 
@@ -77,7 +79,7 @@ public class TheAllChat extends AppCompatActivity {
         chatRecyclerView = findViewById(R.id.chat_recyclerView);
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 //        Set the layoutManager of the recyclerView
         layoutManager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(layoutManager);

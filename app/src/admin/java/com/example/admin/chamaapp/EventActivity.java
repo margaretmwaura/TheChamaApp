@@ -1,22 +1,14 @@
 package com.example.admin.chamaapp;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -33,6 +25,8 @@ import android.widget.Toast;
 
 import com.example.admin.chamaapp.admin.MapsActivity;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DataSnapshot;
 
@@ -42,12 +36,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.OptionalDouble;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.admin.chamaapp.Analytics.addEventAnalysis;
 import static com.example.admin.chamaapp.Analytics.addGeneralChatAnalysis;
 
 public class EventActivity extends AppCompatActivity implements OnItemClickListener
 {
+
 
     private RecyclerView recyclerViewCurrentEvent,recyclerViewUpcomingEvent;
     private EventsAdapter eventsAdapterCurrent,eventsAdapterUpcoming;
@@ -85,8 +90,8 @@ public class EventActivity extends AppCompatActivity implements OnItemClickListe
 
         addEventButton = (FloatingActionButton) findViewById(R.id.enter_new_event);
 
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 
 //        Set the layoutManager of the recyclerView
         recyclerViewCurrentEvent.setLayoutManager(layoutManager1);

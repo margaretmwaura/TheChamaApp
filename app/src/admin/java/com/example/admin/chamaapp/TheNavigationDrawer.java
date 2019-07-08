@@ -16,22 +16,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
+
+
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -46,8 +37,10 @@ import com.androidstudy.daraja.model.AccessToken;
 import com.androidstudy.daraja.model.LNMExpress;
 import com.androidstudy.daraja.model.LNMResult;
 import com.androidstudy.daraja.util.TransactionType;
+import com.example.admin.chamaapp.admin.Chat_bot;
 import com.example.admin.chamaapp.admin.SettingsActivity;
 import com.example.admin.chamaapp.admin.content;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.BufferedReader;
@@ -55,6 +48,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.ObjectInputStream;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 public class TheNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener , SharedPreferences.OnSharedPreferenceChangeListener {
@@ -106,7 +109,7 @@ public class TheNavigationDrawer extends AppCompatActivity
             public void run()
             {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.openDrawer(Gravity.START);
+                drawer.openDrawer(GravityCompat.START);
                 Log.d("DrawerOpening","Drawer has been opened from onCreate");
             }
         },1500);
@@ -308,7 +311,7 @@ public class TheNavigationDrawer extends AppCompatActivity
             public void run()
             {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.openDrawer(Gravity.START);
+                drawer.openDrawer(GravityCompat.START);
             }
         },1000);
     }
@@ -372,7 +375,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 //
 //            startActivity(intent);
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(Gravity.START);
+            drawer.closeDrawer(GravityCompat.START);
 
 
         }
@@ -428,6 +431,12 @@ public class TheNavigationDrawer extends AppCompatActivity
         if(id == R.id.nav_settings)
         {
             Intent intent = new Intent(this, SettingsActivity.class);
+
+            startActivity(intent);
+        }
+        if(id == R.id.linda)
+        {
+            Intent intent = new Intent(this, Chat_bot.class);
 
             startActivity(intent);
         }
@@ -675,8 +684,6 @@ public class TheNavigationDrawer extends AppCompatActivity
 
 
     private void setupSharedPreferences() {
-
-
 
         Boolean phone_number = sharedPreferences.getBoolean("phonenumber_to_use", true);
 

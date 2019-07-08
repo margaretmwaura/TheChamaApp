@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application>
-
+        <activity android:name="com.example.admin.chamaapp.admin.Chat_bot"></activity>
         <activity android:name="com.example.admin.chamaapp.admin.content" />
         <activity android:name="com.example.admin.chamaapp.admin.PlaceSearch" />
         <!--

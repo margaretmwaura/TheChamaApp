@@ -3,9 +3,7 @@ package com.example.admin.chamaapp;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+
 
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -18,22 +16,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v4.content.Loader;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -67,10 +52,26 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class AllDetails extends AppCompatActivity implements OnItemClickListenerWithType, LoaderManager.LoaderCallbacks<String>
 {
 
-//    This is the activity that displays for all the members
+
+    //    This is the activity that displays for all the members
     private RecyclerView recyclerView,recyclerViewAdmin;
     private DetailsAdapter detailsAdapter;
     private AdminDetailAdapter adminDetailAdapter;
@@ -122,8 +123,8 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerViewAdmin = (RecyclerView) findViewById(R.id.recycler_admin);
 //        this is the code for creating of the layout manager
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        LinearLayoutManager layoutManagerTwo = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        LinearLayoutManager layoutManagerTwo = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 
 //        Set the layoutManager of the recyclerView
         recyclerView.setLayoutManager(layoutManager);

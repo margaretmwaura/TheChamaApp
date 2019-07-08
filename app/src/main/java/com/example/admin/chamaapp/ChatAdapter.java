@@ -1,8 +1,7 @@
 package com.example.admin.chamaapp;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,9 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ChatAdapter extends RecyclerView.Adapter
 {
@@ -103,6 +105,7 @@ public class ChatAdapter extends RecyclerView.Adapter
             ((ChatViewHolderMessageSent)holder).bind(currentChat);
         }
     }
+
 
 
     @Override

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".TheAllChat">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,7 +16,7 @@
         android:layout_above="@+id/linearlayout"
         android:id="@+id/chat_recyclerView">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
         android:layout_alignParentBottom="true"

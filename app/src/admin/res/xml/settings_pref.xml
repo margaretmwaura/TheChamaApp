@@ -6,4 +6,12 @@
             android:summaryOff="Invisible"
             android:summaryOn="Visible"
             android:title="Use the same number for mpesa"/>
+
+    <ListPreference
+         android:defaultValue="@string/pref_color_blue_value"
+        android:key="@string/pref_color_key"
+        android:title="@string/pref_color_label"
+        android:entries="@array/pref_color_options_label"
+        android:entryValues="@array/pref_color_options_values"
+        />
     </PreferenceScreen>

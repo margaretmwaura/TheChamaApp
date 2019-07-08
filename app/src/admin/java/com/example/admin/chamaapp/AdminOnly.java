@@ -1,13 +1,11 @@
 package com.example.admin.chamaapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -31,9 +29,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static com.example.admin.chamaapp.Analytics.addAdminChatAnalysis;
 
-public class AdminOnly extends AppCompatActivity {
+public class AdminOnly extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private List<Chat> chatList = new ArrayList<>();
     private RecyclerView chatRecyclerView;
@@ -75,7 +79,9 @@ public class AdminOnly extends AppCompatActivity {
         chatAdapter = new ChatAdapter(this);
         chatRecyclerView = findViewById(R.id.chat_recyclerView);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 //        Set the layoutManager of the recyclerView
         layoutManager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(layoutManager);
@@ -191,5 +197,11 @@ public class AdminOnly extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
+    {
+
     }
 }

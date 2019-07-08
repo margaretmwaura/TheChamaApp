@@ -12,21 +12,31 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
+
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import static com.android.volley.VolleyLog.TAG;
 import static com.example.admin.chamaapp.Backgroundactivities.returnNotificationEventTime;
 
 public class UserFirebaseMessagingService extends FirebaseMessagingService
 {
 
+    private static final String TAG = "mFirebaseIIDService";
+    private static final String SUBSCRIBE_TO = "userABC";
     @Override
     public void onNewToken(String s)
     {
         super.onNewToken(s);
+        String token = FirebaseInstanceId.getInstance().getToken();
+
+        // Once the token is generated, subscribe to topic with the userId
+        FirebaseMessaging.getInstance().subscribeToTopic(SUBSCRIBE_TO);
+        Log.i(TAG, "onTokenRefresh completed with token: " + token);
     }
 
     @Override

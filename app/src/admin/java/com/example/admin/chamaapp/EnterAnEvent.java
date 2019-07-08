@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 
 import android.content.res.Configuration;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,6 +31,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class EnterAnEvent extends AppCompatActivity {
 

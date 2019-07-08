@@ -24,6 +24,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
 
     flavorDimensions 'version'
@@ -47,6 +53,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
 }
 
 dependencies {
@@ -56,7 +75,7 @@ dependencies {
 
     implementation 'com.twigafoods:daraja:0.1.2'
     implementation 'com.squareup.okhttp3:okhttp:3.0.1'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 //    implementation 'com.google.firebase:firebase-database:16.0.1'
@@ -84,17 +103,17 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$lifecycle_version"
 
     //    This are the dependencies that are needed for firebase intergration
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
 
 //    implementation 'com.google.firebase:firebase-auth:16.0.1'
 
-    implementation "com.google.firebase:firebase-auth:16.1.0"
+    implementation "com.google.firebase:firebase-auth:18.0.0"
 
 //    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation "com.google.firebase:firebase-core:16.0.6"
+    implementation "com.google.firebase:firebase-core:17.0.0"
 
 //    implementation 'com.google.firebase:firebase-database:16.0.1'
-    implementation "com.google.firebase:firebase-database:16.0.5"
+    implementation "com.google.firebase:firebase-database:18.0.0"
     implementation 'com.androidstudy:daraja:1.0.2'
 
     implementation 'com.hbb20:ccp:2.2.9'
@@ -106,6 +125,18 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:1.1.0'
 
     implementation 'com.android.support:preference-v7:26.1.0'
+
+    //firebase ui
+    implementation 'com.firebaseui:firebase-ui-database:3.2.2'
+
+    implementation 'ai.api:sdk:2.0.7@aar'
+
+    implementation('ai.api:libai:1.4.8') {
+        exclude module: 'log4j-core'
+    }
+
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'

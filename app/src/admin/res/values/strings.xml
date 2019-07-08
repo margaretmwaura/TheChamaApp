@@ -6,4 +6,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string name="pref_color_label">Shape color </string>
+    <string name="pref_color_label_red">Shape color </string>
+    <string name="pref_color_label_blue">Shape color </string>
+    <string name="pref_color_label_green">Shape color </string>
+
+    <string name="pref_color_key" translatable="false">color</string>
+    <string name="pref_color_red_value" translatable="false">red</string>
+    <string name="pref_color_blue_value" translatable="false">blue</string>
+    <string name="pref_color_green_value" translatable="false">green</string>
 </resources>
