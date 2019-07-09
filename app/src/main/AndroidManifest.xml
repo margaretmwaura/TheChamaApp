@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".TheAllChat"
+            android:name=".admin.View.TheAllChat"
             android:theme="@style/AppThemeDarkActionBar" />
 
         <meta-data
@@ -92,7 +92,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Sign"
+            android:name=".admin.View.Sign"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Login"

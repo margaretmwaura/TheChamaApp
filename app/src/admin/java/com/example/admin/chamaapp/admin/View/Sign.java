@@ -1,34 +1,19 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin.View;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.example.admin.chamaapp.Login;
+import com.example.admin.chamaapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hbb20.CountryCodePicker;
-
-import java.io.FileOutputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -77,20 +62,7 @@ public class Sign extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
-                String phoneNumber = countryCodePicker.getFullNumberWithPlus();
-
-                //create user
-
-                if(phoneNumber.isEmpty() || phoneNumber.length() < 10)
-                {
-                    inputPhoneNumber.setError("Enter a valid phone number");
-                    inputPhoneNumber.requestFocus();
-                }
-                else {
-                    Intent intent = new Intent(Sign.this, Login.class);
-                    intent.putExtra("The phone number ", phoneNumber);
-                    startActivity(intent);
-                }
+             getUserInputDetail();
             }
         });
 
@@ -106,6 +78,23 @@ public class Sign extends AppCompatActivity
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+    public void getUserInputDetail()
+    {
+        String phoneNumber = countryCodePicker.getFullNumberWithPlus();
+
+        //create user
+
+        if(phoneNumber.isEmpty() || phoneNumber.length() < 10)
+        {
+            inputPhoneNumber.setError("Enter a valid phone number");
+            inputPhoneNumber.requestFocus();
+        }
+        else {
+            Intent intent = new Intent(Sign.this, Login.class);
+            intent.putExtra("The phone number ", phoneNumber);
+            startActivity(intent);
+        }
     }
     
 

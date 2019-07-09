@@ -1,4 +1,4 @@
-package com.example.admin.chamaapp.admin;
+package com.example.admin.chamaapp.admin.Model;
 
 public class ChatMessage
 {

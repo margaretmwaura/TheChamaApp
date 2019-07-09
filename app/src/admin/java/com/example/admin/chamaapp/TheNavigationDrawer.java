@@ -20,7 +20,6 @@ import android.preference.PreferenceManager;
 
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 
 import android.view.Menu;
@@ -39,14 +38,13 @@ import com.androidstudy.daraja.model.LNMResult;
 import com.androidstudy.daraja.util.TransactionType;
 import com.example.admin.chamaapp.admin.Chat_bot;
 import com.example.admin.chamaapp.admin.SettingsActivity;
-import com.example.admin.chamaapp.admin.content;
+import com.example.admin.chamaapp.admin.View.Sign;
+import com.example.admin.chamaapp.admin.View.TheAllChat;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.ObjectInputStream;
 
 import androidx.annotation.NonNull;
@@ -408,7 +406,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         if(id == R.id.nav_general_chat)
         {
 //            The email is important so that the users can see who has added a chat
-            Intent intent = new Intent(this,TheAllChat.class);
+            Intent intent = new Intent(this, TheAllChat.class);
             intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
             startActivity(intent);

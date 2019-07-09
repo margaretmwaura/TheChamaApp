@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import com.bumptech.glide.load.model.Model;
 import com.example.admin.chamaapp.R;
+import com.example.admin.chamaapp.admin.Model.ChatMessage;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;

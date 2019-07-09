@@ -1,9 +1,7 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin.View;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-
 import android.os.Bundle;
 
 import android.text.Spannable;
@@ -11,57 +9,54 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.admin.chamaapp.admin.Presenter.AdminOnlyContract;
-import com.example.admin.chamaapp.admin.Presenter.AdminOnlyPrsenter;
+import com.example.admin.chamaapp.Backgroundactivities;
+import com.example.admin.chamaapp.Chat;
+import com.example.admin.chamaapp.ChatAdapter;
+import com.example.admin.chamaapp.MyIntentService;
+import com.example.admin.chamaapp.R;
+import com.example.admin.chamaapp.admin.Presenter.TheAllChatPresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.example.admin.chamaapp.Analytics.addAdminChatAnalysis;
+import static com.example.admin.chamaapp.Analytics.addGeneralChatAnalysis;
 
-public class AdminOnly extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, AdminOnlyContract.AdminOnlyView {
+public class TheAllChat extends AppCompatActivity implements TheAllChatPresenter.View {
 
     private List<Chat> chatList = new ArrayList<>();
     private RecyclerView chatRecyclerView;
     private ChatAdapter chatAdapter;
     private Button sendButton;
     private EditText chatEditText;
-    private String phonenumber , chatMessage ,stringTime;
+    private String phonenumber,stringTime,chatMessage;
     private ChildEventListener childEventListener;
-    private AdminOnlyPrsenter adminOnlyPrsenter;
     public FirebaseAuth mAuth;
+    public TheAllChatPresenter theAllChatPresenter;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_only);
+        setContentView(R.layout.activity_the_all_chat);
 
-        //        This code has been added to enable the layout below the keyboard to be moved up above the keyboard
+//        This code has been added to enable the layout below the keyboard to be moved up above the keyboard
 //        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        adminOnlyPrsenter = new AdminOnlyPrsenter(this);
+        theAllChatPresenter = new TheAllChatPresenter(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String title = "Announcement";
+        String title = "General";
         SpannableString s = new SpannableString(title);
         s.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
@@ -81,14 +76,15 @@ public class AdminOnly extends AppCompatActivity implements SharedPreferences.On
         chatRecyclerView = findViewById(R.id.chat_recyclerView);
 
 
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 //        Set the layoutManager of the recyclerView
         layoutManager.setStackFromEnd(true);
         chatRecyclerView.setLayoutManager(layoutManager);
 //        chatRecyclerView.setHasFixedSize(true);
+
         chatRecyclerView.setAdapter(chatAdapter);
-        adminOnlyPrsenter.readFromDatabase();
+        theAllChatPresenter.readDataFromDataBase();
+
 
 
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -96,14 +92,13 @@ public class AdminOnly extends AppCompatActivity implements SharedPreferences.On
             public void onClick(View v)
             {
                 chatMessage = chatEditText.getText().toString();
-
                 chatEditText.onEditorAction(EditorInfo.IME_ACTION_DONE);
 
                 //                This returns the current time
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                 stringTime = sdf.format(new Date());
 
-                addChat();
+                addToDatabase();
 
                 chatEditText.setText("Message");
 
@@ -118,35 +113,30 @@ public class AdminOnly extends AppCompatActivity implements SharedPreferences.On
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
+    public void addDataToAdapter(List<Chat> chatList)
     {
-
+        chatAdapter.setChatList(chatList);
+        chatRecyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
     }
 
     @Override
-    public void addChat()
+    public void addToDatabase()
     {
-        Chat chat = new Chat();
+
+       Chat chat = new Chat();
         chat.setUserEmailAddress(phonenumber);
         chat.setUserMessage(chatMessage);
         chat.setChatTime(stringTime);
 
-        //                Logging the event to firebase analytics
+//                Logging the event to firebase analytics
         Bundle params = new Bundle();
-        params.putString("Action","AddingAdminChat");
-        addAdminChatAnalysis(AdminOnly.this,"AdminChat",params);
+        params.putString("Action","AddingGeneralChat");
+        addGeneralChatAnalysis(TheAllChat.this,"GeneralChat",params);
 
-        Intent addTaskIntent = new Intent(AdminOnly.this,MyIntentService.class);
-        addTaskIntent.setAction(Backgroundactivities.addAdminChat);
+        Intent addTaskIntent = new Intent(TheAllChat.this, MyIntentService.class);
+        addTaskIntent.setAction(Backgroundactivities.addAChat);
         addTaskIntent.putExtra("ANewChat",chat);
         startService(addTaskIntent);
 
-    }
-
-    @Override
-    public void populateAdapteer(List<Chat> chatList)
-    {
-        chatAdapter.setChatList(chatList);
-        chatRecyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
     }
 }

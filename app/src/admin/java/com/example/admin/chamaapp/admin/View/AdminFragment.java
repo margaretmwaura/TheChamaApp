@@ -1,29 +1,28 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin.View;
 
 
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.admin.chamaapp.Admin;
+import com.example.admin.chamaapp.Contribution;
+import com.example.admin.chamaapp.R;
+import com.example.admin.chamaapp.TheNavigationDrawer;
+import com.example.admin.chamaapp.admin.Presenter.AdminFragmentContract;
+import com.example.admin.chamaapp.admin.Presenter.AdminFragmentPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -39,7 +38,7 @@ import androidx.core.content.ContextCompat;
 /**
  * A simple {@link } subclass.
  */
-public class AdminFragment extends AppCompatActivity implements View.OnClickListener {
+public class AdminFragment extends AppCompatActivity implements View.OnClickListener,AdminFragmentContract.AdminFragmentView {
 
     public static final String ARG_PAGE = "ARG_PAGE";
     private FirebaseDatabase mFirebaseDatabase;
@@ -51,48 +50,10 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
     private Button btnSubmit;
     private ProgressBar progressBar;
     private String email;
+    private AdminFragmentPresenter adminFragmentPresenter;
     public AdminFragment() {
         // Required empty public constructor
     }
-//
-//
-//
-//    public static AdminFragment newInstance(int page,String email) {
-//        Bundle args = new Bundle();
-//        args.putInt(ARG_PAGE, page);
-//        args.putString("EmailAddress",email);
-//        AdminFragment fragment = new AdminFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//
-//        View rootView = inflater.inflate(R.layout.activity_admin_mockup, container, false);
-//
-//        /** TODO: Insert all the code from the NumberActivity’s onCreate() method after the setContentView method call */
-//        if(getArguments() != null)
-//        {
-//            email = getArguments().getString("EmailAddress");
-//        }
-//        Toast.makeText(getActivity().getApplicationContext(),"This is the email Address " + email, Toast.LENGTH_LONG).show();
-//        mFirebaseDatabase = FirebaseDatabase.getInstance();
-//        mref = mFirebaseDatabase.getReference();
-//        mAuth = FirebaseAuth.getInstance();
-//        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-//        if (mAuth.getCurrentUser() != null)
-//        {
-//            FirebaseUser user = mAuth.getCurrentUser();
-//            userId = user.getUid();
-//        }
-//
-//        btnSubmit = (Button) rootView.findViewById(R.id.sign_up_button);
-//        btnSubmit.setOnClickListener(this);
-//        return rootView;
-//    }
 
     private String phonenumber;
     @Override
@@ -108,8 +69,6 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
         mref = mFirebaseDatabase.getReference();
 
 //        mref.child("users").removeValue();
-
-
         mAuth = FirebaseAuth.getInstance();
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         if (mAuth.getCurrentUser() != null)
@@ -138,30 +97,8 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
             setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
-//End of the code for making the navigation bar completely transparent
-        //Not to be deleted under any circumstances
 
 
-
-
-//blurring the background image
-//        LinearLayout mContainerView = (LinearLayout) findViewById(R.id.signup_admin);
-//        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
-//        Bitmap blurredBitmap = BlurBuilder.blur( this, originalBitmap );
-//        mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
-//End of code of blurring the background image
-
-
-
-//        This code is for animating the circle
-//        Will get to it later
-
-
-//        Circle circle = (Circle) findViewById(R.id.circle);
-//
-//        CircleAngleAnimation animation = new CircleAngleAnimation(circle, 320);
-//        animation.setDuration(10000);
-//        circle.startAnimation(animation);
         Window window = this.getWindow();
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -212,14 +149,22 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
         Contribution contribution = new Contribution();
 
         Admin maggie = new Admin(type, post, id,phonenumber,contribution);
+        adminFragmentPresenter = new AdminFragmentPresenter(this,maggie,userId);
+        adminFragmentPresenter.doAddUser();
 
+
+    }
+
+    @Override
+    public void onAddUser(Admin maggie , String userId)
+    {
         mref.child("database").child("users").child("Admin").child(userId).setValue(maggie).addOnCompleteListener(new OnCompleteListener<Void>()
         {
             @Override
             public void onComplete(@NonNull Task<Void> task)
             {
                 Toast.makeText(AdminFragment.this, "Data has been added", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(AdminFragment.this,TheNavigationDrawer.class);
+                Intent intent = new Intent(AdminFragment.this, TheNavigationDrawer.class);
                 startActivity(intent);
             }
 
@@ -231,12 +176,7 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(AdminFragment.this, "Data has been not been added please try again ", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
     }
-
 }
 
 

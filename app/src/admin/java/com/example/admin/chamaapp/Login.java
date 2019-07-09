@@ -2,14 +2,10 @@ package com.example.admin.chamaapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.CountDownTimer;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,33 +14,25 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.admin.chamaapp.admin.Presenter.LoginPrsenter;
+import com.example.admin.chamaapp.admin.View.AdminFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
@@ -53,7 +41,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static com.example.admin.chamaapp.ViewGroupUtils.replaceView;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements LoginPrsenter.View{
 
         private FirebaseDatabase mFirebaseDatabase;
         private String enteredPhoneNumber,mVerificationId;
@@ -66,29 +54,19 @@ public class Login extends AppCompatActivity {
         private static String token;
         private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks;
         private PhoneAuthProvider.ForceResendingToken resendToken;
+        private LoginPrsenter loginPrsenter;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+            setContentView(R.layout.activity_login);
+
             //Get Firebase auth instance
             auth = FirebaseAuth.getInstance();
 
-            //the code that has been commented because it causes error since there is no code for logging the user out
-            //the code will be uncommneted once the code for logging out has been added
-            //if (auth.getCurrentUser() != null) {
-            //startActivity(new Intent(login.this, MainActivity.clachrss));
-            //finish();
-            //}
 
-            setContentView(R.layout.activity_login);
-
-//            //blurring the background image
-//            LinearLayout mContainerView = (LinearLayout) findViewById(R.id.sign);
-//            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1);
-//            Bitmap blurredBitmap = BlurBuilder.blur(this, originalBitmap);
-//            mContainerView.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
-//End of code of blurring the background image
+           loginPrsenter = new LoginPrsenter(this);
             Window window = this.getWindow();
 
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -104,18 +82,12 @@ public class Login extends AppCompatActivity {
 //            btnSignup = (Button) findViewById(R.id.btn_signup);
             btnLogin = (Button) findViewById(R.id.button_login);
             btnSendCode = (Button) findViewById(R.id.button_send);
-
-
-
             //Get Firebase auth instance
             auth = FirebaseAuth.getInstance();
 
-
-//This intents get the phoneNumber that had been input
+       //This intents get the phoneNumber that had been input
             Intent intent = getIntent();
             enteredPhoneNumber = intent.getStringExtra("The phone number ");
-
-
 
             //            Will work on this later
 
@@ -183,72 +155,6 @@ public class Login extends AppCompatActivity {
     }
 
 
-//        This will be useful when loging in the user once they log out
-//        private void showData(DataSnapshot dataSnapshot)
-//        {
-//            FirebaseUser user = auth.getCurrentUser();
-//            //This is the String representing the users user Id
-//
-//            String userId = user.getUid();
-//
-//
-//            for(DataSnapshot ds: dataSnapshot.getChildren())
-//            {
-//                String type = ds.child(userId).getValue(Admin.class).getType();
-//
-//                Log.i("Account : " , type);
-//
-//
-//                String admin = "Admin";
-//                String member = "Member";
-//
-//                if ( type.equals(admin))
-//                {
-////                If the type is the same as admin get the other values that an admin has and send them to the other activity
-////                Check out the other data pertaining the admin
-//
-//                    int id =  ds.child(userId).getValue(Admin.class).getID();
-//                    String position = ds.child(userId).getValue(Admin.class).getPosition();
-//
-//                    final Intent s = new Intent( this, Welcome.class).putExtra("myEmail",email)
-//                            .putExtra("theAccountType",type)
-//                            .putExtra("theIdNumber",id);
-//                    startActivity(s);
-//
-////                    This code is meant for starting the drawer activity will get to it later
-//
-//
-////                    final Intent s = new Intent( this, AdminDrawerActivity.class).putExtra("myEmail",email)
-////                            .putExtra("theAccountType",type)
-////                            .putExtra("theIdNumber",id)
-////                            .putExtra("myPosition",position);
-////                    startActivity(s);
-//
-//                }
-//                else if ( type.equals(member))
-//                {
-////                    If the user is a member get the other values of the member and then send
-////                    This is the code
-//
-////                    Have to create a navigation drawer for the member class
-//
-//
-//                    int id  = ds.child(userId).getValue(Member.class).getMembershipID();
-//                    final Intent s = new Intent( this, Welcome.class).putExtra("myEmail",email)
-//                            .putExtra("theAccountType",type)
-//                            .putExtra("theIdNumber",id);
-//                    startActivity(s);
-//
-//
-//                }
-//                else
-//                {
-//                    final Intent s = new Intent( this, Sign.class);
-//                    startActivity(s);
-//
-//                }
-//            }
-//        }
 
     private void setUpTheCallBacks()
     {
@@ -263,7 +169,7 @@ public class Login extends AppCompatActivity {
 
                if(code!= null)
                {
-                   showDialogBox();
+                   showDialogBoxView();
                    inputCode.setText(code);
 //                   Show the pop-up dialog showing authentication
                    verifyVerificationCode(code);
@@ -339,7 +245,7 @@ public class Login extends AppCompatActivity {
 
 
                             Toast.makeText(Login.this,"Successful " , Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(Login.this,AdminFragment.class);
+                            Intent intent = new Intent(Login.this, AdminFragment.class);
                             intent.putExtra("Phonenumber",enteredPhoneNumber);
                             startActivity(intent);
 //                            First comment out this to test the resending of the code
@@ -374,9 +280,12 @@ public class Login extends AppCompatActivity {
 
     }
 
-    public void showDialogBox()
+
+
+    @Override
+    public void showDialogBoxView()
     {
-        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+//before inflating the custom alert dialog layout, we will get the current activity viewgroup
         ViewGroup viewGroup = findViewById(android.R.id.content);
 
         //then we will inflate the custom alert dialog xml that we created
@@ -392,10 +301,8 @@ public class Login extends AppCompatActivity {
         //finally creating the alert dialog and displaying it
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
     }
-
-    }
+}
 
 
 

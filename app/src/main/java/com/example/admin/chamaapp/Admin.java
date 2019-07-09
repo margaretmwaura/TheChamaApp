@@ -22,7 +22,7 @@ public class Admin implements Parcelable {
 
     }
 
-    Admin(String type,String position,int Id,String phonenumber , Contribution contribution)
+    public Admin(String type, String position, int Id, String phonenumber, Contribution contribution)
     {
         this.type=type;
         this.position=position;

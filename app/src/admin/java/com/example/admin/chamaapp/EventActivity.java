@@ -15,19 +15,15 @@ import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.admin.chamaapp.admin.MapsActivity;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.example.admin.chamaapp.admin.View.MapsActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DataSnapshot;
 
 import java.text.SimpleDateFormat;
@@ -36,7 +32,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.OptionalDouble;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -48,7 +43,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.admin.chamaapp.Analytics.addEventAnalysis;
-import static com.example.admin.chamaapp.Analytics.addGeneralChatAnalysis;
 
 public class EventActivity extends AppCompatActivity implements OnItemClickListener
 {

@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/sign"
-    tools:context=".Sign"
+    tools:context=".admin.View.Sign"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView

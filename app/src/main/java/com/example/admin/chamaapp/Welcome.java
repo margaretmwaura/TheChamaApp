@@ -12,9 +12,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.admin.chamaapp.admin.View.Sign;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -89,7 +90,7 @@ public class Welcome extends AppCompatActivity
         iv.startAnimation(myanim);
 
         /**code for the halting of the other activity **/
-        final Intent i = new Intent(this,Sign.class);
+        final Intent i = new Intent(this, Sign.class);
         Thread timer = new Thread()
         {
             public void run()

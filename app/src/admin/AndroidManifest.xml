@@ -29,7 +29,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.example.admin.chamaapp.admin.MapsActivity"
+            android:name="com.example.admin.chamaapp.admin.View.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity
             android:name="com.example.admin.chamaapp.AdminOnly"
@@ -38,7 +38,7 @@
             android:name="com.example.admin.chamaapp.EnterAnEvent"
             android:theme="@style/AppThemeDarkActionBar" />
         <activity
-            android:name="com.example.admin.chamaapp.AdminFragment"
+            android:name="com.example.admin.chamaapp.admin.View.AdminFragment"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
