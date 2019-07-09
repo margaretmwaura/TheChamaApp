@@ -1,4 +1,4 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin.View;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,28 +11,25 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.example.admin.chamaapp.Backgroundactivities;
+import com.example.admin.chamaapp.Chat;
+import com.example.admin.chamaapp.ChatAdapter;
+import com.example.admin.chamaapp.MyIntentService;
+import com.example.admin.chamaapp.R;
 import com.example.admin.chamaapp.admin.Presenter.AdminOnlyContract;
 import com.example.admin.chamaapp.admin.Presenter.AdminOnlyPrsenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -136,7 +133,7 @@ public class AdminOnly extends AppCompatActivity implements SharedPreferences.On
         params.putString("Action","AddingAdminChat");
         addAdminChatAnalysis(AdminOnly.this,"AdminChat",params);
 
-        Intent addTaskIntent = new Intent(AdminOnly.this,MyIntentService.class);
+        Intent addTaskIntent = new Intent(AdminOnly.this, MyIntentService.class);
         addTaskIntent.setAction(Backgroundactivities.addAdminChat);
         addTaskIntent.putExtra("ANewChat",chat);
         startService(addTaskIntent);

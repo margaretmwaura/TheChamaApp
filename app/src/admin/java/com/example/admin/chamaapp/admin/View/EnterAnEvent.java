@@ -1,35 +1,22 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin.View;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.location.places.AutocompletePrediction;
-import com.google.android.gms.location.places.GeoDataClient;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBufferResponse;
-import com.google.android.gms.location.places.Places;
+import com.example.admin.chamaapp.Backgroundactivities;
+import com.example.admin.chamaapp.Event;
+import com.example.admin.chamaapp.MyIntentService;
+import com.example.admin.chamaapp.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.RuntimeRemoteException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -136,7 +123,7 @@ public class EnterAnEvent extends AppCompatActivity {
                 newEvent.setEventTime(eventTimeEditText.getText().toString());
                 newEvent.setEventLocation( " Rongai location");
 
-                Intent addTaskIntent = new Intent(EnterAnEvent.this,MyIntentService.class);
+                Intent addTaskIntent = new Intent(EnterAnEvent.this, MyIntentService.class);
                 addTaskIntent.setAction(Backgroundactivities.addAnEventToTheDatabase);
                 addTaskIntent.putExtra("TheEvent",newEvent);
                 startService(addTaskIntent);

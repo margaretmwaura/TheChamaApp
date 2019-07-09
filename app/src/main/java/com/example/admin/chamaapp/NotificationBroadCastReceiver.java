@@ -12,6 +12,8 @@ import android.os.Build;
 
 import android.util.Log;
 
+import com.example.admin.chamaapp.admin.View.EventActivity;
+
 import androidx.core.app.NotificationCompat;
 
 public class NotificationBroadCastReceiver extends BroadcastReceiver

@@ -1,4 +1,4 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin.View;
 
 
 import android.Manifest;
@@ -11,7 +11,6 @@ import android.content.Intent;
 
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -23,7 +22,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,20 +33,25 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.admin.chamaapp.Admin;
+import com.example.admin.chamaapp.AdminDetailAdapter;
+import com.example.admin.chamaapp.Backgroundactivities;
+import com.example.admin.chamaapp.BuildConfig;
+import com.example.admin.chamaapp.DetailsAdapter;
+import com.example.admin.chamaapp.Member;
+import com.example.admin.chamaapp.MyIntentService;
+import com.example.admin.chamaapp.OnItemClickListenerWithType;
+import com.example.admin.chamaapp.R;
+import com.example.admin.chamaapp.UserViewModel;
+import com.example.admin.chamaapp.admin.Presenter.AllDetailsPresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +70,7 @@ import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AllDetails extends AppCompatActivity implements OnItemClickListenerWithType, LoaderManager.LoaderCallbacks<String>
+public class AllDetails extends AppCompatActivity implements OnItemClickListenerWithType, LoaderManager.LoaderCallbacks<String>, AllDetailsPresenter.View
 {
 
 
@@ -89,6 +92,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
     private UserViewModel viewModel;
     final String[] selectedMonth = new String[1];
     private TextView adminSize, memberSize;
+    private AllDetailsPresenter allDetailsPresenter;
 
 
     @Override
@@ -100,22 +104,12 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+         allDetailsPresenter = new AllDetailsPresenter(this);
         String title = "Details";
         SpannableString s = new SpannableString(title);
         s.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         getSupportActionBar().setTitle(s);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_black_24dp);
-
-//        TextView textView = new TextView(this);
-//        textView.setText(title);
-//        textView.setTextSize(20);
-//        textView.setTypeface(null, Typeface.BOLD);
-//        textView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-//        textView.setGravity(Gravity.CENTER);
-//        textView.setTextColor(ContextCompat.getColor(this, R.color.black));
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(textView);
 
          adminSize = (TextView) findViewById(R.id.admin_size);
          memberSize = (TextView) findViewById(R.id.member_size);
@@ -150,45 +144,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
 
-                DataSnapshot userDetails = dataSnapshot.child("database").child("users").child("Member");
-                DataSnapshot userDetailsTwo = dataSnapshot.child("database").child("users").child("Admin");
-                Boolean exist = userDetails.exists();
-                Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
-                Iterable<DataSnapshot> journals = userDetails.getChildren();
-                for(DataSnapshot journal : journals)
-                {
-                    String id;
-                    Member maggie = new Member();
-                    maggie = journal.getValue(Member.class);
-                    id = journal.getKey();
-                    memberList.add(maggie);
-                    userID.add(id);
-                }
-                Log.d("TheListRead","This are the number of journals found " + memberList.size());
-                if(memberList.size() != 0)
-                {
-                    detailsAdapter.setMembersList(memberList);
-                    memberSize.setText(String.valueOf(memberList.size()));
-                }
-
-                Boolean existAdmin = userDetailsTwo.exists();
-                Log.d("Confirming","This confirms that the datasnapshot exists " + existAdmin);
-                Iterable<DataSnapshot> journalsTwo = userDetailsTwo.getChildren();
-                for(DataSnapshot journal : journalsTwo)
-                {
-                    String id;
-                    Admin maggie = new Admin();
-                    maggie = journal.getValue(Admin.class);
-                    id = journal.getKey();
-                    adminList.add(maggie);
-                    userIDTwo.add(id);
-                }
-                Log.d("TheListRead","This are the number of journals found " + memberList.size());
-                if(adminList.size() != 0)
-                {
-                    adminDetailAdapter.setAdminList(adminList);
-                    adminSize.setText(String.valueOf(adminList.size()));
-                }
+            allDetailsPresenter.readDataFromFirebase(dataSnapshot,memberList,adminList,userID,userIDTwo);
 
 
             }
@@ -196,28 +152,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
         );
 
      isStoragePermissionGranted();
-//        generatePdf.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v) {
-////                Intent addTaskIntent = new Intent(AllDetails.this,MyIntentService.class);
-////                addTaskIntent.putParcelableArrayListExtra("Members", (ArrayList<? extends Parcelable>) memberList);
-////                addTaskIntent.putExtra("StoragePermission",storagePermission);
-////                addTaskIntent.setAction(Backgroundactivities.generatePdfString);
-////                                    startService(addTaskIntent);
-////
-////                Log.d("Intent", "Intent Service started");
-//
-//
-//            }
-//        });
-//        viewPDFButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v)
-//            {
-//
-//            }
-//        });
+
     }
 
     @Override
@@ -349,7 +284,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                 List<Member> memberList1 = new ArrayList<>();
                 memberList1 = args.getParcelableArrayList("MemberList");
                 boolean permission = args.getBoolean("StoragePermission");
-               String result =  generatePddf(memberList1,permission);
+               String result =  allDetailsPresenter.generatePddf(memberList1,permission);
                return result;
             }
 
@@ -416,97 +351,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
         }
     }
 
-    public String generatePddf(List<Member> memberList, Boolean isStoragePermissionGranted)
-    {
-//        This method will be called in order to generate a pdf with all the details of the members
-//        Each paragraph should take a member data
 
-        Log.d("GeneratePDF","Currently generating a pdf ");
-        String root = Environment.getExternalStorageDirectory().toString();
-        Document doc = new Document();
-
-        try
-        {
-//            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Dir";
-
-//            File dir = new File(path);
-//
-//            if(!dir.exists())
-//                dir.mkdirs();
-
-            if (isStoragePermissionGranted)
-            { // check or ask permission
-//                This file will be generated and stored in the download folder of the android phone
-                File dir = new File(root, "/Download");
-                if (!dir.exists())
-                {
-                    dir.mkdirs();
-                }
-                else
-                {
-                    dir.delete();
-                    dir.mkdirs();
-                }
-
-                File file = new File(dir, "newFile.pdf");
-                try {
-                    FileOutputStream fOut = new FileOutputStream(file);
-                    PdfWriter.getInstance(doc, fOut);
-                }
-                catch (Exception e)
-                {
-                    Log.d("FileOutputStreamError","A file outputstream has not been created; an error has been encountered");
-                }
-
-                //open the document
-                doc.open();
-//                doc.add(new Chunk(" "));
-                doc.newPage();
-                for (int i = 0; i < memberList.size(); i++)
-                {
-                    Member maggie = memberList.get(i);
-                    String phonenumber = maggie.getPhonenumber();
-                    int membershipID = maggie.getMembershipID();
-
-
-                    Paragraph p1 = new Paragraph();
-                    p1.add(phonenumber);
-//                    p1.add(String.valueOf(membershipID));
-
-
-
-                    p1.setAlignment(Paragraph.ALIGN_CENTER);
-
-                    //add paragraph to document
-                    doc.add(p1);
-                    Log.d("WritingToTheFile", "Writing to the file");
-                }
-
-                doc.newPage();
-
-            }
-            else
-            {
-                Log.d("Wrtiting to file","No permission for writing to file");
-            }
-
-            return "Success";
-        }
-        catch(DocumentException de)
-        {
-            Log.e("PDFCreator", "DocumentException:" + de);
-            return "Fail";
-        }
-//        catch(IOException e){
-//            Log.e("PDFCreator", "ioException:" + e);
-//        }
-        finally
-        {
-            doc.close();
-        }
-
-
-    }
 
     @Override
     public boolean onSupportNavigateUp()
@@ -599,7 +444,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                 else
                 {
                     int contributionData = Integer.parseInt(contribution.getText().toString());
-                    Intent addTaskIntent = new Intent(AllDetails.this,MyIntentService.class);
+                    Intent addTaskIntent = new Intent(AllDetails.this, MyIntentService.class);
                     addTaskIntent.setAction(Backgroundactivities.editUserData);
                     addTaskIntent.putExtra("UserPhoneNumber",phonenumber);
                     addTaskIntent.putExtra("UserID",userClicked);
@@ -608,17 +453,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                     addTaskIntent.putExtra("ContributionData",contributionData);
                     startService(addTaskIntent);
 
-//                new java.util.Timer().schedule(
-//                        new java.util.TimerTask() {
-//                            @Override
-//                            public void run()
-//                            {
-//                                // your code here
-//
-//                            }
-//                        },
-//                        5000
-//                );
+
                     viewModel = ViewModelProviders.of(AllDetails.this).get(UserViewModel.class);
                     LiveData<DataSnapshot> livedata = viewModel.getDataSnapshotLiveData();
                     livedata.observe(AllDetails.this, new Observer<DataSnapshot>()
@@ -629,44 +464,7 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
                                     memberList.clear();
                                     adminList.clear();
 
-                                    DataSnapshot userDetails = dataSnapshot.child("database").child("users").child("Member");
-                                    DataSnapshot userDetailsTwo = dataSnapshot.child("database").child("users").child("Admin");
-                                    Boolean exist = userDetails.exists();
-                                    Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
-                                    Iterable<DataSnapshot> journals = userDetails.getChildren();
-                                    for(DataSnapshot journal : journals)
-                                    {
-                                        String id;
-                                        Member maggie = new Member();
-                                        maggie = journal.getValue(Member.class);
-                                        id = journal.getKey();
-                                        memberList.add(maggie);
-                                        userID.add(id);
-                                    }
-                                    Log.d("TheListRead","This are the number of journals found " + memberList.size());
-                                    if(memberList.size() != 0)
-                                    {
-                                        detailsAdapter.setMembersList(memberList);
-                                    }
-
-                                    Boolean existAdmin = userDetailsTwo.exists();
-                                    Log.d("Confirming","This confirms that the datasnapshot exists " + existAdmin);
-                                    Iterable<DataSnapshot> journalsTwo = userDetailsTwo.getChildren();
-                                    for(DataSnapshot journal : journalsTwo)
-                                    {
-                                        String id;
-                                        Admin maggie = new Admin();
-                                        maggie = journal.getValue(Admin.class);
-                                        id = journal.getKey();
-                                        adminList.add(maggie);
-                                        userIDTwo.add(id);
-                                    }
-                                    Log.d("TheListRead","This are the number of journals found " + memberList.size());
-                                    if(adminList.size() != 0)
-                                    {
-                                        adminDetailAdapter.setAdminList(adminList);
-                                    }
-
+                                    allDetailsPresenter.readDataFromFirebase(dataSnapshot,memberList,adminList,userID,userIDTwo);
 
                                 }
                             }
@@ -689,6 +487,19 @@ public class AllDetails extends AppCompatActivity implements OnItemClickListener
 
         Log.d("OnResume","OnResume method has been called ");
     }
-    
 
+
+    @Override
+    public void displayMemberData()
+    {
+        detailsAdapter.setMembersList(memberList);
+        memberSize.setText(String.valueOf(memberList.size()));
+    }
+
+    @Override
+    public void displayAdminData()
+    {
+        adminDetailAdapter.setAdminList(adminList);
+        adminSize.setText(String.valueOf(adminList.size()));
+    }
 }

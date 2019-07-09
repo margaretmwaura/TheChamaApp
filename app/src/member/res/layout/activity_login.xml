@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/sign"
-    tools:context=".Login">
+    tools:context=".admin.View.Login">
 
     <TextView
         android:layout_centerHorizontal="true"

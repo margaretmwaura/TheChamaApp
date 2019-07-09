@@ -1,4 +1,4 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin.View;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -31,21 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidstudy.daraja.Daraja;
-import com.androidstudy.daraja.DarajaListener;
-import com.androidstudy.daraja.model.AccessToken;
-import com.androidstudy.daraja.model.LNMExpress;
-import com.androidstudy.daraja.model.LNMResult;
-import com.androidstudy.daraja.util.TransactionType;
-import com.example.admin.chamaapp.admin.Chat_bot;
-import com.example.admin.chamaapp.admin.SettingsActivity;
-import com.example.admin.chamaapp.admin.View.Sign;
-import com.example.admin.chamaapp.admin.View.TheAllChat;
+import com.example.admin.chamaapp.BlurBuilder;
+import com.example.admin.chamaapp.R;
+import com.example.admin.chamaapp.admin.Presenter.NavigationDrawerPresenter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -58,7 +50,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 public class TheNavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener , SharedPreferences.OnSharedPreferenceChangeListener {
+        implements NavigationView.OnNavigationItemSelectedListener , SharedPreferences.OnSharedPreferenceChangeListener , NavigationDrawerPresenter.View {
 
     private boolean ShouldExecuteOnReusme = true;
     private String[] userDetails = new String[2];
@@ -77,6 +69,7 @@ public class TheNavigationDrawer extends AppCompatActivity
     String phoneNumber, mpesaNumber ;
     private EditText editTextPhone;
     private SharedPreferences sharedPreferences;
+    private NavigationDrawerPresenter navigationDrawerPresenter;
 
 
     @Override
@@ -87,6 +80,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         setContentView(R.layout.activity_the_navigation_drawer);
 
 
+        navigationDrawerPresenter = new NavigationDrawerPresenter(this);
          sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
          sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
@@ -116,10 +110,7 @@ public class TheNavigationDrawer extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-
-        //        This method will retrun the users details that are important for the user profile
-        userDetails = getUserDetails();
+       userDetails = navigationDrawerPresenter.getUserDetails();
 
         userId = userDetails[0];
         phonenumber = userDetails[1];
@@ -163,55 +154,20 @@ public class TheNavigationDrawer extends AppCompatActivity
             imgvw.setImageResource(R.drawable.face);
         }
 
-//set views
-//        imgvw.setImageResource(R.drawable.image1);
         tv.setText(phonenumber);
         navigationView.setNavigationItemSelectedListener(this);
 
         includeLayout();
         setupSharedPreferences();
 //Mpesa functionality
-        daraja = Daraja.with("08MUHjEBN7qJ5RhfYR008fVFbw0R1i4N", "UOYiGP1PyFkvQL8U", new DarajaListener<AccessToken>() {
-            @Override
-            public void onResult(@NonNull AccessToken accessToken)
-            {
-                Log.d("DarajaCreation","The daraja class has beeen created");
-                Log.i("AccessToken", accessToken.getAccess_token());
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.d("DarajaCreation","The daraja class has not been created,an error has been encountered" + error);
-                Log.e("AccessToken", error);
-            }
-        });
+        daraja = navigationDrawerPresenter.createDaraja();
 
         sendMoneyViaMpesa.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                //Get Phone Number from User Input
-//                phoneNumber = editTextPhone.getText().toString().trim();
-//
-//                if (TextUtils.isEmpty(phoneNumber)) {
-//                    editTextPhone.setError("Please Provide a Phone Number");
-//                    return;
-//                }
 
-                //TODO :: REPLACE WITH YOUR OWN CREDENTIALS  :: THIS IS SANDBOX DEMO
-//                LNMExpress lnmExpress = new LNMExpress(
-//                        "174379",
-//                        "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTkwMzI0MTYzOTUw",  //https://developer.safaricom.co.ke/test_credentials
-//                        TransactionType.CustomerPayBillOnline,
-//                        "1",
-//                        "0746645298",
-//                        "174379",
-//                        "0746645298",
-//                        "http://mpesa-requestbin.herokuapp.com/wqzvixwr",
-//                        "001ABC",
-//                        "Goods Payment"
-//                );
                 if(editTextPhone.getVisibility() == View.VISIBLE)
                 {
                     mpesaNumber = editTextPhone.getText().toString();
@@ -220,32 +176,7 @@ public class TheNavigationDrawer extends AppCompatActivity
                 {
                     mpesaNumber = userDetails[1];
                 }
-                LNMExpress lnmExpress = new LNMExpress(
-                        "174379",
-                        "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
-                        TransactionType.CustomerPayBillOnline,
-                        "100",
-                        "254798436887",
-                        "174379",
-                        mpesaNumber,
-                        "http://mycallbackurl.com/checkout.php",
-                        "001ABC",
-                        "Goods Payment"
-                );
-
-                daraja.requestMPESAExpress(lnmExpress,
-                        new DarajaListener<LNMResult>() {
-                            @Override
-                            public void onResult(@NonNull LNMResult lnmResult) {
-                                Log.d("SendingMoney","Money has been sent");
-                            }
-
-                            @Override
-                            public void onError(String error) {
-                                Log.d("SendingMoney","Money has not been sent " + error);
-                            }
-                        }
-                );
+               navigationDrawerPresenter.requestMpesa(mpesaNumber,daraja);
             }
         });
 
@@ -338,16 +269,14 @@ public class TheNavigationDrawer extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.the_navigation_drawer, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -366,12 +295,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 
         if (id == R.id.nav_my_account)
         {
-            // Handle the camera action
-//            Clicking on this option should lead one to the myAccount page
-//            Intent intent = new Intent(this,MyProfile.class);
-//            intent.putExtra("Phonenumber",phonenumber);
-//
-//            startActivity(intent);
+
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
 
@@ -381,7 +305,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         {
             // Handle the camera action
 //            Clicking on this option should lead one to the myAccount page
-            Intent intent = new Intent(this,MyDetails.class);
+            Intent intent = new Intent(this, MyDetails.class);
             intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
             intent.putExtra("ImageSet",image);
@@ -391,7 +315,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         {
             // Handle the camera action
 //            Clicking on this option should lead one to the myAccount page
-            Intent intent = new Intent(this,AllDetails.class);
+            Intent intent = new Intent(this, AllDetails.class);
 
             startActivity(intent);
         }
@@ -399,7 +323,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         {
             // Handle the camera action
 //            Clicking on this option should lead one to the myAccount page
-            Intent intent = new Intent(this,EventActivity.class);
+            Intent intent = new Intent(this, EventActivity.class);
 
             startActivity(intent);
         }
@@ -414,7 +338,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         if(id == R.id.nav_admin_only)
         {
 //            The email is important so that the users can see who has added a chat
-            Intent intent = new Intent(this,AdminOnly.class);
+            Intent intent = new Intent(this, AdminOnly.class);
             intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
             startActivity(intent);
@@ -444,41 +368,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         return true;
     }
 
-    public String[] getUserDetails ()
-    {
-        //        This is reading the email from the file
 
-        String[] details = new String[2];
-        String detail;
-        File directory = this.getFilesDir();
-        File file = new File(directory,"UserDetails" );
-
-//        String yourFilePath = this.getFilesDir() + "/" + ".txt";
-//        File yourFile = new File( yourFilePath );
-
-        try {
-            FileInputStream in = new FileInputStream(file);
-            ObjectInputStream s = new ObjectInputStream(in);
-
-            details = new String[2];
-            details = (String[]) s.readObject();
-
-            for(int i = 0; i<details.length;i++)
-            {
-                detail = details[i];
-                Log.d("UserDetails","This are the user details " + detail);
-            }
-            return details;
-        }
-        catch (Exception e)
-        {
-            Log.d("ErrorFileReading","Error encountered while reading the file " + e.getMessage());
-
-            return details;
-
-        }
-
-    }
 
     public void includeLayout()
     {
@@ -709,5 +599,10 @@ public class TheNavigationDrawer extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public File getTheActivityFile() {
+        return this.getFilesDir();
     }
 }

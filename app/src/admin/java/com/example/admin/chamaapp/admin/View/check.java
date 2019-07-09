@@ -1,13 +1,13 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin.View;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.admin.chamaapp.admin.View.Sign;
+import com.example.admin.chamaapp.UserSessionManager;
+import com.example.admin.chamaapp.Welcome;
 
 import androidx.annotation.Nullable;
 
@@ -32,7 +32,7 @@ public class check extends Activity
             SharedPreferences.Editor editor=settings.edit();
             editor.putBoolean("firstRun",true);
             editor.commit();
-            Intent i=new Intent(check.this,Welcome.class);
+            Intent i=new Intent(check.this, Welcome.class);
             startActivity(i);
             finish();
         }
@@ -45,9 +45,9 @@ public class check extends Activity
             Log.d("ValueOfUserLogIn","This is status of the user log in " + isUserLoggedIn);
             if(isUserLoggedIn)
             {
-                Toast.makeText(this,"The user has been logged in ", Toast.LENGTH_LONG).show();
+
                 Log.d("UserLoggedInBefore","The user has been logged in before this ");
-                Intent intent = new Intent(check.this,TheNavigationDrawer.class);
+                Intent intent = new Intent(check.this, TheNavigationDrawer.class);
                 startActivity(intent);
                 finish();
             }

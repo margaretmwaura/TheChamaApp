@@ -1,4 +1,4 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.admin.View;
 
 
 import android.content.DialogInterface;
@@ -21,7 +21,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.admin.chamaapp.admin.View.MapsActivity;
+import com.example.admin.chamaapp.Backgroundactivities;
+import com.example.admin.chamaapp.Event;
+import com.example.admin.chamaapp.EventsAdapter;
+import com.example.admin.chamaapp.MyIntentService;
+import com.example.admin.chamaapp.OnItemClickListener;
+import com.example.admin.chamaapp.R;
+import com.example.admin.chamaapp.UserViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -131,9 +137,7 @@ public class EventActivity extends AppCompatActivity implements OnItemClickListe
                     event = eventsList.getValue(Event.class);
 
                     String eventDate = event.returnEventTime();
-//        This is the current date;
-//        Use the same character of the formatter as the one on the dates either use the dashes or the strokes .. only work
-//        With one of them
+
                     String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
                     Log.d("Todays date","This is todays date " + date);
 
@@ -319,7 +323,7 @@ public class EventActivity extends AppCompatActivity implements OnItemClickListe
                 newEvent.setEventTime(eventTimeEditText.getText().toString());
                 newEvent.setEventLocation(eventLocationEditText.getText().toString());
 
-                Intent addTaskIntent = new Intent(EventActivity.this,MyIntentService.class);
+                Intent addTaskIntent = new Intent(EventActivity.this, MyIntentService.class);
                 addTaskIntent.setAction(Backgroundactivities.addAnEventToTheDatabase);
                 addTaskIntent.putExtra("TheEvent",newEvent);
                 startService(addTaskIntent);
@@ -346,9 +350,7 @@ public class EventActivity extends AppCompatActivity implements OnItemClickListe
                             event = eventsList.getValue(Event.class);
 
                             String eventDate = event.returnEventTime();
-//        This is the current date;
-//        Use the same character of the formatter as the one on the dates either use the dashes or the strokes .. only work
-//        With one of them
+
                             String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
                             Log.d("Todays date","This is todays date " + date);
 
@@ -400,49 +402,7 @@ public class EventActivity extends AppCompatActivity implements OnItemClickListe
     public void onClick(View view, int position)
     {
         Toast.makeText(this,"The onclick method has been called",Toast.LENGTH_LONG).show();
-        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
-//        ViewGroup viewGroup = findViewById(android.R.id.content);
-//
-//        if(dialogView == null)
-//        {
-//            //then we will inflate the custom alert dialog xml that we created
-////            dialogView = LayoutInflater.from(this).inflate(R.layout.activity_maps, viewGroup, false);
-//            //Now we need an AlertDialog.Builder object
-//
-//            LayoutInflater factory = LayoutInflater.from(this);
-//            dialogView = factory.inflate(R.layout.activity_maps, null);
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//            //setting the view of the builder to our custom view that we already inflated
-//            builder.setView(dialogView);
-//
-//            //finally creating the alert dialog and displaying it
-//            alertDialog = builder.create();
-//
-//            alertDialog.show();
-//        }
-//        else
-//        {
-//            alertDialog.dismiss();
-//            dialogView = null;
-//            dialogView = new View(this);
-////            dialogView = LayoutInflater.from(this).inflate(R.layout.activity_maps, viewGroup, false);
-//            //Now we need an AlertDialog.Builder object
-//
-//            LayoutInflater factory = LayoutInflater.from(this);
-//            dialogView = factory.inflate(R.layout.activity_maps, null);
-//
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//            //setting the view of the builder to our custom view that we already inflated
-//            builder.setView(dialogView);
-//
-//            //finally creating the alert dialog and displaying it
-//            alertDialog = builder.create();
-//
-//            alertDialog.show();
-//
-//        }
+
         Intent intent = new Intent(this,MapsActivity.class);
         startActivity(intent);
 

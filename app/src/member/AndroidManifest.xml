@@ -6,7 +6,7 @@
         <activity android:name="com.example.admin.chamaapp.AdminOnlyChat"
             android:theme="@style/AppThemeDarkActionBar"></activity>
         <activity
-            android:name="com.example.admin.chamaapp.TheNavigationDrawer"
+            android:name="com.example.admin.chamaapp.admin.View.TheNavigationDrawer"
             tools:replace="android:label"
             android:label="@string/title_activity_navigation_drawer_member"
             android:theme="@style/AppTheme.NoActionBar" />

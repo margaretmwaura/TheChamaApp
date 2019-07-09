@@ -25,7 +25,7 @@ public class Member implements Parcelable
     public String userId;
     public int attendance;
     public Contribution contribution;
-    Member()
+    public Member()
     {
 
     }

@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application>
-        <activity android:name="com.example.admin.chamaapp.admin.Chat_bot"></activity>
+        <activity android:name="com.example.admin.chamaapp.admin.View.Chat_bot"></activity>
         <activity android:name="com.example.admin.chamaapp.admin.content" />
         <activity android:name="com.example.admin.chamaapp.admin.PlaceSearch" />
         <!--
@@ -32,10 +32,10 @@
             android:name="com.example.admin.chamaapp.admin.View.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name="com.example.admin.chamaapp.AdminOnly"
+            android:name="com.example.admin.chamaapp.admin.View.AdminOnly"
             android:theme="@style/AppThemeDarkActionBar" />
         <activity
-            android:name="com.example.admin.chamaapp.EnterAnEvent"
+            android:name="com.example.admin.chamaapp.admin.View.EnterAnEvent"
             android:theme="@style/AppThemeDarkActionBar" />
         <activity
             android:name="com.example.admin.chamaapp.admin.View.AdminFragment"

@@ -3,7 +3,7 @@ package com.example.admin.chamaapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-class UserSessionManager
+public class UserSessionManager
 {
     int PRIVATE_MODE = 0;
     Context _context;

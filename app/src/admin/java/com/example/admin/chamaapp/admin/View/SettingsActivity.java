@@ -1,4 +1,4 @@
-package com.example.admin.chamaapp.admin;
+package com.example.admin.chamaapp.admin.View;
 import android.os.Bundle;
 import android.view.MenuItem;
 

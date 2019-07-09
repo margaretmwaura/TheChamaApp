@@ -17,7 +17,7 @@ public class Admin implements Parcelable {
     public String phonenumber;
     public Contribution contribution;
 
-    Admin()
+    public Admin()
     {
 
     }

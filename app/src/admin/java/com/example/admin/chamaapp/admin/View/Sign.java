@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.example.admin.chamaapp.Login;
 import com.example.admin.chamaapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hbb20.CountryCodePicker;

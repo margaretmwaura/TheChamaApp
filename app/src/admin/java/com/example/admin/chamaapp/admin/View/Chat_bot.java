@@ -1,4 +1,4 @@
-package com.example.admin.chamaapp.admin;
+package com.example.admin.chamaapp.admin.View;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.example.admin.chamaapp.R;
 import com.example.admin.chamaapp.admin.Model.ChatMessage;
+import com.example.admin.chamaapp.admin.Model.chat_rec;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -43,7 +44,7 @@ public class Chat_bot extends AppCompatActivity implements AIListener {
     EditText editText;
     RelativeLayout addBtn;
     DatabaseReference ref;
-    FirebaseRecyclerAdapter<ChatMessage,chat_rec> adapter;
+    FirebaseRecyclerAdapter<ChatMessage, chat_rec> adapter;
     Boolean flagFab = true;
     private AIService aiService;
     @Override

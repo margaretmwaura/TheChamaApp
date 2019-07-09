@@ -52,9 +52,9 @@
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <activity android:name=".EnterAnEvent" />
+        <activity android:name=".admin.View.EnterAnEvent" />
         <activity
-            android:name=".EventActivity"
+            android:name=".admin.View.EventActivity"
             android:theme="@style/AppThemeDarkActionBar" />
 
         <service
@@ -62,29 +62,29 @@
             android:exported="false" />
 
         <activity
-            android:name=".AllDetails"
+            android:name=".admin.View.AllDetails"
             android:theme="@style/AppThemeWhiteActionBar" />
         <activity
-            android:name=".MyDetails"
+            android:name=".admin.View.MyDetails"
             android:theme="@style/AppThemeWhiteActionBar" />
         <activity
-            android:name=".TheNavigationDrawer"
+            android:name=".admin.View.TheNavigationDrawer"
             android:label="@string/title_activity_the_navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop"/>
 
-        <activity android:name="com.example.admin.chamaapp.admin.SettingsActivity"
+        <activity android:name="com.example.admin.chamaapp.admin.View.SettingsActivity"
             android:label="Settings Activity"
             android:theme="@style/AppThemeDarkActionBar"
-            android:parentActivityName=".TheNavigationDrawer">
+            android:parentActivityName=".admin.View.TheNavigationDrawer">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".TheNavigationDrawer"/>
+                android:value=".admin.View.TheNavigationDrawer"/>
 
         </activity>
 
 
-        <activity android:name=".check">
+        <activity android:name=".admin.View.check">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -95,7 +95,7 @@
             android:name=".admin.View.Sign"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Login"
+            android:name=".admin.View.Login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Welcome"
