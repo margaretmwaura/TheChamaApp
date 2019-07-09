@@ -21,13 +21,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.admin.chamaapp.Backgroundactivities;
-import com.example.admin.chamaapp.Event;
-import com.example.admin.chamaapp.EventsAdapter;
-import com.example.admin.chamaapp.MyIntentService;
-import com.example.admin.chamaapp.OnItemClickListener;
+import com.example.admin.chamaapp.Presenter.Backgroundactivities;
+import com.example.admin.chamaapp.Model.Event;
+import com.example.admin.chamaapp.Model.EventsAdapter;
+import com.example.admin.chamaapp.Presenter.MyIntentService;
+import com.example.admin.chamaapp.Presenter.OnItemClickListener;
 import com.example.admin.chamaapp.R;
-import com.example.admin.chamaapp.UserViewModel;
+import com.example.admin.chamaapp.Model.UserViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -48,7 +48,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.example.admin.chamaapp.Analytics.addEventAnalysis;
+import static com.example.admin.chamaapp.Presenter.Analytics.addEventAnalysis;
 
 public class EventActivity extends AppCompatActivity implements OnItemClickListener
 {

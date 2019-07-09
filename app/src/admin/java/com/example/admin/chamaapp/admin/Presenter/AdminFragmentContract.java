@@ -1,6 +1,6 @@
 package com.example.admin.chamaapp.admin.Presenter;
 
-import com.example.admin.chamaapp.Admin;
+import com.example.admin.chamaapp.Model.Admin;
 
 public interface AdminFragmentContract {
 

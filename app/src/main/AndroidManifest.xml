@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name=".MyFirebaseApp"
+        android:name=".View.MyFirebaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -30,13 +30,13 @@
             android:value="@string/default_notification_channel_id" />
 
         <receiver
-            android:name=".NotificationBroadCastReceiver"
+            android:name=".View.NotificationBroadCastReceiver"
             android:enabled="true"
             android:exported="true" />
 
 
         <service
-            android:name=".UserFirebaseMessagingService"
+            android:name=".Presenter.UserFirebaseMessagingService"
             android:exported="false"
             android:permission="com.google.android.c2dm.permission.SEND"
             android:stopWithTask="false">
@@ -47,7 +47,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".deleteEventJobScheduler"
+            android:name=".Presenter.deleteEventJobScheduler"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
@@ -58,7 +58,7 @@
             android:theme="@style/AppThemeDarkActionBar" />
 
         <service
-            android:name=".MyIntentService"
+            android:name=".Presenter.MyIntentService"
             android:exported="false" />
 
         <activity
@@ -98,7 +98,7 @@
             android:name=".admin.View.Login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Welcome"
+            android:name=".View.Welcome"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- This allows one to read the pdf file without errors -->
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -110,7 +110,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <receiver android:name=".AppWidgetActivity">
+        <receiver android:name=".View.AppWidgetActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

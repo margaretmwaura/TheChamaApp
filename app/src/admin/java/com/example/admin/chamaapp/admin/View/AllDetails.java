@@ -37,16 +37,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.admin.chamaapp.Admin;
-import com.example.admin.chamaapp.AdminDetailAdapter;
-import com.example.admin.chamaapp.Backgroundactivities;
+import com.example.admin.chamaapp.Model.Admin;
+import com.example.admin.chamaapp.Model.AdminDetailAdapter;
+import com.example.admin.chamaapp.Presenter.Backgroundactivities;
 import com.example.admin.chamaapp.BuildConfig;
-import com.example.admin.chamaapp.DetailsAdapter;
-import com.example.admin.chamaapp.Member;
-import com.example.admin.chamaapp.MyIntentService;
-import com.example.admin.chamaapp.OnItemClickListenerWithType;
+import com.example.admin.chamaapp.Model.DetailsAdapter;
+import com.example.admin.chamaapp.Model.Member;
+import com.example.admin.chamaapp.Presenter.MyIntentService;
+import com.example.admin.chamaapp.Presenter.OnItemClickListenerWithType;
 import com.example.admin.chamaapp.R;
-import com.example.admin.chamaapp.UserViewModel;
+import com.example.admin.chamaapp.Model.UserViewModel;
 import com.example.admin.chamaapp.admin.Presenter.AllDetailsPresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

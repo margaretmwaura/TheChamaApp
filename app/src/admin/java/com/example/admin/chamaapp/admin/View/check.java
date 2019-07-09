@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.admin.chamaapp.UserSessionManager;
-import com.example.admin.chamaapp.Welcome;
+import com.example.admin.chamaapp.Presenter.UserSessionManager;
+import com.example.admin.chamaapp.View.Welcome;
 
 import androidx.annotation.Nullable;
 

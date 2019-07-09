@@ -1,6 +1,6 @@
 package com.example.admin.chamaapp.admin.Presenter;
 
-import com.example.admin.chamaapp.Chat;
+import com.example.admin.chamaapp.Model.Chat;
 
 import java.util.List;
 

@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.admin.chamaapp.R;
-import com.example.admin.chamaapp.UserSessionManager;
+import com.example.admin.chamaapp.Presenter.UserSessionManager;
 import com.example.admin.chamaapp.admin.Presenter.LoginPrsenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,7 +40,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.example.admin.chamaapp.ViewGroupUtils.replaceView;
+import static com.example.admin.chamaapp.Presenter.ViewGroupUtils.replaceView;
 
 public class Login extends AppCompatActivity implements LoginPrsenter.View{
 

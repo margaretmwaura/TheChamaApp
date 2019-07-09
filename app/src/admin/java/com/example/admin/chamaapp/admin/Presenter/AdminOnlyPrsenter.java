@@ -2,7 +2,7 @@ package com.example.admin.chamaapp.admin.Presenter;
 
 import android.util.Log;
 
-import com.example.admin.chamaapp.Chat;
+import com.example.admin.chamaapp.Model.Chat;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

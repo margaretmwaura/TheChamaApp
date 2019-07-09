@@ -2,10 +2,8 @@ package com.example.admin.chamaapp.admin.Presenter;
 
 import android.graphics.Color;
 import android.util.Log;
-import android.view.View;
 
-import com.example.admin.chamaapp.Contribution;
-import com.example.admin.chamaapp.R;
+import com.example.admin.chamaapp.Model.Contribution;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,8 +14,6 @@ import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.Viewport;
-import lecho.lib.hellocharts.view.LineChartView;
 
 
 public class MyDetailsPresenter

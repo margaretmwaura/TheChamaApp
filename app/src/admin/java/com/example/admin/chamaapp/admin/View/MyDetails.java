@@ -16,11 +16,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.admin.chamaapp.Admin;
-import com.example.admin.chamaapp.AppWidgetActivity;
-import com.example.admin.chamaapp.Contribution;
+import com.example.admin.chamaapp.Model.Admin;
+import com.example.admin.chamaapp.View.AppWidgetActivity;
+import com.example.admin.chamaapp.Model.Contribution;
 import com.example.admin.chamaapp.R;
-import com.example.admin.chamaapp.UserViewModel;
+import com.example.admin.chamaapp.Model.UserViewModel;
 import com.example.admin.chamaapp.admin.Presenter.MyDetailsPresenter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;

@@ -15,10 +15,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.admin.chamaapp.Backgroundactivities;
-import com.example.admin.chamaapp.Chat;
-import com.example.admin.chamaapp.ChatAdapter;
-import com.example.admin.chamaapp.MyIntentService;
+import com.example.admin.chamaapp.Presenter.Backgroundactivities;
+import com.example.admin.chamaapp.Model.Chat;
+import com.example.admin.chamaapp.Model.ChatAdapter;
+import com.example.admin.chamaapp.Presenter.MyIntentService;
 import com.example.admin.chamaapp.R;
 import com.example.admin.chamaapp.admin.Presenter.AdminOnlyContract;
 import com.example.admin.chamaapp.admin.Presenter.AdminOnlyPrsenter;
@@ -34,7 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.example.admin.chamaapp.Analytics.addAdminChatAnalysis;
+import static com.example.admin.chamaapp.Presenter.Analytics.addAdminChatAnalysis;
 
 public class AdminOnly extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, AdminOnlyContract.AdminOnlyView {
 

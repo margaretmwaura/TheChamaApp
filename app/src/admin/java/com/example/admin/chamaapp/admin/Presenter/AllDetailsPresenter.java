@@ -2,10 +2,9 @@ package com.example.admin.chamaapp.admin.Presenter;
 
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 
-import com.example.admin.chamaapp.Admin;
-import com.example.admin.chamaapp.Member;
+import com.example.admin.chamaapp.Model.Admin;
+import com.example.admin.chamaapp.Model.Member;
 import com.google.firebase.database.DataSnapshot;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -14,7 +13,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AllDetailsPresenter

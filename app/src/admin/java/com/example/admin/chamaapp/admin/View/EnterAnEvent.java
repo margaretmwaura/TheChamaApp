@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.admin.chamaapp.Backgroundactivities;
-import com.example.admin.chamaapp.Event;
-import com.example.admin.chamaapp.MyIntentService;
+import com.example.admin.chamaapp.Presenter.Backgroundactivities;
+import com.example.admin.chamaapp.Model.Event;
+import com.example.admin.chamaapp.Presenter.MyIntentService;
 import com.example.admin.chamaapp.R;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
