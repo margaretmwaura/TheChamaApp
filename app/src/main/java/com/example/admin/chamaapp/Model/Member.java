@@ -27,7 +27,7 @@ public class Member implements Parcelable
 
     }
 //This constructor is important for the firebase saving of data
-    Member(int membershipID,String type, String phonenumber,Contribution contribution)
+public Member(int membershipID, String type, String phonenumber, Contribution contribution)
     {
         this.type=type;
         this.membershipID=membershipID;

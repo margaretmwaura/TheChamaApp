@@ -1,4 +1,4 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.View;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -15,19 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -37,13 +26,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidstudy.daraja.Daraja;
+import com.example.admin.chamaapp.Presenter.BlurBuilder;
+import com.example.admin.chamaapp.Presenter.TheNavigationDrawerPresenter;
+import com.example.admin.chamaapp.R;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 public class TheNavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, TheNavigationDrawerPresenter.View {
 
     private boolean ShouldExecuteOnReusme = true;
     private String[] userDetails = new String[2];
@@ -61,6 +62,7 @@ public class TheNavigationDrawer extends AppCompatActivity
     Daraja daraja;
     String phoneNumber;
     private EditText editTextPhone;
+    private TheNavigationDrawerPresenter theNavigationDrawerPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,6 +70,8 @@ public class TheNavigationDrawer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         ShouldExecuteOnReusme = false;
         setContentView(R.layout.activity_navigation_drawer_member);
+
+        theNavigationDrawerPresenter = new TheNavigationDrawerPresenter(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(" ");
@@ -78,14 +82,6 @@ public class TheNavigationDrawer extends AppCompatActivity
 
 
         Log.d("OnCreate","oncreate method has been called ");
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -93,7 +89,7 @@ public class TheNavigationDrawer extends AppCompatActivity
             public void run()
             {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.openDrawer(Gravity.START);
+                drawer.openDrawer(GravityCompat.START);
                 Log.d("DrawerOpening","Drawer has been opened from onCreate");
             }
         },1500);
@@ -105,7 +101,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 
 
         //        This method will retrun the users details that are important for the user profile
-        userDetails = getUserDetails();
+        userDetails = theNavigationDrawerPresenter.getUserDetails();
         userId = userDetails[0];
         phonenumber = userDetails[1];
 
@@ -209,7 +205,7 @@ public class TheNavigationDrawer extends AppCompatActivity
             public void run()
             {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.openDrawer(Gravity.START);
+                drawer.openDrawer(GravityCompat.START);
             }
         },1000);
     }
@@ -245,9 +241,7 @@ public class TheNavigationDrawer extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -266,20 +260,14 @@ public class TheNavigationDrawer extends AppCompatActivity
 
         if (id == R.id.nav_my_account)
         {
-            // Handle the camera action
-//            Clicking on this option should lead one to the myAccount page
-//            Intent intent = new Intent(this,MyProfile.class);
-//            intent.putExtra("Phonenumber",phonenumber);
-//            startActivity(intent);
 
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(Gravity.START);
+            drawer.closeDrawer(GravityCompat.START);
         }
         if (id == R.id.nav_my_details)
         {
-            // Handle the camera action
-//            Clicking on this option should lead one to the myAccount page
-            Intent intent = new Intent(this,MyDetails.class);
+
+            Intent intent = new Intent(this, MyDetails.class);
             intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
             intent.putExtra("ImageSet",image);
@@ -287,16 +275,13 @@ public class TheNavigationDrawer extends AppCompatActivity
         }
         if (id == R.id.nav_events)
         {
-            // Handle the camera action
-//            Clicking on this option should lead one to the myAccount page
-            Intent intent = new Intent(this,EventActivity.class);
-
+            Intent intent = new Intent(this, EventActivity.class);
             startActivity(intent);
         }
         if(id == R.id.nav_general_chat)
         {
 //            The email is important so that the users can see who has added a chat
-            Intent intent = new Intent(this,TheAllChat.class);
+            Intent intent = new Intent(this, TheAllChat.class);
             intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
             startActivity(intent);
@@ -305,7 +290,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         if(id == R.id.nav_admin_only)
         {
 //            The email is important so that the users can see who has added a chat
-            Intent intent = new Intent(this,AdminOnlyChat.class);
+            Intent intent = new Intent(this, AdminOnlyChat.class);
             intent.putExtra("Phonenumber",phonenumber);
             intent.putExtra("UserID",userId);
             startActivity(intent);
@@ -316,41 +301,7 @@ public class TheNavigationDrawer extends AppCompatActivity
         return true;
     }
 
-    public String[] getUserDetails ()
-    {
-        //        This is reading the email from the file
 
-        String[] details = new String[2];
-        String detail;
-        File directory = this.getFilesDir();
-        File file = new File(directory,"UserDetails" );
-
-//        String yourFilePath = this.getFilesDir() + "/" + ".txt";
-//        File yourFile = new File( yourFilePath );
-
-        try {
-            FileInputStream in = new FileInputStream(file);
-            ObjectInputStream s = new ObjectInputStream(in);
-
-            details = new String[2];
-            details = (String[]) s.readObject();
-
-            for(int i = 0; i<details.length;i++)
-            {
-                detail = details[i];
-                Log.d("UserDetails","This are the user details " + detail);
-            }
-            return details;
-        }
-        catch (Exception e)
-        {
-            Log.d("ErrorFileReading","Error encountered while reading the file " + e.getMessage());
-
-            return details;
-
-        }
-
-    }
 
     public void includeLayout()
     {
@@ -455,10 +406,6 @@ public class TheNavigationDrawer extends AppCompatActivity
                     Log.d("image selected path", imageUri.getPath());
                     System.out.println("image selected path"
                             + imageUri.getPath());
-
-//                    Having a dialog that lets one say yes or no to the image
-//                    This is just for the user experience
-//This code will be used when the admin is editting the users entries
                     AlertDialog.Builder builder;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
@@ -547,5 +494,11 @@ public class TheNavigationDrawer extends AppCompatActivity
             return;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public File getTheActivityFile() {
+        File directory = this.getFilesDir();
+        return directory;
     }
 }

@@ -1,12 +1,15 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.View;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.admin.chamaapp.Presenter.UserSessionManager;
+
+import androidx.annotation.Nullable;
 
 
 public class check extends Activity
@@ -29,7 +32,7 @@ public class check extends Activity
             SharedPreferences.Editor editor=settings.edit();
             editor.putBoolean("firstRun",true);
             editor.commit();
-            Intent i=new Intent(check.this,Welcome.class);
+            Intent i=new Intent(check.this, Welcome.class);
             startActivity(i);
             finish();
         }

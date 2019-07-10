@@ -1,18 +1,13 @@
-package com.example.admin.chamaapp;
+package com.example.admin.chamaapp.View;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -21,6 +16,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.admin.chamaapp.Model.Event;
+import com.example.admin.chamaapp.Model.EventsAdapter;
+import com.example.admin.chamaapp.Model.UserViewModel;
+import com.example.admin.chamaapp.Presenter.EventActivityContract;
+import com.example.admin.chamaapp.Presenter.EventActivityPresenter;
+import com.example.admin.chamaapp.R;
 import com.google.firebase.database.DataSnapshot;
 
 import java.text.SimpleDateFormat;
@@ -29,7 +30,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class EventActivity extends AppCompatActivity
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class EventActivity extends AppCompatActivity implements EventActivityContract.EventAView
 {
 
     private RecyclerView recyclerViewCurrentEvent,recyclerViewUpcomingEvent;
@@ -37,6 +47,7 @@ public class EventActivity extends AppCompatActivity
     private List<Event> eventListCurrent = new ArrayList<>();
     private List<Event> eventListUpcoming = new ArrayList<>();
     private Button addEventButton;
+    private EventActivityPresenter eventActivityPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +57,7 @@ public class EventActivity extends AppCompatActivity
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        eventActivityPresenter = new EventActivityPresenter(this);
         String title = "Events";
         SpannableString s = new SpannableString(title);
         s.setSpan(new ForegroundColorSpan(Color.parseColor("#FFFFFF")), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -57,8 +69,8 @@ public class EventActivity extends AppCompatActivity
         eventsAdapterCurrent = new EventsAdapter();
         eventsAdapterUpcoming = new EventsAdapter();
 
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 
 //        Set the layoutManager of the recyclerView
         recyclerViewCurrentEvent.setLayoutManager(layoutManager1);
@@ -80,57 +92,7 @@ public class EventActivity extends AppCompatActivity
             @Override
             public void onChanged(@Nullable DataSnapshot dataSnapshot)
             {
-                DataSnapshot eventsDetails = dataSnapshot.child("database").child("events");
-                Boolean exist = eventsDetails.exists();
-                Log.d("Confirming","This confirms that the datasnapshot exists " + exist);
-                Iterable<DataSnapshot> eventsDatasnapshot = eventsDetails.getChildren();
-                for(DataSnapshot eventsList : eventsDatasnapshot)
-                {
-                    Event event = new Event();
-                    event = eventsList.getValue(Event.class);
-
-                    String eventDate = event.returnEventTime();
-//        This is the current date;
-//        Use the same character of the formatter as the one on the dates either use the dashes or the strokes .. only work
-//        With one of them
-                    String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-                    Log.d("Todays date","This is todays date " + date);
-
-//        Getting the difference between the event date and the current date
-                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
-                    try {
-                        Date date1 = null;
-                        date1  =   format.parse(date);
-                        Date date2 = null;
-                        date2 =  format.parse(eventDate);
-                        long timedifference = date2.getTime() - date1.getTime();
-
-                        if(timedifference == 0)
-                        {
-                            eventListCurrent.add(event);
-                        }
-                        else
-                        {
-                            eventListUpcoming.add(event);
-                        }
-
-                    }
-                    catch (Exception e)
-                    {
-                        Log.d("DateConversionError","This is the date conversion error " + e.getMessage());
-                    }
-
-                }
-
-                eventsAdapterCurrent.setEventList(eventListCurrent);
-
-                if(eventListCurrent.size() == 0)
-                {
-                    TextView textView = findViewById(R.id.no_activity);
-                    textView.setVisibility(View.VISIBLE);
-                    showdialogMessage();
-                }
-                eventsAdapterUpcoming.setEventList(eventListUpcoming);
+              eventActivityPresenter.readFromDatabase(dataSnapshot,eventListCurrent,eventListUpcoming);
             }
         });
 
@@ -172,5 +134,18 @@ public class EventActivity extends AppCompatActivity
         });
 
         handler.postDelayed(runnable, 5000);
+    }
+
+    @Override
+    public void populateView() {
+        eventsAdapterCurrent.setEventList(eventListCurrent);
+
+        if(eventListCurrent.size() == 0)
+        {
+            TextView textView = findViewById(R.id.no_activity);
+            textView.setVisibility(View.VISIBLE);
+            showdialogMessage();
+        }
+        eventsAdapterUpcoming.setEventList(eventListUpcoming);
     }
 }

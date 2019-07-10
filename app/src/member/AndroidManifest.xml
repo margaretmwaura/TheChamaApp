@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application>
-        <activity android:name="com.example.admin.chamaapp.AdminOnlyChat"
+        <activity android:name="com.example.admin.chamaapp.View.AdminOnlyChat"
             android:theme="@style/AppThemeDarkActionBar"></activity>
         <activity
             android:name="com.example.admin.chamaapp.admin.View.TheNavigationDrawer"
             tools:replace="android:label"
             android:label="@string/title_activity_navigation_drawer_member"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.example.admin.chamaapp.MemberFragment"
+        <activity android:name="com.example.admin.chamaapp.View.MemberFragment"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
