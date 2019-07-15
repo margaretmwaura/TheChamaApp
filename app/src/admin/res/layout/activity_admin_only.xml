@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@drawable/cha"
     tools:context=".admin.View.TheAllChat">
 
     <androidx.recyclerview.widget.RecyclerView

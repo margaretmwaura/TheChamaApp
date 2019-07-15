@@ -153,7 +153,14 @@ public class TheNavigationDrawer extends AppCompatActivity
             Toast.makeText(this,"No image has been set yet",Toast.LENGTH_LONG).show();
             imgvw.setImageResource(R.drawable.face);
         }
-
+        if(!name.equals(" "))
+        {
+            userName.setText(name);
+        }
+        else
+        {
+             userName.setText("Your name");
+        }
         tv.setText(phonenumber);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -214,10 +221,12 @@ public class TheNavigationDrawer extends AppCompatActivity
         if(!name.equals(" "))
         {
             profileName.setText(name);
+            userName.setText(name);
         }
         else
         {
             profileName.setText("Enter your name");
+            userName.setText("Enter your name");
         }
 
         if(ShouldExecuteOnReusme)

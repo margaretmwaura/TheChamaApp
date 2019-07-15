@@ -134,23 +134,29 @@ public class AdminFragment extends AppCompatActivity implements View.OnClickList
         int id = Integer.parseInt(Id.getText().toString());
         type = "Admin";
 
-
-        if (TextUtils.isEmpty(post)) {
-            Toast.makeText(this, "Enter your electoral post!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (id == 0)
+        if(TextUtils.isEmpty(post) || id == 0)
         {
-            Toast.makeText(this, "Enter the date which you were elected!", Toast.LENGTH_SHORT).show();
-            return;
+            if (TextUtils.isEmpty(post))
+            {
+                leadership.setError("Enter your leadership post");
+            }
+            if (id == 0) {
+                leadership.setError("Enter your id");
+            }
         }
-        Contribution contribution = new Contribution();
-
-        Admin maggie = new Admin(type, post, id,phonenumber,contribution);
-        adminFragmentPresenter = new AdminFragmentPresenter(this,maggie,userId);
-        adminFragmentPresenter.doAddUser();
-
+        else
+            if(TextUtils.isEmpty(post) && id == 0)
+        {
+            leadership.setError("Enter your leadership post");
+            leadership.setError("Enter your id");
+        }
+        else
+            {
+            Contribution contribution = new Contribution();
+            Admin maggie = new Admin(type, post, id, phonenumber, contribution);
+            adminFragmentPresenter = new AdminFragmentPresenter(this, maggie, userId);
+            adminFragmentPresenter.doAddUser();
+        }
 
     }
 

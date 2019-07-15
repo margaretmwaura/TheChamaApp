@@ -18,7 +18,7 @@
         android:textSize="120sp"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:layout_marginLeft="80dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/logo"/>
@@ -26,7 +26,7 @@
     <!--Will make changes to this layout -->
     <LinearLayout
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -69,7 +69,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="100dp"
             android:width="300dp"
             android:height="50dp"
             android:textAllCaps="false"

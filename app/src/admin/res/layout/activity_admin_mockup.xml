@@ -23,7 +23,7 @@
 
     <EditText
         android:theme="@style/MyEditTextTheme"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="25dp"
         android:layout_height="wrap_content"
         android:layout_width="350dp"
         android:hint="@string/post"
@@ -49,7 +49,7 @@
         android:layout_below="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:width="300dp"
         android:height="50dp"
         android:textAllCaps="false"

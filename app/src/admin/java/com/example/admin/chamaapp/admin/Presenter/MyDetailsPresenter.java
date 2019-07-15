@@ -146,7 +146,7 @@ public class MyDetailsPresenter
 
 
         Axis yAxis = new Axis();
-        yAxis.setTextColor(Color.parseColor("#3F51B5"));
+        yAxis.setTextColor(Color.parseColor("#FF4081"));
         yAxis.setTextSize(16);
         yAxis.setName("Months of the year");
         data.setAxisYLeft(yAxis);

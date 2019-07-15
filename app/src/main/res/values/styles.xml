@@ -20,7 +20,7 @@
     </style>
 
     <style name="MyEditTextTheme">
-        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
         <item name="colorControlActivated">#228B22</item>
         <item name="colorControlHighlight">#FFFFFF</item>
         <item name="android:textColor">#fff</item>
