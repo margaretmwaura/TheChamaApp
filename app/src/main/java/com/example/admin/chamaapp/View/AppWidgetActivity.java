@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.admin.chamaapp.R;
+import com.example.admin.chamaapp.admin.View.TheNavigationDrawer;
 
 
 public class AppWidgetActivity extends AppWidgetProvider

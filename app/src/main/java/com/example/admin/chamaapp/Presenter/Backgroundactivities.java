@@ -80,12 +80,7 @@ public class Backgroundactivities
 
         try
         {
-//            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Dir";
 
-//            File dir = new File(path);
-//
-//            if(!dir.exists())
-//                dir.mkdirs();
 
             if (isStoragePermissionGranted)
             { // check or ask permission
@@ -95,11 +90,6 @@ public class Backgroundactivities
                 {
                     dir.mkdirs();
                 }
-//                else
-//                {
-//                    myDir.delete();
-//                    myDir.mkdirs();
-//                }
 
                 File file = new File(dir, "newFile.pdf");
                 try {
@@ -147,9 +137,7 @@ public class Backgroundactivities
         {
             Log.e("PDFCreator", "DocumentException:" + de);
         }
-//        catch(IOException e){
-//            Log.e("PDFCreator", "ioException:" + e);
-//        }
+
         finally
         {
             doc.close();
