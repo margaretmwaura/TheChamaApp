@@ -74,7 +74,9 @@
             android:name=".admin.View.TheNavigationDrawer"
             android:label="@string/title_activity_the_navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop">
+
+        </activity>
 
         <activity android:name="com.example.admin.chamaapp.admin.View.SettingsActivity"
             android:label="Settings Activity"
@@ -93,6 +95,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
         </activity>
         <activity
             android:name=".admin.View.Sign"

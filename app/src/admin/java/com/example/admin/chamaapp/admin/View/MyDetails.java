@@ -210,10 +210,10 @@ public class MyDetails extends AppCompatActivity implements MyDetailsPresenter.V
     }
 
     @Override
-    public void setLinecChartDataViewPort()
+    public void setLinecChartDataViewPort(int viewPort)
     {
         Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
-        viewport.top = 700;
+        viewport.top = viewPort;
         lineChartView.setMaximumViewport(viewport);
         lineChartView.setCurrentViewport(viewport);
     }

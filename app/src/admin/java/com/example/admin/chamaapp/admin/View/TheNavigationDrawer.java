@@ -451,6 +451,7 @@ public class TheNavigationDrawer extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int whichButton) {
                         value = input.getText().toString();
                         profileName.setText(value);
+                        userName.setText(value);
                         SharedPreferences profileImage =getSharedPreferences("prefs",0);
                         SharedPreferences.Editor editor= profileImage.edit();
                         editor.putString("userName",value);

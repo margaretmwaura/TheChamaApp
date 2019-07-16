@@ -116,11 +116,15 @@ public class MyDetailsPresenter
                 contribution.getNovember(),
                 contribution.getDecember()};
 
+        int[] yAxisDataReference = {500, 200, 150, 300, 200, 600, 150, 400, 450, 100, 900, 180};
+
 
         List yAxisValues = new ArrayList();
         List axisValues = new ArrayList();
+        List yAxisValuesReference = new ArrayList();
 
         Line line = new Line(yAxisValues).setColor(Color.parseColor("#00EEEE"));
+        Line lineReference = new Line(yAxisValuesReference).setColor(Color.parseColor("#00EEEE"));
 
         for(int i = 0; i < axisData.length; i++){
             axisValues.add(i, new AxisValue(i).setLabel(axisData[i]));
@@ -129,8 +133,16 @@ public class MyDetailsPresenter
         for (int i = 0; i < yAxisData.length; i++){
             yAxisValues.add(new PointValue(i, yAxisData[i]));
         }
+
+        for (int i = 0; i < yAxisDataReference.length; i++){
+            yAxisValuesReference.add(new PointValue(i, yAxisDataReference[i]));
+        }
+
+
         List lines = new ArrayList();
         lines.add(line);
+        lines.add(lineReference);
+
         LineChartData data = new LineChartData();
         data.setLines(lines);
 
@@ -150,18 +162,31 @@ public class MyDetailsPresenter
         yAxis.setTextSize(16);
         yAxis.setName("Months of the year");
         data.setAxisYLeft(yAxis);
+
         view.setLineChartData(data);
 
-        view.setLinecChartDataViewPort();
+       int highest =  getMax(yAxisDataReference);
+        view.setLinecChartDataViewPort(highest);
 
 
 
+    }
+
+    // Method for getting the maximum value
+    public static int getMax(int[] inputArray){
+        int maxValue = inputArray[0];
+        for(int i=1;i < inputArray.length;i++){
+            if(inputArray[i] > maxValue){
+                maxValue = inputArray[i];
+            }
+        }
+        return maxValue;
     }
 
     public interface View
     {
         void displayMonths(int count);
         void setLineChartData(LineChartData data);
-        void setLinecChartDataViewPort();
+        void setLinecChartDataViewPort(int viewPort);
     }
 }
